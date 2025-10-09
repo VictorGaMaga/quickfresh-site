@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QuickFresh — Pre-Quote & Booking</title>
+<link rel="stylesheet" href="./styles.css">
+<meta name="description" content="Hybrid form: instant estimate + booking details. Minimum call-out $149. Final price confirmed on site.">
+</head>
+<body>
+
+<header class="header">
+  <div class="container inner">
+    <a class="brand" href="./index.html">
+      <img src="assets/logo.png" alt="QuickFresh logo" width="32" height="32" />
+      <div>
+        <div class="title">QuickFresh</div>
+        <div class="tag">CLEANING & CARE</div>
+      </div>
+    </a>
+    <nav aria-label="Main">
+      <a href="./services.html">Services</a>
+      <a href="./terms.html">Terms & Conditions</a>
+      <a href="./index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="section">
+  <div class="container">
+    <h2>Pre-Quote</h2>
+    <p class="sub">
+      Select your items to get an instant estimate. This is a guide only — final price is confirmed on site after inspection.
+      Minimum call-out <strong>$149</strong>. We reply as quickly as possible; as an owner-operated business, some requests may experience minor, unintentional delays.
+    </p>
+
+    <div class="card">
+      <div class="grid" style="grid-template-columns:1fr; gap:14px">
+
+        <!-- Carpets & Rugs -->
+        <div>
+          <label>Carpeted rooms</label>
+          <div class="qty-row">
+            <button type="button" class="stepper" data-target="carpets" data-dir="-">−</button>
+            <select id="carpets" class="qty-select">
+              <option value="0">0</option><option>1</option><option>2</option><option>3</option>
+              <option>4</option><option>5</option><option>6</option><option>7</option>
+              <option>8</option><option>9</option><option>10</option>
+            </select>
+            <button type="button" class="stepper" data-target="carpets" data-dir="+">+</button>
+          </div>
+        </div>
+
+        <div>
+          <label>Rugs</label>
+          <div class="qty-row">
+            <button type="button" class="stepper" data-target="rugs" data-dir="-">−</button>
+            <select id="rugs" class="qty-select">
+              <option value="0">0</option><option>1</option><option>2</option><option>3</option>
+              <option>4</option><option>5</option><option>6</option><option>7</option>
+              <option>8</option><option>9</option><option>10</option>
+            </select>
+            <button type="button" class="stepper" data-target="rugs" data-dir="+">+</button>
+          </div>
+        </div>
+
+        <!-- Sofas -->
+        <div>
+          <label>Total sofa seats</label>
+          <div class="qty-row">
+            <button type="button" class="stepper" data-target="seats" data-dir="-">−</button>
+            <select id="seats" class="qty-select">
+              <option value="0">0</option><option>1</option><option>2</option><option>3</option>
+              <option>4</option><option>5</option><option>6</option><option>7</option>
+              <option>8</option><option>9</option><option>10</option>
+            </select>
+            <button type="button" class="stepper" data-target="seats" data-dir="+">+</button>
+          </div>
+          <label class="mt-6"><input type="checkbox" id="doubleSided"> Double-sided cleaning (seat + back)</label>
+          <label class="mt-6"><input type="checkbox" id="scotchOpt"> Add Scotchgard protection</label>
+          <p class="sub mt-6">
+            Sofa pricing: 1 seat $50 · 2 seats $90 · 3 seats $120 · 4+ seats +$40/seat.
+            Double-sided: +$10 per seat. Scotchgard: +$10/seat (+$12 if double-sided).
+          </p>
+        </div>
+
+        <!-- Dining Chairs -->
+        <div>
+          <label>Dining chairs</label>
+          <div class="qty-row">
+            <button type="button" class="stepper" data-target="diningQty" data-dir="-">−</button>
+            <select id="diningQty" class="qty-select">
+              <option value="0">0</option><option>1</option><option>2</option><option>3</option>
+              <option>4</option><option>5</option><option>6</option><option>7</option>
+              <option>8</option><option>9</option><option>10</option>
+            </select>
+            <button type="button" class="stepper" data-target="diningQty" data-dir="+">+</button>
+          </div>
+          <label class="mt-6"><input type="checkbox" id="diningFull"> Full fabric (fully upholstered)</label>
+          <p class="sub mt-6">$25 each (seat + back pad) · $30 each if full fabric chair.</p>
+        </div>
+
+        <!-- Mattresses (multi) -->
+        <div>
+          <label>Mattresses</label>
+          <div class="grid mattress-grid">
+            <div>
+              <label>Single</label>
+              <div class="qty-row">
+                <button type="button" class="stepper" data-target="mSingle" data-dir="-">−</button>
+                <select id="mSingle" class="qty-select">
+                  <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                </select>
+                <button type="button" class="stepper" data-target="mSingle" data-dir="+">+</button>
+              </div>
+            </div>
+            <div>
+              <label>Double</label>
+              <div class="qty-row">
+                <button type="button" class="stepper" data-target="mDouble" data-dir="-">−</button>
+                <select id="mDouble" class="qty-select">
+                  <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                </select>
+                <button type="button" class="stepper" data-target="mDouble" data-dir="+">+</button>
+              </div>
+            </div>
+            <div>
+              <label>Queen</label>
+              <div class="qty-row">
+                <button type="button" class="stepper" data-target="mQueen" data-dir="-">−</button>
+                <select id="mQueen" class="qty-select">
+                  <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                </select>
+                <button type="button" class="stepper" data-target="mQueen" data-dir="+">+</button>
+              </div>
+            </div>
+            <div>
+              <label>King</label>
+              <div class="qty-row">
+                <button type="button" class="stepper" data-target="mKing" data-dir="-">−</button>
+                <select id="mKing" class="qty-select">
+                  <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                </select>
+                <button type="button" class="stepper" data-target="mKing" data-dir="+">+</button>
+              </div>
+            </div>
+          </div>
+
+          <label class="mt-6 block"><input type="checkbox" id="mBoth"> Both sides (+50%)</label>
+          <label class="mt-6 block"><input type="checkbox" id="mProtect"> Add protection (+$20 per mattress)</label>
+          <p class="sub mt-6">Single $80 · Double $100 · Queen $120 · King $140.</p>
+        </div>
+
+        <!-- Access & Notes -->
+        <div>
+          <label>Access type</label>
+          <select id="access">
+            <option value="ground">Ground level</option>
+            <option value="lift">Lift access</option>
+            <option value="stairs">Stairs only</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Describe your request (stains, fabrics, dates)</label>
+          <textarea id="description" rows="4" placeholder="e.g., pet odour on lounge carpet, red wine on rug, prefer Saturday morning"></textarea>
+        </div>
+      </div>
+
+      <h3 class="mt-12 flex-row">
+        <span>Estimate</span>
+        <button type="button" id="toggleEstimate" class="link sm-only">Show/Hide</button>
+      </h3>
+
+      <div id="minNotice" class="sub" style="display:none; color:#DC2626; font-weight:700">Minimum call-out fee applied: $149</div>
+
+      <div id="estimateWrap">
+        <table id="breakdown" style="margin-top:6px; width:100%">
+          <thead>
+            <tr>
+              <th style="text-align:left">Item</th>
+              <th style="text-align:left">Qty</th>
+              <th style="text-align:right">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+          <tfoot>
+            <tr>
+              <td><strong>Total</strong></td>
+              <td></td>
+              <td id="total" style="text-align:right">$0</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <p class="sub">*This is an estimate only. Final price confirmed on site. Minimum call-out <strong>$149</strong>.</p>
+
+      <!-- Botões padrão (desktop) -->
+      <div class="actions">
+        <button class="btn primary js-book" type="button">Book with Estimate</button>
+        <button class="btn secondary js-quote" type="button">Request Custom Quote</button>
+      </div>
+    </div>
+
+    <!-- Booking form -->
+    <div id="bookingForm" class="card" style="margin-top:14px; display:none">
+      <h2>Booking details</h2>
+      <div class="grid" style="grid-template-columns:1fr; gap:12px">
+        <div><label>Name</label><input type="text" id="custName" required></div>
+        <div><label>Phone</label><input type="tel" id="custPhone" required></div>
+        <div><label>Email</label><input type="email" id="custEmail" required></div>
+        <div><label>Address</label><input type="text" id="custAddress" required></div>
+        <div><label>Preferred date/time</label><input type="text" id="custDate" placeholder="e.g., next Saturday morning"></div>
+      </div>
+      <div class="sub mt-6">
+        By proceeding you acknowledge our <a href="./terms.html#service-conditions">Service Conditions</a> and <a href="./terms.html#privacy-policy">Privacy Policy</a>.
+      </div>
+      <button class="btn primary js-book-confirm" style="margin-top:10px" type="button">Confirm Booking</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <div class="brand">
+      <img src="assets/logo.png" alt="QuickFresh logo" width="24" height="24" />
+      <div>
+        <div class="title" style="font-size:14px">QuickFresh</div>
+        <div class="tag">ABN 34 299 171 377 • Perth, WA</div>
+      </div>
+    </div>
+    <div class="sub">© <span id="year"></span> QuickFresh. Minimum call-out $149. Final price confirmed on site.</div>
+  </div>
+</footer>
+
+<!-- Barra fixa de ação (mobile) -->
+<div class="sticky-actions sm-only">
+  <div class="container sticky-inner">
+    <div class="sticky-total">
+      <span>Total</span>
+      <strong id="stickyTotal">$0</strong>
+    </div>
+    <div class="sticky-buttons">
+      <button class="btn primary js-book" type="button">Book</button>
+      <button class="btn secondary js-quote" type="button">Quote</button>
+    </div>
+  </div>
+</div>
+
+<script src="./script.js"></script>
+</body>
+</html>
