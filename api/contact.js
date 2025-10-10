@@ -50,20 +50,20 @@ export default async function handler(req, res) {
     const textBody = lines.join('\n');
 
     // envia via API do Resend (sem dependências)
-    const resp = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${RESEND_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        from: 'QuickFresh <onboarding@resend.dev>', // depois trocamos pra forms@quickfresh.com.au
-        to: TO_EMAIL,
-        reply_to: customer.email,
-        subject: `${mode === 'book' ? 'Booking' : 'Quote'} • ${customer.name} • ${estimate.total}`,
-        text: textBody
-      })
-    });
+const resp = await fetch('https://api.resend.com/emails', {
+  method: 'POST',
+  headers: {
+    Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    from: 'QuickFresh <forms@quickfresh.com.au>', // 👈 agora remetente do seu domínio
+    to: process.env.TO_EMAIL,                      // ex.: enquires@quickfresh.com.au
+    reply_to: customer.email,                      // respostas vão para o cliente
+    subject: `${mode === 'quote' ? 'Quote' : 'Booking'} • ${customer.name} • ${estimate.total}`,
+    text: lines.join('\n')
+  })
+});
 
     if (!resp.ok) {
       const errTxt = await resp.text().catch(()=> '');
