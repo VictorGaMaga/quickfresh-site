@@ -1,0 +1,39 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+
+  "rewrites": [
+    { "source": "/",          "destination": "/html/index.html" },
+    { "source": "/booking",   "destination": "/html/booking.html" },
+    { "source": "/services",  "destination": "/html/services.html" },
+    { "source": "/terms",     "destination": "/html/terms.html" }
+  ],
+
+  "redirects": [
+    { "source": "/index.html",    "destination": "/",           "permanent": true },
+    { "source": "/booking.html",  "destination": "/booking",    "permanent": true },
+    { "source": "/services.html", "destination": "/services",   "permanent": true },
+    { "source": "/terms.html",    "destination": "/terms",      "permanent": true }
+  ],
+
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/css/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/js/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ]
+}
