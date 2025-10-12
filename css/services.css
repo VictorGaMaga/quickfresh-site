@@ -1,43 +1,135 @@
-.services-grid{
-  display:grid; gap:16px;
-  grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+/* ──────────────────────────────────────────────
+   QuickFresh — Services Styles (refactor total)
+   - Badge no fluxo (sem sobrepor título)
+   - Book / Pre-Quote à direita (UX polegar)
+   - Diferenciação de cores para badges
+────────────────────────────────────────────── */
+
+/* ===== GRID ===== */
+.services-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
-.service-card{
-  position:relative; background:#fff; border:1px solid var(--border);
-  border-radius:16px; padding:18px 16px 14px; box-shadow:var(--shadow-sm);
-  transition:transform .15s ease, box-shadow .2s ease, border-color .2s;
+/* ===== CARD ===== */
+.service-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 16px 14px;
+  box-shadow: var(--shadow-sm);
+  transition: transform .15s ease, box-shadow .2s ease, border-color .2s;
 }
-.service-card:hover{ transform:translateY(-3px); box-shadow:var(--shadow-md); border-color:#B6C3D6 }
-
-.service-head{ display:flex; align-items:center; gap:12px; margin-bottom:8px }
-.service-icon{
-  width:42px; height:42px; border-radius:50%;
-  background:linear-gradient(150deg, rgba(47,170,94,.15), rgba(37,99,235,.12));
-  display:grid; place-items:center; box-shadow:inset 0 0 0 1px rgba(13,53,80,.08);
-}
-.service-icon svg{ width:22px; height:22px; stroke:var(--navy) }
-
-.service-title{ font-weight:800; color:var(--navy); font-size:18px }
-.service-price{ margin-top:2px; font-weight:800; color:var(--ink) }
-.service-note{ color:var(--muted); margin:4px 0 0; font-size:14px }
-
-.badge{
-  position:absolute; top:10px; right:10px;
-  background:linear-gradient(90deg, var(--leaf), #3fcf85);
-  color:#fff; font-weight:800; font-size:12px;
-  padding:6px 8px; border-radius:999px; box-shadow:0 6px 14px rgba(47,170,94,.18);
+.service-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: #B6C3D6;
 }
 
-.card-actions{ display:flex; gap:8px; margin-top:12px }
-.link{ color:var(--navy); font-weight:800; text-decoration:none; border-bottom:2px solid transparent }
-.link:hover{ border-color:rgba(37,99,235,.35) }
-.pill{ display:inline-block; padding:4px 8px; border-radius:999px; background:#F1F5F9; color:var(--ink); font-size:12px; font-weight:800 }
-
-/* ==== Destaque nos botões "Book / Pre-Quote" dentro dos cards ==== */
-.service-card .link {
+/* ===== BADGES REFINADAS ===== */
+.badge {
   display: inline-block;
-  background: linear-gradient(135deg, var(--leaf), #3fcf85);
+  align-self: flex-start;
+  font-weight: 800;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  margin-bottom: 10px;
+  color: #0d5035;               /* texto escuro legível */
+  background: #d7f5e6;          /* verde suave (fallback) */
+  box-shadow: 0 3px 6px rgba(47,170,94,.1);
+}
+
+/* Popular — verde suave */
+.badge--popular {
+  background: #d7f5e6;
+  color: #147a4d;
+  box-shadow: 0 3px 6px rgba(47,170,94,.1);
+}
+
+/* Premium — azul */
+.badge--premium {
+  background: linear-gradient(90deg, #2563EB, #3B82F6);
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(37,99,235,.18);
+}
+
+/* ===== CABEÇALHO ===== */
+.service-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.service-icon {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: linear-gradient(150deg, rgba(47,170,94,.15), rgba(37,99,235,.12));
+  display: grid; place-items: center;
+  box-shadow: inset 0 0 0 1px rgba(13,53,80,.08);
+}
+.service-icon svg { width: 22px; height: 22px; stroke: var(--navy); }
+
+.service-title { font-weight: 800; color: var(--navy); font-size: 18px; }
+.service-price { margin-top: 2px; font-weight: 800; color: var(--ink); }
+.service-note { color: var(--muted); margin: 4px 0 0; font-size: 14px; }
+
+/* ===== AÇÕES ===== */
+.card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  gap: 10px;
+}
+
+/* Selo inferior (Best value, Premium, etc.) */
+.card-actions .pill {
+  order: 1;
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #F1F5F9;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* ===== BADGES REFINADAS ===== */
+.badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-weight: 800;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  margin-bottom: 10px;
+  color: #0d5035;               /* texto escuro legível */
+  background: #d7f5e6;          /* verde suave (fallback) */
+  box-shadow: 0 3px 6px rgba(47,170,94,.1);
+}
+
+/* Popular — verde suave */
+.badge--popular {
+  background: #d7f5e6;
+  color: #147a4d;
+  box-shadow: 0 3px 6px rgba(47,170,94,.1);
+}
+
+/* Premium — azul */
+.badge--premium {
+  background: linear-gradient(90deg, #2563EB, #3B82F6);
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(37,99,235,.18);
+}
+
+/* ===== BOTÃO AJUSTADO ===== */
+.service-card .link {
+  order: 2;
+  margin-left: auto;
+  display: inline-block;
+  background: linear-gradient(135deg, #39b46c, #2faa5e); /* verde menos saturado */
   color: #fff;
   font-weight: 800;
   text-decoration: none;
@@ -45,13 +137,47 @@
   border-radius: 9999px;
   padding: 10px 18px;
   font-size: 15px;
-  letter-spacing: 0.2px;
-  box-shadow: 0 6px 14px rgba(47, 170, 94, 0.25);
-  transition: all 0.25s ease;
+  letter-spacing: .2px;
+  box-shadow: 0 6px 12px rgba(47,170,94,.25);
+  transition: all .25s ease;
+  white-space: nowrap;
+}
+.service-card .link:hover {
+  background: linear-gradient(135deg, #2faa5e, #248a54);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(47,170,94,.25);
 }
 
-.service-card .link:hover {
-  background: linear-gradient(135deg, #3fcf85, var(--leaf));
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(47, 170, 94, 0.35);
+
+/* ===== MOBILE ===== */
+@media (max-width: 640px) {
+  .badge {
+    font-size: 11px;
+    padding: 5px 8px;
+    margin-bottom: 8px;
+  }
+  .card-actions {
+    justify-content: flex-end;
+    gap: 8px;
+  }
+  .card-actions .pill {
+    margin-right: auto;
+    font-size: 11px;
+  }
+  .service-card .link {
+    font-size: 14px;
+    padding: 9px 16px;
+    box-shadow: 0 4px 10px rgba(47,170,94,.25);
+  }
+}
+
+/* ===== VARIÁVEIS ===== */
+:root {
+  --navy: #0d3550;
+  --ink: #1e293b;
+  --muted: #64748b;
+  --leaf: #2faa5e;
+  --border: #d6dee8;
+  --shadow-sm: 0 1px 4px rgba(15,23,42,0.05);
+  --shadow-md: 0 4px 10px rgba(15,23,42,0.08);
 }
