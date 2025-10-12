@@ -21,9 +21,11 @@
   <link rel="stylesheet" href="../css/contact-footer.css">
   <link rel="stylesheet" href="../css/faq-testimonials.css">
 
-  <!-- Utilidades e responsivo -->
-  <link rel="stylesheet" href="../css/accessibility-motion.css">
+  <!-- Utilidades e acessibilidade -->
   <link rel="stylesheet" href="../css/utilities.css">
+  <link rel="stylesheet" href="../css/accessibility-motion.css">
+
+  <!-- Responsivo -->
   <link rel="stylesheet" href="../css/responsive.css">
 </head>
 
@@ -32,7 +34,7 @@
   <!-- Header -->
   <header class="header">
     <div class="container inner">
-      <a class="brand" href="./index.html">
+      <a class="brand" href="/">
         <img src="../assets/logo.png" alt="QuickFresh logo" width="32" height="32" />
         <div>
           <div class="title">QuickFresh</div>
@@ -40,10 +42,10 @@
         </div>
       </a>
       <nav aria-label="Main">
-  <a href="/services">Services</a>
-  <a href="/booking">Book</a>
-  <a href="/terms">Terms & Conditions</a>
-  <a href="/#contact">Contact</a>
+        <a href="/services">Services</a>
+        <a href="/booking">Book</a>
+        <a href="/terms">Terms & Conditions</a>
+        <a href="/#contact">Contact</a>
       </nav>
     </div>
   </header>
@@ -63,14 +65,14 @@
     <p>These Terms & Conditions govern all use of the QuickFresh website and all cleaning services provided by QuickFresh Cleaning & Care (“QuickFresh”, “we”, “our”, “us”). By using our services, you agree to comply with these Terms as outlined below.</p>
 
     <h2>2. Website Use</h2>
-    <ul>
+    <ul class="list">
       <li>The content on this site is provided for general information and marketing purposes only. We make reasonable efforts to keep all information up to date but cannot guarantee accuracy or completeness.</li>
       <li>Unauthorised use of this website may give rise to a claim for damages or be a criminal offence.</li>
       <li>Links to external websites are provided for convenience; we are not responsible for their content.</li>
     </ul>
 
     <h2>3. Bookings & Payments</h2>
-    <ul>
+    <ul class="list">
       <li>Quotes are based on the information provided by the client (e.g. room size, condition, access). Final pricing may vary after on-site assessment.</li>
       <li>Minimum call-out fee applies to all bookings.</li>
       <li>Payment is due on completion unless otherwise agreed in writing. We accept cash, EFTPOS, PayID and card payments.</li>
@@ -78,13 +80,13 @@
     </ul>
 
     <h2>4. Cancellations & Rescheduling</h2>
-    <ul>
+    <ul class="list">
       <li>We require at least 24 hours’ notice for cancellations or rescheduling. Short-notice cancellations may incur a $50 fee.</li>
       <li>If access to the property is not possible upon arrival, the job will be marked as “failed attendance” and charged at the minimum call-out rate.</li>
     </ul>
 
     <h2 id="service-conditions">5. Service Conditions</h2>
-    <ul>
+    <ul class="list">
       <li>QuickFresh provides professional carpet, upholstery, mattress, and tile & grout cleaning using industry-standard methods (steam, dry, or enzyme-based treatments).</li>
       <li>Results may vary depending on fibre type, age, previous cleaning history, stains, and general condition. Some stains (e.g. permanent dye, pet urine, rust, ink, or paint) may not be removable.</li>
       <li>We use premium Australian-made enzymatic, oxygen-based, and solvent-safe products. Fragrance-free or low-allergen options are available on request.</li>
@@ -104,7 +106,7 @@
 
     <h3>Standards & Guidance (informative)</h3>
     <p>The following standards and technical guidance inform industry best practice on waterproofing, moisture-resistant board specification, and edge/seal protection for internal linings:</p>
-    <ul>
+    <ul class="list">
       <li><strong>AS 3740:2021 — Waterproofing of domestic wet areas</strong> — minimum requirements for waterproofing and water-resistant materials in wet areas; emphasises correct materials and detailing around junctions and wet zones.</li>
       <li><strong>National Construction Code (NCC)</strong> — requires wet-area elements to be waterproof or water-resistant and recognises AS 3740 as accepted practice.</li>
       <li><strong>AS/NZS 1859.2 — Reconstituted wood-based panels</strong> — classifies MDF by service condition (e.g., MR — moisture-resistant). For MDF skirtings/trims, MR grade or proper sealing of cut edges is recommended to reduce moisture uptake.</li>
@@ -113,20 +115,20 @@
     <p><em>Note:</em> These references explain why unsealed skirtings or non-MR MDF are at greater risk when exposed to incidental moisture during cleaning.</p>
 
     <h2>6. Liability & Limitations</h2>
-    <ul>
+    <ul class="list">
       <li>Our liability is limited to the total value of the service provided or, where applicable, the amount covered by our public liability insurance.</li>
       <li>We are not liable for consequential losses, delays caused by weather or traffic, or indirect damages.</li>
       <li>Client must report any concerns within 48 hours after service. Re-clean visits (if applicable) are offered at our discretion.</li>
     </ul>
 
     <h2>7. Health & Safety</h2>
-    <ul>
+    <ul class="list">
       <li>We use professional equipment and products that comply with Australian safety standards. Material Safety Data Sheets (SDS) are available upon request.</li>
       <li>We request pets and children be kept away from work areas during and after cleaning until surfaces are fully dry.</li>
     </ul>
 
     <h2>8. Privacy (summary)</h2>
-    <ul>
+    <ul class="list">
       <li>QuickFresh collects and stores client data solely for providing quotes, bookings, and follow-up communication.</li>
       <li>We do not share personal data with third parties without consent, except where required by law.</li>
       <li>For the full policy, see <a href="#privacy-policy">Privacy Policy</a> below.</li>
@@ -136,7 +138,7 @@
     <p>These Terms are governed by the laws of Western Australia. Any disputes will be handled by the courts of Western Australia.</p>
 
     <h2>10. Contact</h2>
-    <ul>
+    <ul class="list">
       <li><strong>QuickFresh Cleaning & Care</strong></li>
       <li>ABN 34 299 171 377</li>
       <li>Email: <a href="mailto:info@quickfresh.com.au">info@quickfresh.com.au</a></li>
@@ -161,14 +163,13 @@
         </div>
       </div>
       <div class="sub">
-        <p>© <span id="year"></span> QuickFresh Cleaning & Care. All rights reserved.</p>
-        <p class="note">Owner-operated • Insured • Eco-conscious cleaning</p>
+        © <span id="year"></span> QuickFresh. Minimum call-out $149. Final price confirmed on site.
       </div>
     </div>
   </footer>
 
   <!-- JS -->
-  <script src="../js/script.js" defer></script>
-  <script src="../js/seo.js" defer></script>
+  <script src="/js/script.js" defer></script>
+  <script src="/js/seo.js" defer></script>
 </body>
 </html>

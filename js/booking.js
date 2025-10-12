@@ -1,10 +1,10 @@
-// ── QuickFresh — booking.js (refatorado e completo) ─────────────────────
+// ── QuickFresh — booking.js (usa prices.js) ─────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   const $  = id  => document.getElementById(id);
   const $$ = sel => Array.from(document.querySelectorAll(sel));
 
-  // ── Constantes de preço
-  const PRICES = {
+  // ── Preços vindos de prices.js (com fallback seguro em dev)
+  const DEFAULT_PRICES = {
     MIN_TOTAL: 149,
     carpet: 50,
     rug: 40,
@@ -14,7 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
     mattress: { single: 80, double: 100, queen: 120, king: 140, bothSidesMultiplier: 1.5, protection: 20 }
   };
 
-  // ── Função auxiliar: cálculo de sofá
+  const PRICES = (window && window.QUICKFRESH_PRICES) ? window.QUICKFRESH_PRICES : DEFAULT_PRICES;
+  if (!window.QUICKFRESH_PRICES) {
+    console.warn('[booking.js] QUICKFRESH_PRICES não encontrado. Usando valores padrão (fallback).');
+  }
+
+  // ── Cálculo de sofá (degrau)
   function sofaPrice(seats, doubleSided){
     if (seats <= 0) return 0;
     let base = 0;
@@ -26,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return base;
   }
 
-  // ── Utilidade: adicionar linha à tabela
+  // ── Adiciona linha no breakdown
   function addRow(tbody, label, qty, cost){
     const tr = document.createElement('tr');
     tr.innerHTML = `<td>${label}</td><td>${qty ?? ''}</td><td style="text-align:right">$${Number(cost || 0).toFixed(0)}</td>`;
@@ -97,8 +102,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (mRows.length){
-      if (mBoth){ const extra = mTotal * (PRICES.mattress.bothSidesMultiplier - 1); addRow(tbody, 'Mattress both sides (+50%)', '', extra); mTotal += extra; }
-      if (mProtect){ const p = mQty * PRICES.mattress.protection; addRow(tbody, 'Mattress protection', mQty, p); mTotal += p; }
+      if (mBoth){
+        const extra = mTotal * (PRICES.mattress.bothSidesMultiplier - 1);
+        addRow(tbody, 'Mattress both sides (+50%)', '', extra);
+        mTotal += extra;
+      }
+      if (mProtect){
+        const p = mQty * PRICES.mattress.protection;
+        addRow(tbody, 'Mattress protection', mQty, p);
+        mTotal += p;
+      }
       total += mTotal;
     }
 
@@ -151,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ── Envio de e-mail
+  // ── Envio por e-mail (mailto)
   function sendEmail(subject, includeCustomer){
     const total = calc();
     const safe = id => (($(id) || {}).value || '').trim();
