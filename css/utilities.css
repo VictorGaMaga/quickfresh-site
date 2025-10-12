@@ -1,0 +1,17 @@
+.qty-row{ display:flex; align-items:center; gap:8px }
+.qty-select{ flex:1; min-width:120px }
+
+.stepper{
+  width:40px; height:40px; border:1px solid var(--border); border-radius:10px;
+  background:#fff; font-size:20px; line-height:1; padding:0; display:grid; place-items:center; cursor:pointer;
+  box-shadow:0 1px 0 rgba(0,0,0,.03);
+}
+.stepper:active{ transform:scale(.98) }
+
+.mt-6{ margin-top:6px } 
+.mt-12{ margin-top:12px }
+.block{ display:block } 
+.flex-row{ display:flex; align-items:center; justify-content:space-between }
+
+/* Sticky actions (estrutura usada no mobile) */
+.sticky-actions{ /* regras completas no responsive.css para mobile */ }

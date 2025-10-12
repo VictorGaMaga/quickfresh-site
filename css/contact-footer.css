@@ -1,0 +1,10 @@
+.trust{ display:flex; gap:12px; flex-wrap:wrap; padding:0; margin:14px 0 0; list-style:none; color:var(--muted) }
+.trust li{ background:#fff; border:1px solid var(--border); border-radius:999px; padding:6px 10px; font-size:13px }
+.contact-link{ color:var(--navy); text-decoration:none; border-bottom:2px solid transparent }
+.contact-link:hover{ border-color:rgba(37,99,235,.35) }
+
+footer{ background:#fff; border-top:1px solid var(--border) }
+.footer-inner{
+  padding:22px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;
+}
+.footer-inner .sub{ color:var(--muted) }

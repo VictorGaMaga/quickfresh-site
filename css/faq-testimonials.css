@@ -1,0 +1,6 @@
+.faq details{ background:#fff; border:1px solid var(--border); border-radius:12px; padding:12px 14px; margin:10px 0 }
+.faq summary{ cursor:pointer; font-weight:800; color:var(--navy) }
+.faq p{ margin:8px 0 0; color:var(--ink) }
+
+.testimonials{ display:grid; gap:16px; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)) }
+.testimonials blockquote{ margin:0 0 8px; font-style:italic }

@@ -1,0 +1,18 @@
+table{
+  width:100%; border-collapse:collapse; background:#fff;
+  border:1px solid var(--border); border-radius:12px; overflow:hidden;
+}
+thead th{
+  background:#F1F5F9; color:#0B2540; text-transform:uppercase;
+  letter-spacing:.04em; font-size:12px; padding:10px 12px;
+}
+tbody td, tfoot td{ padding:10px 12px; border-top:1px solid #E2E8F0 }
+tbody tr:nth-child(odd){ background:#FCFDFF }
+tfoot td{ font-weight:800 }
+td:last-child{ text-align:right }
+
+/* Aviso de mínimo */
+#minNotice{
+  display:none; border:1px solid #FCA5A5; background:#FEF2F2; color:#B91C1C;
+  padding:10px 12px; border-radius:10px;
+}

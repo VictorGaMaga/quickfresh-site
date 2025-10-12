@@ -3,321 +3,214 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>QuickFresh — Carpet & Upholstery Cleaning Perth</title>
   <meta name="description" content="Owner-operator carpet & upholstery steam cleaning in Perth. Insured, eco-conscious, honest pricing. Minimum call-out $149.">
 
-  <!-- SEO / Canonical -->
+  <!-- Canonical -->
   <link rel="canonical" href="https://quickfresh.com.au/">
 
-  <!-- OG/Twitter -->
-  <meta property="og:title" content="QuickFresh — Carpet & Upholstery Cleaning Perth">
-  <meta property="og:description" content="Eco-friendly, insured, owner-operated. Minimum call-out $149. Book or get a pre-quote online.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://quickfresh.com.au/">
-  <meta property="og:image" content="https://quickfresh.com.au/assets/og-cover.jpg">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="QuickFresh — Carpet & Upholstery Cleaning Perth">
-  <meta name="twitter:description" content="Eco-friendly, insured, owner-operated. Minimum call-out $149.">
-  <meta name="twitter:image" content="https://quickfresh.com.au/assets/og-cover.jpg">
+  <!-- Favicon -->
+  <link rel="icon" href="../assets/favicon.ico">
 
-  <link rel="icon" href="/assets/favicon.ico">
+  <!-- CSS base -->
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/typography.css">
 
-  <!-- styles principais -->
-  <link rel="stylesheet" href="../css/styles.css">
-  <!-- styles do carrossel (após o principal) -->
+  <!-- Componentes -->
+  <link rel="stylesheet" href="../css/header.css">
+  <link rel="stylesheet" href="../css/buttons.css">
+  <link rel="stylesheet" href="../css/forms.css">
+  <link rel="stylesheet" href="../css/tables.css">
+  <link rel="stylesheet" href="../css/services.css">
+  <link rel="stylesheet" href="../css/contact-footer.css">
+  <link rel="stylesheet" href="../css/faq-testimonials.css">
+
+  <!-- Utilidades e responsivo -->
+  <link rel="stylesheet" href="../css/accessibility-motion.css">
+  <link rel="stylesheet" href="../css/utilities.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+
+  <!-- Carousel (por último) -->
   <link rel="stylesheet" href="../css/carousel.css">
 </head>
-<body>
 
-<header class="header">
-  <div class="container inner">
-    <a class="brand" href="./index.html">
-      <img src="assets/logo.png" alt="QuickFresh logo" width="32" height="32" />
-      <div>
-        <div class="title">QuickFresh</div>
-        <div class="tag">CLEANING & CARE</div>
-      </div>
-    </a>
-    <nav aria-label="Main">
-      <a href="./services.html">Services</a>
-      <a href="./booking.html">Book</a>
-      <a href="./terms.html">Terms & Conditions</a>
-      <a href="./index.html#contact">Contact</a>
-    </nav>
-  </div>
-</header>
+<body data-page="home">
 
-<section class="hero">
-  <div class="container">
-    <h1>Fresh carpets. Peace of mind.</h1>
-    <p class="lede">
-      Professional carpet & upholstery cleaning in Perth — owner-operated, eco-conscious and insured.
-      Minimum call-out <b>$149</b>. Final price confirmed on site.
-    </p>
-    <div class="cta-row">
-      <a class="btn primary" href="./booking.html">Get an Instant Pre-Quote</a>
-      <a class="btn secondary" href="tel:+614511664247" aria-label="Call now">Call 0451 664 247</a>
+  <!-- Header -->
+  <header class="header">
+    <div class="container inner">
+      <a class="brand" href="./index.html">
+        <img src="../assets/logo.png" alt="QuickFresh logo" width="32" height="32" />
+        <div>
+          <div class="title">QuickFresh</div>
+          <div class="tag">CLEANING & CARE</div>
+        </div>
+      </a>
+      <nav aria-label="Main">
+        <a href="./services.html">Services</a>
+        <a href="./booking.html">Book</a>
+        <a href="./terms.html">Terms & Conditions</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </div>
+  </header>
 
-    <ul class="trust">
-      <li>✅ Insured & Police-cleared</li>
-      <li>🌿 Eco-friendly chemicals</li>
-      <li>⭐ Owner-operator service</li>
-      <li>🧾 ABN 34 299 171 377</li>
-    </ul>
-  </div>
-</section>
-
-<section class="section" id="services">
-  <div class="container">
-    <h2 style="margin-bottom:6px">Our Services</h2>
-    <p class="sub" style="margin-bottom:14px">
-      Transparent guide pricing. Final price confirmed on site. Minimum call-out $149.
-    </p>
-
-    <div class="services-grid">
-      <!-- Fresh Clean -->
-      <article class="service-card">
-        <span class="badge">Most popular</span>
-        <div class="service-head">
-          <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M7 20c0-3 3-3 3-6s-3-3-3-6m7 12c0-3 3-3 3-6s-3-3-3-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <h3 class="service-title">Fresh Clean</h3>
-        </div>
-        <div class="service-price">$50 / room</div>
-        <p class="service-note">Professional steam cleaning with enzyme pre-spray. Removes odours and light stains.</p>
-        <div class="card-actions">
-          <a class="link" href="./booking.html">Book / Pre-Quote</a>
-          <span class="pill">Best value</span>
-        </div>
-      </article>
-
-      <!-- Total Clean -->
-      <article class="service-card">
-        <div class="service-head">
-          <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M12 15a3 3 0 100-6 3 3 0 000 6zM4 12h2m12 0h2M12 4v2m0 12v2m-6.36-8.36l1.42 1.42m9.9-1.42l-1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <h3 class="service-title">Total Clean</h3>
-        </div>
-        <div class="service-price">$70 / room</div>
-        <p class="service-note">Deep clean with CRB agitation + steam extraction. Includes neutralising rinse and deodoriser.</p>
-        <div class="card-actions">
-          <a class="link" href="./booking.html">Book / Pre-Quote</a>
-          <span class="pill pill-alt">Premium</span>
-        </div>
-      </article>
-
-      <!-- Couch -->
-      <article class="service-card">
-        <div class="service-head">
-          <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M3 13v5h18v-5a3 3 0 00-3-3h-2v3H8v-3H6a3 3 0 00-3 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          </div>
-          <h3 class="service-title">Couch Steam Cleaning</h3>
-        </div>
-        <div class="service-price">$30/seat position</div>
-        <p class="service-note">(standard size and top surfaces)</p>
-        <p class="service-note">If removable cushions: +$10–$20</p>
-        <div class="card-actions">
-          <a class="link" href="./booking.html">Book / Pre-Quote</a>
-        </div>
-      </article>
-
-      <!-- Mattress -->
-      <article class="service-card">
-        <div class="service-head">
-          <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M3 7h10a4 4 0 014 4v7H3V7zM21 18H3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          </div>
-          <h3 class="service-title">Mattress Cleaning</h3>
-        </div>
-        <div class="service-price">From $60</div>
-        <div class="card-actions">
-          <a class="link" href="./booking.html">Book / Pre-Quote</a>
-        </div>
-      </article>
-
-      <!-- Tile & Grout -->
-      <article class="service-card">
-        <span class="badge">Premium Service</span>
-        <div class="service-head">
-          <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M3 9h18M3 15h18M9 3v18M15 3v18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <h3 class="service-title">Tile &amp; Grout Cleaning</h3>
-        </div>
-        <div class="service-price">from $8&nbsp;/&nbsp;m²</div>
-        <p class="service-note">
-          Deep mechanical scrubbing and rinse for hard floors and grout lines.<br>
-          <strong>Minimum $200 (covers up to ~25&nbsp;m²)</strong>
-        </p>
-        <div class="card-actions">
-          <a class="link" href="./booking.html">Book / Pre-Quote</a>
-          <span class="pill pill-alt">Premium</span>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="gallery">
-  <div class="container">
-    <h2 style="margin-bottom:6px">Before & After — Gallery</h2>
-    <p class="sub" style="margin-bottom:14px">Real jobs — carpets, rugs, seats, and tiles.</p>
-
-    <div class="carousel carousel--compact" id="carousel1" aria-roledescription="carousel">
-      <div class="carousel-viewport" role="group" aria-label="QuickFresh gallery">
-        <div class="carousel-track">
-          <!-- Imagens -->
-          <figure class="carousel-slide" data-caption="Carpet — before">
-            <img src="assets/carpets/01-before.JPEG" alt="Carpet before cleaning" loading="lazy" draggable="false" />
-          </figure>
-          <figure class="carousel-slide" data-caption="Carpet — after">
-            <img src="assets/carpets/01-after.JPEG" alt="Carpet after cleaning" loading="lazy" draggable="false" />
-          </figure>
-          <figure class="carousel-slide" data-caption="Carpet">
-            <img src="assets/carpets/02.JPEG" alt="Clean carpet" loading="lazy" draggable="false" />
-          </figure>
-          <figure class="carousel-slide" data-caption="Carpet">
-            <img src="assets/carpets/03.JPEG" alt="Carpet detail" loading="lazy" draggable="false" />
-          </figure>
-          <figure class="carousel-slide" data-caption="Rug">
-            <img src="assets/rugs/01.JPEG" alt="Rug cleaning result" loading="lazy" draggable="false" />
-          </figure>
-          <figure class="carousel-slide" data-caption="Sofa — before">
-            <img src="assets/seats/1-before.JPEG" alt="Sofa seat before" loading="lazy" draggable="false" />
-          </figure>
-          <figure class="carousel-slide" data-caption="Sofa — after">
-            <img src="assets/seats/1-after.JPEG" alt="Sofa seat after" loading="lazy" draggable="false" />
-          </figure>
-          <figure class="carousel-slide" data-caption="Sofa half cleaned">
-            <img src="assets/seats/2.JPEG" alt="Upholstery cleaned" loading="lazy" draggable="false" />
-          </figure>
-          <figure class="carousel-slide" data-caption="Tile & grout">
-            <!-- corrigido palt -> alt -->
-            <img src="assets/tiles/02.JPEG" alt="Tile & grout" loading="lazy" draggable="false"/>
-          </figure>
-
-          <!-- Vídeos -->
-          <figure class="carousel-slide" data-caption="Carpet extraction (video)">
-            <video src="assets/carpets/07.MP4" preload="metadata" muted playsinline controls></video>
-          </figure>
-          <figure class="carousel-slide" data-caption="Carpet extraction (video)">
-            <video src="assets/carpets/08.MP4" preload="metadata" muted playsinline controls></video>
-          </figure>
-          <figure class="carousel-slide" data-caption="Carpet extraction (video)">
-            <video src="assets/carpets/09.MP4" preload="metadata" muted playsinline controls></video>
-          </figure>
-          <figure class="carousel-slide" data-caption="Tile & grout (video)">
-            <video src="assets/tiles/01.MP4" preload="metadata" muted playsinline controls></video>
-          </figure>
-          <figure class="carousel-slide" data-caption="Tile & grout (video)">
-            <video src="assets/tiles/04.MP4" preload="metadata" muted playsinline controls></video>
-          </figure>
-        </div>
-      </div>
-
-      <!-- Controles -->
-      <button class="carousel-btn prev" aria-label="Previous slide">‹</button>
-      <button class="carousel-btn next" aria-label="Next slide">›</button>
-
-      <!-- Indicadores -->
-      <div class="carousel-dots" aria-hidden="true"></div>
-
-      <!-- Legenda -->
-      <figcaption class="carousel-caption" id="carousel1-caption"></figcaption>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="contact">
-  <div class="container">
-    <h2>Contact</h2>
-    <p class="sub">
-      <a class="contact-link" href="tel:+614511664247">Call 0451 664 247</a> •
-      <a class="contact-link"
-         href="mailto:info@quickfresh.com.au?subject=General%20enquiry%20via%20website"
-         onclick="window.location.href=this.href;return false;"
-      >info@quickfresh.com.au</a> • Perth metro
-    </p>
-  </div>
-</section>
-
-<footer>
-  <div class="container footer-inner">
-    <div class="brand">
-      <img src="assets/logo.png" alt="QuickFresh logo" width="24" height="24" />
-      <div>
-        <div class="title" style="font-size:14px">QuickFresh</div>
-        <div class="tag">ABN 34 299 171 377 • Perth, WA</div>
-      </div>
-    </div>
-
-    <div class="sub">
-      <p>
-        General enquiries:
-        <a class="contact-link"
-           href="mailto:info@quickfresh.com.au?subject=General%20enquiry%20via%20website"
-           aria-label="Email QuickFresh — General enquiry via website"
-           onclick="window.location.href=this.href;return false;">
-          info@quickfresh.com.au
-        </a>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1>Fresh carpets. Peace of mind.</h1>
+      <p class="lede">
+        Professional carpet & upholstery cleaning in Perth — owner-operated, eco-conscious and insured.
+        Minimum call-out <b>$149</b>. Final price confirmed on site.
       </p>
-      <p>© <span id="year"></span> QuickFresh. Minimum call-out $149. Final price confirmed on site.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="./booking.html">Get an Instant Pre-Quote</a>
+        <a class="btn secondary" href="tel:+614511664247" aria-label="Call now">Call 0451 664 247</a>
+      </div>
+
+      <ul class="trust">
+        <li>✅ Insured & Police-cleared</li>
+        <li>🌿 Eco-friendly chemicals</li>
+        <li>⭐ Owner-operator service</li>
+        <li>🧾 ABN 34 299 171 377</li>
+      </ul>
     </div>
-  </div>
-</footer>
+  </section>
 
-<!-- JS: primeiro o carousel (standalone), depois o seu app (se houver) -->
-<script src="../js/carousel.js"></script>
-<script>
-  // ano no rodapé
-  const y = document.getElementById('year');
-  if (y) y.textContent = new Date().getFullYear();
-</script>
+  <!-- Services -->
+  <section class="section" id="services">
+    <div class="container">
+      <h2>Our Services</h2>
+      <p class="sub">Transparent guide pricing. Final price confirmed on site. Minimum call-out $149.</p>
 
-<!-- schema.org -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "HomeAndConstructionBusiness",
-  "name": "QuickFresh — Cleaning & Care",
-  "image": "https://quickfresh.com.au/assets/og-cover.jpg",
-  "url": "https://quickfresh.com.au/",
-  "telephone": "+61 451 664 247",
-  "email": "info@quickfresh.com.au",
-  "priceRange": "$$",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Perth",
-    "addressRegion": "WA",
-    "addressCountry": "AU"
-  },
-  "areaServed": ["Dianella","Morley","Noranda","Nollamara","Yokine","Perth"],
-  "openingHours": "Mo-Sa 08:00-18:00",
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "Cleaning Services",
-    "itemListElement": [
-      { "@type": "Offer", "name": "Steam Cleaning", "price": "50", "priceCurrency": "AUD" },
-      { "@type": "Offer", "name": "Heavy-duty Steam", "price": "70", "priceCurrency": "AUD" },
-      { "@type": "Offer", "name": "Couch Steam Cleaning", "price": "30", "priceCurrency": "AUD" },
-      { "@type": "Offer", "name": "Mattress Cleaning", "price": "60", "priceCurrency": "AUD" },
-      { "@type": "Offer", "name": "Tile Cleaning", "price": "200", "priceCurrency": "AUD" }
-    ]
-  }
-}
-</script>
+      <div class="services-grid">
+        <!-- Fresh Clean -->
+        <article class="service-card">
+          <span class="badge">Most popular</span>
+          <div class="service-head">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M7 20c0-3 3-3 3-6s-3-3-3-6m7 12c0-3 3-3 3-6s-3-3-3-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="service-title">Fresh Clean</h3>
+          </div>
+          <div class="service-price">$50 / room</div>
+          <p class="service-note">Professional steam cleaning with enzyme pre-spray. Removes odours and light stains.</p>
+          <div class="card-actions">
+            <a class="link" href="./booking.html">Book / Pre-Quote</a>
+            <span class="pill">Best value</span>
+          </div>
+        </article>
 
+        <!-- Total Clean -->
+        <article class="service-card">
+          <div class="service-head">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 15a3 3 0 100-6 3 3 0 000 6zM4 12h2m12 0h2M12 4v2m0 12v2m-6.36-8.36l1.42 1.42m9.9-1.42l-1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="service-title">Total Clean</h3>
+          </div>
+          <div class="service-price">$70 / room</div>
+          <p class="service-note">Deep clean with CRB agitation + steam extraction. Includes neutralising rinse and deodoriser.</p>
+          <div class="card-actions">
+            <a class="link" href="./booking.html">Book / Pre-Quote</a>
+            <span class="pill pill-alt">Premium</span>
+          </div>
+        </article>
+
+        <!-- Couch -->
+        <article class="service-card">
+          <div class="service-head">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M3 13v5h18v-5a3 3 0 00-3-3h-2v3H8v-3H6a3 3 0 00-3 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="service-title">Couch Steam Cleaning</h3>
+          </div>
+          <div class="service-price">$30 / seat position</div>
+          <p class="service-note">(standard size and top surfaces)</p>
+          <p class="service-note">If removable cushions: +$10–$20</p>
+          <div class="card-actions">
+            <a class="link" href="./booking.html">Book / Pre-Quote</a>
+          </div>
+        </article>
+
+        <!-- Mattress -->
+        <article class="service-card">
+          <div class="service-head">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M3 7h10a4 4 0 014 4v7H3V7zM21 18H3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="service-title">Mattress Cleaning</h3>
+          </div>
+          <div class="service-price">From $60</div>
+          <p class="service-note">Deep steam sanitisation using enzyme-based solutions to remove sweat, odours, and allergens. Helps reduce dust mites and improves sleep hygiene.</p>
+          <div class="card-actions">
+            <a class="link" href="./booking.html">Book / Pre-Quote</a>
+          </div>
+        </article>
+
+        <!-- Tile & Grout -->
+        <article class="service-card">
+          <span class="badge">Premium Service</span>
+          <div class="service-head">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M3 9h18M3 15h18M9 3v18M15 3v18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="service-title">Tile & Grout Cleaning</h3>
+          </div>
+          <div class="service-price">from $8 / m²</div>
+          <p class="service-note">Deep mechanical scrubbing and rinse for hard floors and grout lines.<br><strong>Minimum $200 (covers ≈25 m²)</strong></p>
+          <div class="card-actions">
+            <a class="link" href="./booking.html">Book / Pre-Quote</a>
+            <span class="pill pill-alt">Premium</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="section" id="gallery">
+    <div class="container">
+      <h2>Before & After — Gallery</h2>
+      <p class="sub">Real jobs — carpets, rugs, seats, and tiles.</p>
+      <div class="carousel carousel--compact" id="carousel1"></div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section" id="contact">
+    <div class="container">
+      <h2>Contact</h2>
+      <p class="sub">
+        <a class="contact-link" href="tel:+614511664247">Call 0451 664 247</a> • 
+        <a class="contact-link" href="mailto:info@quickfresh.com.au?subject=General%20enquiry%20via%20website">info@quickfresh.com.au</a> • Perth metro
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-inner">
+      <div class="brand">
+        <img src="../assets/logo.png" alt="QuickFresh logo" width="24" height="24" />
+        <div>
+          <div class="title" style="font-size:14px">QuickFresh</div>
+          <div class="tag">ABN 34 299 171 377 • Perth, WA</div>
+        </div>
+      </div>
+      <div class="sub">
+        <p>General enquiries: <a class="contact-link" href="mailto:info@quickfresh.com.au?subject=General%20enquiry%20via%20website">info@quickfresh.com.au</a></p>
+        <p>© <span id="year"></span> QuickFresh. Minimum call-out $149. Final price confirmed on site.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script src="../js/carousel.js" defer></script>
+  <script src="../js/script.js" defer></script>
+  <script src="../js/seo.js" defer></script>
 </body>
 </html>
-
-

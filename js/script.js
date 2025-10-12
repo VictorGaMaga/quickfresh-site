@@ -7,29 +7,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const yearEl = $('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // ── Constantes de preço
-  const MIN_TOTAL = 149;
-  const PRICES = {
-    carpet: 50,
-    rug: 40,
-    scotchSeat: 10,
-    scotchSeatDouble: 12,
-    diningStandard: 25,
-    diningFull: 30,
-    mattress: { single: 80, double: 100, queen: 120, king: 140 },
-    mBoth: 1.5,
-    mProtect: 20
-  };
+  // ── Constantes de preço (importadas do prices.js)
+  const PRICES = QUICKFRESH_PRICES;
+  const MIN_TOTAL = PRICES.MIN_TOTAL;
 
   // ── Util: degrau de sofá
   function sofaPrice(seats, doubleSided){
     if (seats <= 0) return 0;
     let base = 0;
-    if (seats === 1) base = 50;
-    else if (seats === 2) base = 90;
-    else if (seats === 3) base = 120;
-    else base = 120 + (seats - 3) * 40; // 4+ seats
-    if (doubleSided) base += seats * 10;
+    if (seats === 1) base = PRICES.sofa.seat1;
+    else if (seats === 2) base = PRICES.sofa.seat2;
+    else if (seats === 3) base = PRICES.sofa.seat3;
+    else base = PRICES.sofa.seat3 + (seats - 3) * PRICES.sofa.extraSeat;
+    if (doubleSided) base += seats * PRICES.sofa.doubleSided;
     return base;
   }
 
@@ -81,14 +71,14 @@ document.addEventListener('DOMContentLoaded', () => {
       addRow(tbody, `Sofa (${seats} seat${seats>1?'s':''}${doubleSided?' double-sided':''})`, 1, sCost);
       total += sCost;
       if (scotchOpt){
-        const sc = seats * (doubleSided ? PRICES.scotchSeatDouble : PRICES.scotchSeat);
+        const sc = seats * (doubleSided ? PRICES.scotch.perSeatDouble : PRICES.scotch.perSeat);
         addRow(tbody, 'Scotchgard protection', seats, sc);
         total += sc;
       }
     }
 
     if (diningQty){
-      const unit = diningFull ? PRICES.diningFull : PRICES.diningStandard;
+      const unit = diningFull ? PRICES.dining.full : PRICES.dining.standard;
       addRow(tbody, `Dining chairs${diningFull ? ' (full fabric)' : ''}`, diningQty, diningQty * unit);
       total += diningQty * unit;
     }
@@ -109,8 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (mRows.length){
-      if (mBoth){ const extra = mTotal * (PRICES.mBoth - 1); addRow(tbody, 'Mattress both sides (+50%)', '', extra); mTotal += extra; }
-      if (mProtect){ const p = mQty * PRICES.mProtect; addRow(tbody, 'Mattress protection', mQty, p); mTotal += p; }
+      if (mBoth){ const extra = mTotal * (PRICES.mattress.bothSidesMultiplier - 1); addRow(tbody, 'Mattress both sides (+50%)', '', extra); mTotal += extra; }
+      if (mProtect){ const p = mQty * PRICES.mattress.protection; addRow(tbody, 'Mattress protection', mQty, p); mTotal += p; }
       total += mTotal;
     }
 
@@ -144,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return `${tds[0]?.textContent || ''} — Qty: ${tds[1]?.textContent || '1'} — ${tds[2]?.textContent || ''}`;
     }).join('\n') || '(no items)';
 
-    let body = `Estimate breakdown:\n${rows}\n\nTotal: $${total.toFixed(0)}\nAccess: ${access}\nDetails:\n${desc}\n\n(Minimum call-out fee of $149 applies. Final price confirmed on site.)`;
+    let body = `Estimate breakdown:\n${rows}\n\nTotal: $${total.toFixed(0)}\nAccess: ${access}\nDetails:\n${desc}\n\n(Minimum call-out fee of $${MIN_TOTAL} applies. Final price confirmed on site.)`;
 
     if (includeCustomer){
       body += `\n\nCustomer info:\nName: ${safe('custName')}\nAddress: ${safe('custAddress')}\nPhone: ${safe('custPhone')}\nEmail: ${safe('custEmail')}\nPreferred date/time: ${safe('custDate')}`;
@@ -170,7 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ── Listeners de cálculo
-  // (um micro-debounce pra evitar reflow excessivo em digitação)
   let calcT;
   function queueCalc(){ clearTimeout(calcT); calcT = setTimeout(calc, 10); }
 

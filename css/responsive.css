@@ -1,0 +1,66 @@
+/* Header / navegação */
+@media (max-width:768px){
+  .header .inner{ flex-direction:column; align-items:flex-start; gap:8px; padding:12px 0 }
+  nav a{ margin:4px 12px 0 0; font-size:15px }
+  .card{ padding:16px 14px }
+}
+
+/* Mobile baseline */
+@media (max-width:480px){
+  .container{ padding:0 14px }
+  .brand img{ width:80px }
+  .brand .title{ font-size:22px }
+  .brand .tag{ font-size:12px }
+  .hero{ text-align:center; padding:28px 0 20px }
+  .lede{ font-size:15px; line-height:1.6 }
+  .cta-row{ flex-direction:column; align-items:center }
+  .btn{ width:100%; max-width:320px; font-size:15px }
+  .services-grid{ grid-template-columns:1fr }
+  .service-card{ padding:14px 12px }
+  .footer-inner{ flex-direction:column; align-items:flex-start; text-align:left; padding:18px 0 }
+  .footer-inner .sub{ font-size:13px }
+}
+
+/* Sticky actions (mobile only) */
+@media (max-width:640px){
+  .sm-only{ display:block }
+  .sticky-actions{
+    position:sticky; bottom:0; z-index:30;
+    background:linear-gradient(180deg, rgba(248,250,252,0), #fff 36%);
+    border-top:1px solid var(--border);
+    padding:10px 0 8px;
+  }
+  .sticky-inner{ display:flex; align-items:center; justify-content:space-between; gap:12px }
+  .sticky-total{ display:flex; flex-direction:column; gap:2px }
+  .sticky-total strong{ font-size:20px }
+  .sticky-buttons{ display:flex; gap:8px }
+  .sticky-buttons .btn{ padding:12px 14px }
+  .actions{ display:none }
+}
+
+/* Inputs maiores no mobile */
+@media (max-width:640px){
+  input, select, textarea{ font-size:16px; padding:14px 12px; border-radius:12px }
+}
+
+/* Tabela -> cards no mobile */
+@media (max-width:640px){
+  table#breakdown{ border:0 }
+  table#breakdown thead{ display:none }
+  table#breakdown tbody tr{
+    display:block; background:#fff; border:1px solid var(--border); border-radius:12px;
+    padding:10px 12px; margin-bottom:10px; box-shadow:0 2px 8px rgba(15,23,42,.05);
+  }
+  table#breakdown tbody tr td{
+    display:flex; justify-content:space-between; gap:10px; border:0; padding:6px 0;
+  }
+  table#breakdown tbody tr td:first-child{ font-weight:700; padding-top:0 }
+  table#breakdown tbody tr td:last-child{ font-weight:800 }
+  table#breakdown tfoot tr td{ padding:12px 0; font-size:18px }
+  #total{ font-size:18px }
+}
+
+/* Mattress grid */
+@media (max-width:640px){
+  .mattress-grid{ grid-template-columns:1fr }
+}
