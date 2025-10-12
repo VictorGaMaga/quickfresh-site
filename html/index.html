@@ -172,14 +172,87 @@
   </section>
 
   <!-- Gallery -->
-  <section class="section" id="gallery">
-    <div class="container">
-      <h2>Before & After — Gallery</h2>
-      <p class="sub">Real jobs — carpets, rugs, seats, and tiles.</p>
-      <div class="carousel carousel--compact" id="carousel1"></div>
-    </div>
-  </section>
+ <section class="section" id="gallery">
+  <div class="container">
+    <h2 style="margin-bottom:6px">Before & After — Gallery</h2>
+    <p class="sub" style="margin-bottom:14px">Real jobs — carpets, rugs, seats, and tiles.</p>
 
+    <div class="carousel carousel--compact" id="carousel1" aria-roledescription="carousel">
+      <div class="carousel-viewport" role="group" aria-label="QuickFresh gallery">
+        <div class="carousel-track">
+
+          <!-- ─── Carpets ───────────────────────────── -->
+          <figure class="carousel-slide" data-caption="Carpet — before">
+            <img src="../assets/carpets/01-before.JPEG" alt="Carpet before cleaning" loading="lazy" draggable="false" />
+          </figure>
+
+          <figure class="carousel-slide" data-caption="Carpet — after">
+            <img src="../assets/carpets/01-after.JPEG" alt="Carpet after cleaning" loading="lazy" draggable="false" />
+          </figure>
+
+          <figure class="carousel-slide" data-caption="Carpet detail">
+            <img src="../assets/carpets/02.JPEG" alt="Clean carpet" loading="lazy" draggable="false" />
+          </figure>
+
+          <figure class="carousel-slide" data-caption="Carpet — rinse pass">
+            <img src="../assets/carpets/03.JPEG" alt="Carpet rinsing" loading="lazy" draggable="false" />
+          </figure>
+
+          <!-- ─── Rugs ──────────────────────────────── -->
+          <figure class="carousel-slide" data-caption="Rug — before and after">
+            <img src="../assets/rugs/01.JPEG" alt="Rug cleaning result" loading="lazy" draggable="false" />
+          </figure>
+
+          <!-- ─── Upholstery ────────────────────────── -->
+          <figure class="carousel-slide" data-caption="Sofa — before">
+            <img src="../assets/seats/1-before.JPEG" alt="Sofa before cleaning" loading="lazy" draggable="false" />
+          </figure>
+
+          <figure class="carousel-slide" data-caption="Sofa — after">
+            <img src="../assets/seats/1-after.JPEG" alt="Sofa after cleaning" loading="lazy" draggable="false" />
+          </figure>
+
+          <figure class="carousel-slide" data-caption="Sofa half-cleaned (demonstration)">
+            <img src="../assets/seats/2.JPEG" alt="Half-cleaned upholstery" loading="lazy" draggable="false" />
+          </figure>
+
+          <!-- ─── Tiles ─────────────────────────────── -->
+          <figure class="carousel-slide" data-caption="Tile & grout deep clean">
+            <img src="../assets/tiles/02.JPEG" alt="Tile and grout cleaning" loading="lazy" draggable="false" />
+          </figure>
+
+          <!-- ─── Videos ────────────────────────────── -->
+          <figure class="carousel-slide" data-caption="Carpet extraction (video)">
+            <video src="../assets/carpets/07.MP4" preload="metadata" muted playsinline controls></video>
+          </figure>
+
+          <figure class="carousel-slide" data-caption="Carpet extraction (video)">
+            <video src="../assets/carpets/08.MP4" preload="metadata" muted playsinline controls></video>
+          </figure>
+
+          <figure class="carousel-slide" data-caption="Carpet extraction (video)">
+            <video src="../assets/carpets/09.MP4" preload="metadata" muted playsinline controls></video>
+          </figure>
+
+          <figure class="carousel-slide" data-caption="Tile & grout cleaning (video)">
+            <video src="../assets/tiles/01.MP4" preload="metadata" muted playsinline controls></video>
+          </figure>
+
+          <figure class="carousel-slide" data-caption="Tile rinse (video)">
+            <video src="../assets/tiles/04.MP4" preload="metadata" muted playsinline controls></video>
+          </figure>
+
+        </div>
+      </div>
+
+      <!-- Controles e legenda -->
+      <button class="carousel-btn prev" aria-label="Previous slide">‹</button>
+      <button class="carousel-btn next" aria-label="Next slide">›</button>
+      <div class="carousel-dots" aria-label="Slide navigation"></div>
+      <div class="carousel-caption" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
   <!-- Contact -->
   <section class="section" id="contact">
     <div class="container">
