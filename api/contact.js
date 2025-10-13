@@ -1,4 +1,4 @@
-// api/contact.js
+// /api/contact.js
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
@@ -7,22 +7,26 @@ export default async function handler(req, res) {
 
   try {
     const data = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-    const {
-      mode, // "book" | "quote"
-      estimate, // { total, items: [{label, qty, subtotal}], notes }
-      selections, // o que o usuário selecionou (valores brutos)
-      customer // { name,email,phone,address,date }
-    } = data;
+    const { mode, estimate, selections, customer } = data;
 
     if (!customer?.name || !customer?.email || !estimate?.total) {
       return res.status(400).json({ ok:false, error:'Missing required fields' });
     }
 
     const RESEND_API_KEY = process.env.RESEND_API_KEY;
-    const TO_EMAIL = process.env.TO_EMAIL || 'quickfreshperth@gmail.com';
-    if (!RESEND_API_KEY) return res.status(500).json({ ok:false, error:'Missing RESEND_API_KEY' });
+    if (!RESEND_API_KEY) {
+      return res.status(500).json({ ok:false, error:'Missing RESEND_API_KEY' });
+    }
 
-    // monta corpo do e-mail (texto simples – robusto e legível)
+    const TO_EMAIL = (process.env.TO_EMAIL || 'quickfreshperth@gmail.com')
+      .split(',')
+      .map(s => s.trim())
+      .filter(Boolean);
+
+    if (!TO_EMAIL.length) {
+      return res.status(500).json({ ok:false, error:'TO_EMAIL not configured' });
+    }
+
     const lines = [];
     lines.push(`New ${mode === 'book' ? 'Booking' : 'Quote'} from QuickFresh site`);
     lines.push('');
@@ -34,45 +38,49 @@ export default async function handler(req, res) {
     lines.push(`Preferred date/time: ${customer.date || '-'}`);
     lines.push('');
     lines.push('— Selections');
-    lines.push(`Carpet rooms: ${selections.carpets}`);
-    lines.push(`Rugs: ${selections.rugs}`);
-    lines.push(`Sofa seats: ${selections.seats} (double-sided: ${selections.doubleSided ? 'yes' : 'no'}, scotch: ${selections.scotchOpt ? 'yes' : 'no'})`);
-    lines.push(`Dining chairs: ${selections.diningQty} (full fabric: ${selections.diningFull ? 'yes' : 'no'})`);
-    lines.push(`Mattresses: S:${selections.mSingle} D:${selections.mDouble} Q:${selections.mQueen} K:${selections.mKing} (both sides: ${selections.mBoth ? 'yes' : 'no'}, protect: ${selections.mProtect ? 'yes' : 'no'})`);
-    lines.push(`Access: ${selections.access}`);
-    if (selections.description) lines.push(`Notes: ${selections.description}`);
+    lines.push(`Carpet rooms: ${selections?.carpets ?? 0}`);
+    lines.push(`Rugs: ${selections?.rugs ?? 0}`);
+    lines.push(`Sofa seats: ${selections?.seats ?? 0} (double-sided: ${selections?.doubleSided ? 'yes' : 'no'}, scotch: ${selections?.scotchOpt ? 'yes' : 'no'})`);
+    lines.push(`Dining chairs: ${selections?.diningQty ?? 0} (full fabric: ${selections?.diningFull ? 'yes' : 'no'})`);
+    lines.push(`Mattresses: S:${selections?.mSingle ?? 0} D:${selections?.mDouble ?? 0} Q:${selections?.mQueen ?? 0} K:${selections?.mKing ?? 0} (both sides: ${selections?.mBoth ? 'yes' : 'no'}, protect: ${selections?.mProtect ? 'yes' : 'no'})`);
+    lines.push(`Access: ${selections?.access || '-'}`);
+    if (selections?.description) lines.push(`Notes: ${selections.description}`);
     lines.push('');
     lines.push('— Estimate breakdown');
-    estimate.items?.forEach(it => lines.push(`${it.label}  x${it.qty}  = ${it.subtotal}`));
-    lines.push(`Total: ${estimate.total}`);
-    if (estimate.notes) lines.push(estimate.notes);
+    (estimate?.items || []).forEach(it => {
+      lines.push(`${it.label}  x${it.qty}  = ${it.subtotal}`);
+    });
+    lines.push(`Total: $${Number(estimate.total).toFixed(0)}`);
+    if (estimate?.notes) lines.push(estimate.notes);
 
     const textBody = lines.join('\n');
 
-    // envia via API do Resend (sem dependências)
-const resp = await fetch('https://api.resend.com/emails', {
-  method: 'POST',
-  headers: {
-    Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    from: 'QuickFresh <forms@quickfresh.com.au>', // 👈 agora remetente do seu domínio
-    to: process.env.TO_EMAIL,                      // ex.: enquires@quickfresh.com.au
-    reply_to: customer.email,                      // respostas vão para o cliente
-    subject: `${mode === 'quote' ? 'Quote' : 'Booking'} • ${customer.name} • ${estimate.total}`,
-    text: lines.join('\n')
-  })
-});
+    const FROM = process.env.FROM_EMAIL || 'forms@quickfresh.com.au';
+
+    const resp = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: `QuickFresh <${FROM}>`,
+        to: TO_EMAIL,
+        reply_to: customer.email,
+        subject: `${mode === 'quote' ? 'Quote' : 'Booking'} • ${customer.name} • $${Number(estimate.total).toFixed(0)}`,
+        text: textBody
+      })
+    });
 
     if (!resp.ok) {
       const errTxt = await resp.text().catch(()=> '');
-      return res.status(500).json({ ok:false, error:'Send failed', details: errTxt });
+      console.error('Resend error:', errTxt);
+      return res.status(502).json({ ok:false, error:'Resend API error', details: errTxt });
     }
 
     return res.status(200).json({ ok:true });
   } catch (e) {
+    console.error('Handler error:', e);
     return res.status(500).json({ ok:false, error: e?.message || 'Unexpected error' });
   }
 }
-

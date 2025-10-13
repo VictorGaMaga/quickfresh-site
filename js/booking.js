@@ -164,25 +164,75 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ── Envio por e-mail (mailto)
-  function sendEmail(subject, includeCustomer){
-    const total = calc();
+  // ── Envio pela API (/api/contact) — Resend
+  async function submitContact(mode){
+    // garante que o total e o breakdown estão atualizados
+    const totalNow = calc();
+
     const safe = id => (($(id) || {}).value || '').trim();
+    const num  = id => +((($(id) || {}).value) || 0);
+    const chk  = id => !!($(id)?.checked);
 
-    const access = safe('access');
-    const desc   = safe('description');
-    const rows = Array.from(document.querySelectorAll('#breakdown tbody tr')).map(tr=>{
+    // monta os itens a partir do breakdown renderizado
+    const items = Array.from(document.querySelectorAll('#breakdown tbody tr')).map(tr=>{
       const tds = tr.querySelectorAll('td');
-      return `${tds[0]?.textContent || ''} — Qty: ${tds[1]?.textContent || '1'} — ${tds[2]?.textContent || ''}`;
-    }).join('\n') || '(no items)';
+      return {
+        label: (tds[0]?.textContent || '').trim(),
+        qty:   (tds[1]?.textContent || '').trim() || '1',
+        subtotal: (tds[2]?.textContent || '').trim()
+      };
+    });
 
-    let body = `Estimate breakdown:\n${rows}\n\nTotal: $${total.toFixed(0)}\nAccess: ${access}\nDetails:\n${desc}\n\n(Minimum call-out fee of $${PRICES.MIN_TOTAL} applies. Final price confirmed on site.)`;
+    const estimate = {
+      total: totalNow,
+      items,
+      notes: `(Minimum call-out $${(PRICES?.MIN_TOTAL ?? 149)})`
+    };
 
-    if (includeCustomer){
-      body += `\n\nCustomer info:\nName: ${safe('custName')}\nAddress: ${safe('custAddress')}\nPhone: ${safe('custPhone')}\nEmail: ${safe('custEmail')}\nPreferred date/time: ${safe('custDate')}`;
+    const selections = {
+      carpets: num('carpets'),
+      rugs: num('rugs'),
+      seats: num('seats'),
+      doubleSided: chk('doubleSided'),
+      scotchOpt: chk('scotchOpt'),
+      diningQty: num('diningQty'),
+      diningFull: chk('diningFull'),
+      mSingle: num('mSingle'),
+      mDouble: num('mDouble'),
+      mQueen:  num('mQueen'),
+      mKing:   num('mKing'),
+      mBoth:   chk('mBoth'),
+      mProtect:chk('mProtect'),
+      access: safe('access'),
+      description: safe('description')
+    };
+
+    const customer = {
+      name: safe('custName'),
+      email: safe('custEmail'),
+      phone: safe('custPhone'),
+      address: safe('custAddress'),
+      date: safe('custDate')
+    };
+
+    if (!customer.name || !customer.email || !estimate.total) {
+      alert('Por favor, preencha nome, e-mail e gere um total.');
+      return;
     }
 
-    window.location.href = `mailto:info@quickfresh.com.au?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    try {
+      const r = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode, estimate, selections, customer })
+      });
+      const j = await r.json().catch(()=> ({}));
+      if (!r.ok || !j.ok) throw new Error(j.error || `HTTP ${r.status}`);
+      alert('Enviado! Vamos responder por e-mail em breve.');
+    } catch (err) {
+      console.error('Falha ao enviar:', err);
+      alert('Não consegui enviar agora. Tente novamente em instantes.');
+    }
   }
 
   // ── Botões
@@ -194,11 +244,13 @@ document.addEventListener('DOMContentLoaded', () => {
       form.scrollIntoView({behavior:'smooth'});
     });
   });
+
+  // ✔ agora enviando para a API (sem mailto)
   $$('.js-book-confirm').forEach(btn=>{
-    btn.addEventListener('click', ()=> sendEmail('Booking Request with Estimate', true));
+    btn.addEventListener('click', ()=> submitContact('book'));
   });
   $$('.js-quote').forEach(btn=>{
-    btn.addEventListener('click', ()=> sendEmail('Custom Quote Request', false));
+    btn.addEventListener('click', ()=> submitContact('quote'));
   });
 
   // ── Inicializa
