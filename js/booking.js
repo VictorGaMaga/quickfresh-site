@@ -5,11 +5,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const $  = id  => document.getElementById(id);
   const $$ = sel => Array.from(document.querySelectorAll(sel));
 
-  // util: delegação de eventos (pega clicks em elementos adicionados depois)
-  function on(selector, event, handler){
+  // util: delegação robusta
+  function on(event, selectorList, handler){
+    const selectors = Array.isArray(selectorList) ? selectorList : [selectorList];
     document.addEventListener(event, (e) => {
-      const el = e.target.closest(selector);
-      if (el && document.contains(el)) handler(e, el);
+      const target = selectors
+        .map(sel => e.target.closest(sel))
+        .find(el => !!el && document.contains(el));
+      if (!target) return;
+      handler(e, target);
     });
   }
 
@@ -23,13 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
     dining: { standard: 25, full: 30 },
     mattress: { single: 80, double: 100, queen: 120, king: 140, bothSidesMultiplier: 1.5, protection: 20 }
   };
-
   const PRICES = (window && window.QUICKFRESH_PRICES) ? window.QUICKFRESH_PRICES : DEFAULT_PRICES;
-  if (!window.QUICKFRESH_PRICES) {
-    console.warn('[booking.js] QUICKFRESH_PRICES não encontrado. Usando valores padrão (fallback).');
-  }
+  if (!window.QUICKFRESH_PRICES) console.warn('[booking.js] QUICKFRESH_PRICES não encontrado. Usando fallback.');
 
-  // ── Cálculo de sofá (degrau)
+  // ── Cálculo de sofá
   function sofaPrice(seats, doubleSided){
     if (seats <= 0) return 0;
     let base = 0;
@@ -174,16 +175,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ── Envio pela API (/api/contact) — Resend
+  // ── Envio / API
   async function submitContact(mode){
-    // garante que o total e o breakdown estão atualizados
     const totalNow = calc();
-
     const safe = id => (($(id) || {}).value || '').trim();
     const num  = id => +((($(id) || {}).value) || 0);
     const chk  = id => !!($(id)?.checked);
 
-    // monta os itens a partir do breakdown renderizado
     const items = Array.from(document.querySelectorAll('#breakdown tbody tr')).map(tr=>{
       const tds = tr.querySelectorAll('td');
       return {
@@ -230,13 +228,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Feedback visual no botão clicado
+    // feedback visual no botão clicado (se houver)
     const btnSend = document.activeElement;
     const prevTxt = btnSend && btnSend.textContent;
-    if (btnSend) {
-      btnSend.disabled = true;
-      btnSend.textContent = 'Enviando...';
-    }
+    if (btnSend) { btnSend.disabled = true; btnSend.textContent = 'Enviando...'; }
 
     try {
       const r = await fetch('/api/contact', {
@@ -245,9 +240,9 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify({ mode, estimate, selections, customer })
       });
 
-      // tenta ler JSON; se não for JSON, lê como texto
       let j;
-      try { j = await r.json(); } catch (_e) {
+      try { j = await r.json(); }
+      catch (_e) {
         const txt = await r.text().catch(()=> '');
         console.warn('Resposta não-JSON da API:', txt);
         j = { ok:false, error:`HTTP ${r.status}`, details: txt };
@@ -264,56 +259,62 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('Falha de rede ao enviar:', err);
       alert('Falha de rede. Verifique sua conexão e tente novamente.');
     } finally {
-      if (btnSend) {
-        btnSend.disabled = false;
-        btnSend.textContent = prevTxt || 'Enviar';
-      }
+      if (btnSend) { btnSend.disabled = false; btnSend.textContent = prevTxt || 'Enviar'; }
     }
   }
 
-  // ── Botões / Form: evitar recarregar a página
-  // Força botões com essas classes a "button" (se o HTML vier como submit)
-  document.querySelectorAll('.js-book, .js-book-confirm, .js-quote').forEach(btn=>{
-    if (btn.getAttribute('type') !== 'button') btn.setAttribute('type', 'button');
-  });
-
-  // Evita submit do form (reload)
+  // ── Evitar submit/reload de qualquer form
   const form = $('bookingForm');
   if (form) {
     form.addEventListener('submit', (ev) => {
       ev.preventDefault();
       ev.stopPropagation();
+      console.info('[booking.js] submit prevenido');
     }, true);
   } else {
     console.warn('[booking.js] #bookingForm não encontrado');
   }
 
-  // Delegação: funciona mesmo se o botão for renderizado depois
-  on('.js-book', 'click', (_e, btn) => {
-    console.info('[booking.js] click .js-book');
+  // ── Força botões a type="button" se não estiverem
+  document.querySelectorAll('.js-book, .js-book-confirm, .js-quote, #bookConfirm, [data-action="book-confirm"]').forEach(btn=>{
+    if (btn.tagName === 'BUTTON' && btn.type !== 'button') btn.type = 'button';
+  });
+
+  // ── Delegação: abre formulário
+  on('click', ['.js-book', '[data-action="book-open"]', '#bookOpen'], (e) => {
+    const el = e.target.closest('a,button');
+    if (el && el.tagName === 'A') e.preventDefault();
+    console.info('[booking.js] click abrir form');
     const f = $('bookingForm');
     if (!f) return;
     f.style.display = 'block';
     f.scrollIntoView({behavior:'smooth'});
   });
 
-  on('.js-book-confirm', 'click', () => {
-    console.info('[booking.js] click .js-book-confirm');
+  // ── Delegação: confirmar booking
+  on('click', ['.js-book-confirm', '[data-action="book-confirm"]', '#bookConfirm', 'button[name="book-confirm"]'], (e) => {
+    const el = e.target.closest('a,button');
+    if (el && el.tagName === 'A') e.preventDefault();
+    console.info('[booking.js] click BOOK CONFIRM');
     submitContact('book');
   });
 
-  on('.js-quote', 'click', () => {
-    console.info('[booking.js] click .js-quote');
+  // ── Delegação: pedir quote
+  on('click', ['.js-quote', '[data-action="quote"]', '#quoteBtn', 'button[name="quote"]'], (e) => {
+    const el = e.target.closest('a,button');
+    if (el && el.tagName === 'A') e.preventDefault();
+    console.info('[booking.js] click QUOTE');
     submitContact('quote');
   });
 
   // ── Inicializa
   calc();
 
-  // Diagnóstico rápido
-  console.info('[booking.js] botões encontrados:', {
-    book: $$('.js-book').length,
-    confirm: $$('.js-book-confirm').length,
-    quote: $$('.js-quote').length
-  });
+  // Diagnóstico
+  const counts = {
+    book: $$('.js-book, [data-action="book-open"], #bookOpen').length,
+    confirm: $$('.js-book-confirm, [data-action="book-confirm"], #bookConfirm, button[name="book-confirm"]').length,
+    quote: $$('.js-quote, [data-action="quote"], #quoteBtn, button[name="quote"]').length
+  };
+  console.info('[booking.js] botões detectados:', counts);
 });
