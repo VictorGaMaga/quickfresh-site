@@ -1,7 +1,17 @@
 // ── QuickFresh — booking.js (usa prices.js) ─────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+  console.info('[booking.js] DOM pronto');
+
   const $  = id  => document.getElementById(id);
   const $$ = sel => Array.from(document.querySelectorAll(sel));
+
+  // util: delegação de eventos (pega clicks em elementos adicionados depois)
+  function on(selector, event, handler){
+    document.addEventListener(event, (e) => {
+      const el = e.target.closest(selector);
+      if (el && document.contains(el)) handler(e, el);
+    });
+  }
 
   // ── Preços vindos de prices.js (com fallback seguro em dev)
   const DEFAULT_PRICES = {
@@ -262,8 +272,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ── Botões / Form: evitar recarregar a página
-  // Força botões a "button" (caso o HTML venha com submit)
-  $$('.js-book, .js-book-confirm, .js-quote').forEach(btn=>{
+  // Força botões com essas classes a "button" (se o HTML vier como submit)
+  document.querySelectorAll('.js-book, .js-book-confirm, .js-quote').forEach(btn=>{
     if (btn.getAttribute('type') !== 'button') btn.setAttribute('type', 'button');
   });
 
@@ -274,26 +284,36 @@ document.addEventListener('DOMContentLoaded', () => {
       ev.preventDefault();
       ev.stopPropagation();
     }, true);
+  } else {
+    console.warn('[booking.js] #bookingForm não encontrado');
   }
 
-  // Mostrar formulário
-  $$('.js-book').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const f = $('bookingForm');
-      if (!f) return;
-      f.style.display = 'block';
-      f.scrollIntoView({behavior:'smooth'});
-    });
+  // Delegação: funciona mesmo se o botão for renderizado depois
+  on('.js-book', 'click', (_e, btn) => {
+    console.info('[booking.js] click .js-book');
+    const f = $('bookingForm');
+    if (!f) return;
+    f.style.display = 'block';
+    f.scrollIntoView({behavior:'smooth'});
   });
 
-  // Enviar via API
-  $$('.js-book-confirm').forEach(btn=>{
-    btn.addEventListener('click', ()=> submitContact('book'));
+  on('.js-book-confirm', 'click', () => {
+    console.info('[booking.js] click .js-book-confirm');
+    submitContact('book');
   });
-  $$('.js-quote').forEach(btn=>{
-    btn.addEventListener('click', ()=> submitContact('quote'));
+
+  on('.js-quote', 'click', () => {
+    console.info('[booking.js] click .js-quote');
+    submitContact('quote');
   });
 
   // ── Inicializa
   calc();
+
+  // Diagnóstico rápido
+  console.info('[booking.js] botões encontrados:', {
+    book: $$('.js-book').length,
+    confirm: $$('.js-book-confirm').length,
+    quote: $$('.js-quote').length
+  });
 });
