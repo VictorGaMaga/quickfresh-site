@@ -18,15 +18,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ── Preços vindos de prices.js (com fallback seguro em dev)
-  const DEFAULT_PRICES = {
-    MIN_TOTAL: 149,
-    carpet: 50,
-    rug: 40,
-    sofa: { seat1: 50, seat2: 90, seat3: 120, extraSeat: 40, doubleSided: 10 },
-    scotch: { perSeat: 10, perSeatDouble: 12 },
-    dining: { standard: 25, full: 30 },
-    mattress: { single: 80, double: 100, queen: 120, king: 140, bothSidesMultiplier: 1.5, protection: 20 }
-  };
+const DEFAULT_PRICES = {
+  MIN_TOTAL: 149,
+
+  // Pacotes principais
+  FreshClean: 50,   // Steam Extraction
+  TotalClean: 70,   // CRB + Steam Extraction
+
+  // Demais serviços
+  sofa: { seat1: 50, seat2: 90, seat3: 120, extraSeat: 40, doubleSided: 10 },
+  scotch: { perSeat: 10, perSeatDouble: 12 },
+  dining: { standard: 25, full: 30 },
+  mattress: { single: 80, double: 100, queen: 120, king: 140, bothSidesMultiplier: 1.5, protection: 20 }
+};
+
   const PRICES = (window && window.QUICKFRESH_PRICES) ? window.QUICKFRESH_PRICES : DEFAULT_PRICES;
   if (!window.QUICKFRESH_PRICES) console.warn('[booking.js] QUICKFRESH_PRICES não encontrado. Usando fallback.');
 
@@ -60,8 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const checked = id => !!($(id)?.checked);
 
     // Coleta
-    const carpets = val('carpets');
-    const rugs = val('rugs');
     const seats = val('seats');
     const doubleSided = checked('doubleSided');
     const scotchOpt = checked('scotchOpt');
@@ -74,9 +77,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const mBoth   = checked('mBoth');
     const mProtect= checked('mProtect');
 
-    // Carpet & rugs
-    if (carpets){ const c = carpets * PRICES.carpet; addRow(tbody, 'Carpeted rooms', carpets, c); total += c; }
-    if (rugs){ const c = rugs * PRICES.rug; addRow(tbody, 'Rugs', rugs, c); total += c; }
+// Pacotes de limpeza (Fresh Clean / Total Clean)
+const freshQty = +($('#freshQty')?.value || 0);
+const totalQty = +($('#totalQty')?.value || 0);
+
+if (freshQty){
+  const c = freshQty * PRICES.FreshClean;
+  addRow(tbody, 'Fresh Clean — Steam Extraction', freshQty, c);
+  total += c;
+}
+
+if (totalQty){
+  const c = totalQty * PRICES.TotalClean;
+  addRow(tbody, 'Total Clean — CRB + Steam', totalQty, c);
+  total += c;
+}
 
     // Sofas
     if (seats){
@@ -198,8 +213,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const selections = {
-      carpets: num('carpets'),
-      rugs: num('rugs'),
+  freshQty: num('freshQty'),
+  totalQty: num('totalQty'),
       seats: num('seats'),
       doubleSided: chk('doubleSided'),
       scotchOpt: chk('scotchOpt'),
