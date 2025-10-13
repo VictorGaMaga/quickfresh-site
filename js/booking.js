@@ -220,32 +220,73 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    // Feedback visual no botão clicado
+    const btnSend = document.activeElement;
+    const prevTxt = btnSend && btnSend.textContent;
+    if (btnSend) {
+      btnSend.disabled = true;
+      btnSend.textContent = 'Enviando...';
+    }
+
     try {
       const r = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mode, estimate, selections, customer })
       });
-      const j = await r.json().catch(()=> ({}));
-      if (!r.ok || !j.ok) throw new Error(j.error || `HTTP ${r.status}`);
+
+      // tenta ler JSON; se não for JSON, lê como texto
+      let j;
+      try { j = await r.json(); } catch (_e) {
+        const txt = await r.text().catch(()=> '');
+        console.warn('Resposta não-JSON da API:', txt);
+        j = { ok:false, error:`HTTP ${r.status}`, details: txt };
+      }
+
+      if (!r.ok || !j.ok) {
+        console.error('Falha API /api/contact:', j);
+        alert(`Não consegui enviar (${j.error || 'erro'}). Tente novamente em instantes.`);
+        return;
+      }
+
       alert('Enviado! Vamos responder por e-mail em breve.');
     } catch (err) {
-      console.error('Falha ao enviar:', err);
-      alert('Não consegui enviar agora. Tente novamente em instantes.');
+      console.error('Falha de rede ao enviar:', err);
+      alert('Falha de rede. Verifique sua conexão e tente novamente.');
+    } finally {
+      if (btnSend) {
+        btnSend.disabled = false;
+        btnSend.textContent = prevTxt || 'Enviar';
+      }
     }
   }
 
-  // ── Botões
+  // ── Botões / Form: evitar recarregar a página
+  // Força botões a "button" (caso o HTML venha com submit)
+  $$('.js-book, .js-book-confirm, .js-quote').forEach(btn=>{
+    if (btn.getAttribute('type') !== 'button') btn.setAttribute('type', 'button');
+  });
+
+  // Evita submit do form (reload)
+  const form = $('bookingForm');
+  if (form) {
+    form.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+    }, true);
+  }
+
+  // Mostrar formulário
   $$('.js-book').forEach(btn=>{
     btn.addEventListener('click', ()=>{
-      const form = $('bookingForm');
-      if (!form) return;
-      form.style.display = 'block';
-      form.scrollIntoView({behavior:'smooth'});
+      const f = $('bookingForm');
+      if (!f) return;
+      f.style.display = 'block';
+      f.scrollIntoView({behavior:'smooth'});
     });
   });
 
-  // ✔ agora enviando para a API (sem mailto)
+  // Enviar via API
   $$('.js-book-confirm').forEach(btn=>{
     btn.addEventListener('click', ()=> submitContact('book'));
   });
