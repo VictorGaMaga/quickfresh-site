@@ -2,19 +2,6 @@
   "version": 2,
   "cleanUrls": true,
   "trailingSlash": false,
-
-  "rewrites": [
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/(booking|services|terms)", "destination": "/html/$1.html" }
-  ],
-
-  "redirects": [
-    { "source": "/index.html", "destination": "/", "permanent": true },
-    { "source": "/booking.html", "destination": "/booking", "permanent": true },
-    { "source": "/services.html", "destination": "/services", "permanent": true },
-    { "source": "/terms.html", "destination": "/terms", "permanent": true }
-  ],
-
   "headers": [
     {
       "source": "/(.*)",
@@ -26,12 +13,6 @@
     },
     {
       "source": "/(assets|css|js)/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-    {
-      "source": "/assets/(favicon.ico|og-cover.jpg)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
