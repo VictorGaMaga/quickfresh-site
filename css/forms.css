@@ -116,30 +116,52 @@ select{
 
 /* ---------- Toggle cards (colapsáveis) ---------- */
 .toggle-card{ overflow:hidden; }
+
+/* BOTÃO GRANDE (tap-target ≥44px) */
 .toggle-head{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:10px;
-  padding:14px 16px;
+  gap:12px;
+  width:100%;
+  min-height:48px;                 /* tap-target confortável */
+  padding:16px 20px;
   cursor:pointer;
   user-select:none;
-  background:#fff;
+  text-align:left;
   border:none;
+  border-radius:18px 18px 0 0;     /* integra com o card */
+  background:#F8FAFC;
   box-shadow: inset 0 -1px 0 var(--card-border);
+  font-weight:800;
+  font-size:17px;
+  color:var(--navy);
+  transition:background .2s ease, box-shadow .2s ease;
 }
-.toggle-head h3{ margin:0; font-size:16px; color:var(--navy); }
+.toggle-head:hover,
+.toggle-head:focus-visible{
+  background:#F1F5F9;
+  box-shadow: inset 0 -1px 0 var(--card-border), 0 0 0 2px rgba(37,99,235,.15);
+  outline:none;
+}
+.toggle-head h3{
+  margin:0;
+  font-size:inherit;
+  color:inherit;
+}
 
-/* Botão caret */
+/* Caret/ícone maior e com caixa clicável */
 .toggle-caret{
   border:1px solid var(--card-border);
   background:#fff;
   border-radius:10px;
-  width:36px; height:36px;
-  display:inline-flex; align-items:center; justify-content:center;
-  cursor:pointer;
+  width:40px; height:40px;         /* maior */
+  display:grid; place-items:center;
+  color:var(--navy);
+  font-size:18px;
+  flex-shrink:0;
 }
-.toggle-icon{ transition:transform .18s ease; }
+.toggle-icon{ transition:transform .2s ease; }
 .toggle-card[aria-expanded="true"] .toggle-icon{ transform:rotate(180deg); }
 
 /* Corpo colapsável */
@@ -151,16 +173,17 @@ select{
 }
 .toggle-card[aria-expanded="true"] .toggle-body{ display:block; }
 
-/* ---------- Segmented control (agora DENTRO do card) ---------- */
+/* ---------- Segmented control (chips dentro do card) ---------- */
 .segmented{
-  display:inline-flex;
+  display:flex;
+  flex-wrap:wrap;                  /* quebra no mobile */
   align-items:center;
   gap:8px;
   background:#F4F7FB;
   padding:6px;
   border-radius:9999px;
   border:1px solid #E3EAF5;
-  margin-bottom:10px;            /* respiro antes do conteúdo */
+  margin-bottom:10px;
 }
 .segmented .btn-chip{
   padding:8px 12px;
@@ -204,7 +227,7 @@ select{
 /* ---------- Controles de quantidade ---------- */
 .qty-row{ display:flex; align-items:center; gap:8px; }
 .stepper{
-  width:36px; height:36px;
+  width:40px; height:40px;         /* + área de toque */
   border-radius:10px;
   border:1px solid var(--card-border);
   background:#fff;
@@ -214,7 +237,8 @@ select{
   transition:box-shadow .12s ease, transform .06s ease, background .12s ease;
 }
 .stepper:hover{ transform:translateY(-1px); box-shadow:0 6px 14px rgba(15,23,42,.08); }
-.qty-select{ min-width:84px; }
+.stepper:active{ transform:scale(.98); }
+.qty-select{ min-width:96px; }     /* um pouco maior */
 
 /* ---------- Texto/justificativa ---------- */
 .service-note{
@@ -224,8 +248,15 @@ select{
   line-height:1.45;
 }
 
-/* ---------- Ajustes de compatibilidade (remoções do header “split”) ----------
-   Como as opções/chips foram movidas para DENTRO do card, removemos o layout
-   .toggle-head.split e quaisquer z-index/áreas que causavam sobreposição.     */
+/* ---------- Acessibilidade / motion ---------- */
+@media (prefers-reduced-motion: reduce){
+  .toggle-icon{ transition:none; }
+  .stepper, .segmented .btn-chip{ transition:none; }
+}
 
-/* (intencionalmente vazio: estilos antigos do split foram eliminados) */
+/* ---------- Mobile refinements ---------- */
+@media (max-width: 640px){
+  .toggle-head{ padding:14px 16px; font-size:16px; }
+  .toggle-caret{ width:36px; height:36px; }
+  .qty-select{ min-width:84px; }
+}

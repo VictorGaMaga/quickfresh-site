@@ -95,152 +95,131 @@
           </div>
         </section>
 
-        <!-- UPHOLSTERY (opções dentro do card) -->
-        <section class="toggle-card" id="card-upholstery" aria-expanded="false">
-          <div class="toggle-head" data-toggle="#card-upholstery">
-            <h3>Upholstery</h3>
-            <button class="toggle-caret" type="button" data-toggle="#card-upholstery"
-                    aria-controls="card-upholstery" aria-expanded="false" aria-label="Expand">
-              <svg class="toggle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M6 9l6 6 6-6" stroke="#334155" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </button>
-          </div>
+<!-- UPHOLSTERY -->
+<section id="card-upholstery" class="toggle-card" aria-expanded="false">
+  <!-- Cabeçalho (clicável para colapsar/expandir) -->
+  <button class="toggle-head" type="button">
+    <h3 class="card-title">Upholstery</h3>
+    <span class="toggle-caret"><span class="toggle-icon">▾</span></span>
+  </button>
 
-          <div class="toggle-body">
-            <!-- tabs/chips agora DENTRO do card -->
-            <div class="segmented" role="tablist" aria-label="Upholstery type" style="margin-bottom:10px">
-              <button class="btn-chip" role="tab" aria-selected="true"
-                      data-show="#blk-sofa" data-hide="#blk-chair">Sofas / Seats</button>
-              <button class="btn-chip" role="tab" aria-selected="false"
-                      data-show="#blk-chair" data-hide="#blk-sofa">Dining chair</button>
-            </div>
+  <!-- Corpo (fica oculto quando aria-expanded="false") -->
+  <div class="toggle-body">
+    <!-- Chips de seleção do bloco (Couch vs Dining) -->
+    <div class="segmented" style="margin-bottom:12px">
+      <button type="button" class="btn-chip" data-target="#blk-sofa" aria-selected="true">Couch / Sofa</button>
+      <button type="button" class="btn-chip" data-target="#blk-chair" aria-selected="false">Dining chairs</button>
+    </div>
 
-            <div class="subgrid">
-              <!-- Sofas -->
-              <div id="blk-sofa">
-                <label class="block" style="font-weight:800; color:var(--navy)">Total sofa seats</label>
-                <div class="qty-row">
-                  <button type="button" class="stepper" data-target="seats" data-dir="-">−</button>
-                  <select id="seats" class="qty-select">
-                    <option value="0">0</option><option>1</option><option>2</option><option>3</option>
-                    <option>4</option><option>5</option><option>6</option><option>7</option>
-                    <option>8</option><option>9</option><option>10</option>
-                  </select>
-                  <button type="button" class="stepper" data-target="seats" data-dir="+">+</button>
-                </div>
+    <!-- BLOCO: SOFA -->
+    <div id="blk-sofa" class="subgrid">
+      <label for="seats">Sofa seats</label>
+      <div class="qty-row">
+        <button class="stepper" type="button" data-target="seats" data-dir="-">−</button>
+        <select id="seats" class="qty-select">
+          <option value="0">0</option>
+          <option value="1">1</option><option value="2">2</option>
+          <option value="3">3</option><option value="4">4</option>
+          <option value="5">5</option><option value="6">6</option>
+        </select>
+        <button class="stepper" type="button" data-target="seats" data-dir="+">+</button>
+      </div>
 
-                <div class="check-row">
-                  <label><input type="checkbox" id="doubleSided"> Double-sided cleaning (seat + back)</label>
-                  <label><input type="checkbox" id="scotchOpt"> Add Scotchgard protection</label>
-                </div>
+      <label class="block mt-12">
+        <input id="doubleSided" type="checkbox"> Double-sided cleaning (seat + back)
+      </label>
+      <label class="block">
+        <input id="scotchOpt" type="checkbox"> Add Scotchgard protection
+      </label>
 
-                <p class="service-note">
-                  1 seat $50 · 2 seats $90 · 3 seats $120 · 4+ seats +$40/seat.
-                  Double-sided +$10/seat. Scotchgard +$10/seat (+$12 if double-sided).
-                </p>
-              </div>
+      <p class="help">
+        1 seat $50 · 2 seats $90 · 3 seats $120 · 4+ seats +$40/seat.
+        Double-sided +$10/seat. Scotchgard +$10/seat (+$12 if double-sided).
+      </p>
+    </div>
 
-              <!-- Dining -->
-              <div id="blk-chair" class="hidden">
-                <label class="block" style="font-weight:800; color:var(--navy)">Dining chairs</label>
-                <div class="qty-row">
-                  <button type="button" class="stepper" data-target="diningQty" data-dir="-">−</button>
-                  <select id="diningQty" class="qty-select">
-                    <option value="0">0</option><option>1</option><option>2</option><option>3</option>
-                    <option>4</option><option>5</option><option>6</option><option>7</option>
-                    <option>8</option><option>9</option><option>10</option>
-                  </select>
-                  <button type="button" class="stepper" data-target="diningQty" data-dir="+">+</button>
-                </div>
+    <!-- BLOCO: DINING (começa oculto) -->
+    <div id="blk-chair" class="subgrid hidden">
+      <label for="diningQty">Dining chairs</label>
+      <div class="qty-row">
+        <button class="stepper" type="button" data-target="diningQty" data-dir="-">−</button>
+        <select id="diningQty" class="qty-select">
+          <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+          <option value="3">3</option><option value="4">4</option><option value="6">6</option>
+          <option value="8">8</option>
+        </select>
+        <button class="stepper" type="button" data-target="diningQty" data-dir="+">+</button>
+      </div>
 
-                <div class="check-row">
-                  <label><input type="checkbox" id="diningFull"> Full fabric (fully upholstered)</label>
-                </div>
+      <label class="block mt-12">
+        <input id="diningFull" type="checkbox"> Full fabric (fully upholstered)
+      </label>
+      <p class="help">$25 each (seat + back pad). $30 each if full fabric chair.</p>
+    </div>
+  </div>
+</section>
 
-                <p class="service-note">
-                  $25 each (seat + back pad) · $30 each if full fabric chair.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+<!-- MATTRESSES -->
+<section id="card-mattress" class="toggle-card" aria-expanded="false">
+  <button class="toggle-head" type="button">
+    <h3 class="card-title">Mattresses</h3>
+    <span class="toggle-caret"><span class="toggle-icon">▾</span></span>
+  </button>
 
-        <!-- MATTRESSES (opções dentro do card) -->
-        <section class="toggle-card" id="card-mattress" aria-expanded="false">
-          <div class="toggle-head" data-toggle="#card-mattress">
-            <h3>Mattresses</h3>
-            <button class="toggle-caret" type="button" data-toggle="#card-mattress"
-                    aria-controls="card-mattress" aria-expanded="false" aria-label="Expand">
-              <svg class="toggle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M6 9l6 6 6-6" stroke="#334155" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </button>
-          </div>
+  <div class="toggle-body">
+    <!-- Tabs (o JS espera data-group="mattress") -->
+    <div class="segmented" data-group="mattress" style="margin-bottom:12px">
+      <button type="button" class="btn-chip" data-target="#pane-m-qty" aria-selected="true">Quantities</button>
+      <button type="button" class="btn-chip" data-target="#pane-m-options" aria-selected="false">Options</button>
+    </div>
 
-          <div class="toggle-body">
-            <!-- tabs/tamanhos agora DENTRO do card -->
-            <div class="segmented" role="tablist" aria-label="Mattress size" data-group="mattress" style="margin-bottom:10px">
-              <button class="btn-chip" role="tab" aria-selected="true"  data-target="#pane-single">Single</button>
-              <button class="btn-chip" role="tab" aria-selected="false" data-target="#pane-double">Double</button>
-              <button class="btn-chip" role="tab" aria-selected="false" data-target="#pane-queen">Queen</button>
-              <button class="btn-chip" role="tab" aria-selected="false" data-target="#pane-king">King</button>
-            </div>
+    <!-- PANE: Quantities -->
+    <div id="pane-m-qty" class="mattress-pane">
+      <label>Single</label>
+      <div class="qty-row">
+        <button class="stepper" type="button" data-target="mSingle" data-dir="-">−</button>
+        <select id="mSingle" class="qty-select">
+          <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+        </select>
+        <button class="stepper" type="button" data-target="mSingle" data-dir="+">+</button>
+      </div>
 
-            <div class="subgrid">
-              <div class="mattress-pane" id="pane-single">
-                <label>Single</label>
-                <div class="qty-row">
-                  <button type="button" class="stepper" data-target="mSingle" data-dir="-">−</button>
-                  <select id="mSingle" class="qty-select">
-                    <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
-                  </select>
-                  <button type="button" class="stepper" data-target="mSingle" data-dir="+">+</button>
-                </div>
-              </div>
+      <label class="mt-12">Double</label>
+      <div class="qty-row">
+        <button class="stepper" type="button" data-target="mDouble" data-dir="-">−</button>
+        <select id="mDouble" class="qty-select">
+          <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+        </select>
+        <button class="stepper" type="button" data-target="mDouble" data-dir="+">+</button>
+      </div>
 
-              <div class="mattress-pane hidden" id="pane-double">
-                <label>Double</label>
-                <div class="qty-row">
-                  <button type="button" class="stepper" data-target="mDouble" data-dir="-">−</button>
-                  <select id="mDouble" class="qty-select">
-                    <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
-                  </select>
-                  <button type="button" class="stepper" data-target="mDouble" data-dir="+">+</button>
-                </div>
-              </div>
+      <label class="mt-12">Queen</label>
+      <div class="qty-row">
+        <button class="stepper" type="button" data-target="mQueen" data-dir="-">−</button>
+        <select id="mQueen" class="qty-select">
+          <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+        </select>
+        <button class="stepper" type="button" data-target="mQueen" data-dir="+">+</button>
+      </div>
 
-              <div class="mattress-pane hidden" id="pane-queen">
-                <label>Queen</label>
-                <div class="qty-row">
-                  <button type="button" class="stepper" data-target="mQueen" data-dir="-">−</button>
-                  <select id="mQueen" class="qty-select">
-                    <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
-                  </select>
-                  <button type="button" class="stepper" data-target="mQueen" data-dir="+">+</button>
-                </div>
-              </div>
+      <label class="mt-12">King</label>
+      <div class="qty-row">
+        <button class="stepper" type="button" data-target="mKing" data-dir="-">−</button>
+        <select id="mKing" class="qty-select">
+          <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+        </select>
+        <button class="stepper" type="button" data-target="mKing" data-dir="+">+</button>
+      </div>
+    </div>
 
-              <div class="mattress-pane hidden" id="pane-king">
-                <label>King</label>
-                <div class="qty-row">
-                  <button type="button" class="stepper" data-target="mKing" data-dir="-">−</button>
-                  <select id="mKing" class="qty-select">
-                    <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
-                  </select>
-                  <button type="button" class="stepper" data-target="mKing" data-dir="+">+</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="check-row" style="margin-top:10px">
-              <label><input type="checkbox" id="mBoth"> Both sides (+50%)</label>
-              <label><input type="checkbox" id="mProtect"> Add protection (+$20 per mattress)</label>
-            </div>
-
-            <p class="service-note" style="margin-top:6px">Single $80 · Double $100 · Queen $120 · King $140.</p>
-          </div>
-        </section>
+    <!-- PANE: Options (começa oculto) -->
+    <div id="pane-m-options" class="mattress-pane hidden">
+      <label class="block"><input id="mBoth" type="checkbox"> Clean both sides (+50%)</label>
+      <label class="block"><input id="mProtect" type="checkbox"> Add protection (+$20 each)</label>
+      <p class="help">Single $80 · Double $100 · Queen $120 · King $140.</p>
+    </div>
+  </div>
+</section>
 
         <!-- ACCESS -->
         <section class="card">
