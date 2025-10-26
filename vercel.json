@@ -3,21 +3,17 @@
   "cleanUrls": true,
   "trailingSlash": false,
 
-  "rewrites": [
-    { "source": "/",         "destination": "/index.html" },
-    { "source": "/booking",  "destination": "/html/booking.html" },
-    { "source": "/services", "destination": "/html/services.html" },
-    { "source": "/terms",    "destination": "/html/terms.html" }
-  ],
+  "routes": [
+    { "src": "^/$",                 "dest": "/index.html" },
 
-  "redirects": [
-    { "source": "/html/booking",         "destination": "/booking",  "permanent": false },
-    { "source": "/html/booking.html",    "destination": "/booking",  "permanent": false },
-    { "source": "/html/services",        "destination": "/services", "permanent": false },
-    { "source": "/html/services.html",   "destination": "/services", "permanent": false },
-    { "source": "/html/terms",           "destination": "/terms",    "permanent": false },
-    { "source": "/html/terms.html",      "destination": "/terms",    "permanent": false },
-    { "source": "/index.html",           "destination": "/",         "permanent": false }
+    { "src": "^/booking/?$",        "dest": "/html/booking.html" },
+    { "src": "^/services/?$",       "dest": "/html/services.html" },
+    { "src": "^/terms/?$",          "dest": "/html/terms.html" },
+
+    { "src": "^/html/booking(?:\\.html)?$",  "status": 308, "headers": { "Location": "/booking"  } },
+    { "src": "^/html/services(?:\\.html)?$", "status": 308, "headers": { "Location": "/services" } },
+    { "src": "^/html/terms(?:\\.html)?$",    "status": 308, "headers": { "Location": "/terms"    } },
+    { "src": "^/index\\.html$",              "status": 308, "headers": { "Location": "/"         } }
   ],
 
   "headers": [
