@@ -1,35 +1,231 @@
-label{ font-weight:750; display:block; margin:2px 0 6px; color:var(--navy) }
+/* =======================
+   QuickFresh — forms.css
+   ======================= */
+
+/* ---------- Paleta / tokens locais ---------- */
+:root{
+  --card-bg:#ffffff;
+  --card-border:#E6EDF5;
+  --card-shadow:0 1px 3px rgba(12,32,60,.04), 0 10px 24px rgba(12,32,60,.05);
+
+  --tint-blue:#EEF4FF;
+  --tint-green:#ECFDF5;
+
+  --ink-strong:#0B2540;
+  --ink-muted:#5B6B7C;
+}
+
+/* ---------- Campos base ---------- */
+label{
+  font-weight:750;
+  display:block;
+  margin:2px 0 6px;
+  color:var(--navy);
+}
 input,select,textarea{
   width:100%;
   padding:12px 12px;
-  border:1px solid var(--border);
+  border:1px solid var(--card-border);
   border-radius:10px;
-  background:#fff; color:var(--ink);
+  background:#fff;
+  color:var(--ink-strong);
   font:inherit;
   transition:border-color .15s ease, box-shadow .15s ease, background .15s ease;
 }
 input:focus,select:focus,textarea:focus{
-  outline:none; border-color:#94B3FF; box-shadow:0 0 0 3px rgba(37,99,235,.15);
+  outline:none;
+  border-color:#8FB6FF;
+  box-shadow:0 0 0 3px rgba(143,182,255,.22);
 }
-input[type="checkbox"]{ width:auto; display:inline-block; vertical-align:middle; margin-right:6px; accent-color:var(--blue) }
+input[type="checkbox"]{
+  width:auto;
+  display:inline-block;
+  vertical-align:middle;
+  margin-right:6px;
+  accent-color:var(--blue);
+}
 textarea{ min-height:120px; resize:vertical }
 
 /* Number sem spinners */
 input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
-input[type=number]{ appearance:textfield; -moz-appearance:textfield; -webkit-appearance:none; }
+input[type=number]::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+input[type=number]{
+  appearance:textfield; -moz-appearance:textfield; -webkit-appearance:none;
+}
 
-/* Help text */
-.help{ font-size:13px; color:var(--muted); margin-top:4px }
+/* Ajuda / utilidades */
+.help{ font-size:13px; color:var(--ink-muted); margin-top:4px }
+.sm-only{ display:none }
 
 /* Select com caret */
 select{
   appearance:none;
   background:
     linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,0)) padding-box,
-    url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2364748B' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center / 12px 8px;
+    url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2364748B' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E")
+    no-repeat right 12px center / 12px 8px;
   padding-right:36px;
 }
 
-/* Sticky actions (mobile only) — estrutura vem no responsive.css */
-.sm-only{ display:none }
+/* ---------- Cards / layout ---------- */
+.card-stack{ display:grid; gap:18px; }
+@media (min-width: 900px){
+  .card-stack{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .card-stack .wide{ grid-column: 1 / -1; }
+}
+
+.card, .service-card, .toggle-card{
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius:18px;
+  box-shadow:var(--card-shadow);
+}
+.card{ padding:16px; }
+.service-card{ padding:16px; }
+
+.card-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:10px;
+}
+.card-title{
+  margin:0;
+  font-weight:800;
+  color:var(--navy);
+  font-size:16px;
+  line-height:1.2;
+}
+
+/* Badge de preço */
+.price-badge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:9999px;
+  background:#E9F9F0;
+  color:#166534;
+  border:1px solid #C6F1DC;
+  font-weight:800;
+  font-size:12px;
+}
+
+/* Corpo / rodapé */
+.card-body{ display:grid; gap:10px; }
+.card-footer{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+
+/* ---------- Toggle cards (colapsáveis) ---------- */
+.toggle-card{ overflow:hidden; }
+.toggle-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:14px 16px;
+  cursor:pointer;
+  user-select:none;
+  background:#fff;
+  border:none;
+  box-shadow: inset 0 -1px 0 var(--card-border);
+}
+.toggle-head h3{ margin:0; font-size:16px; color:var(--navy); }
+
+/* Botão caret */
+.toggle-caret{
+  border:1px solid var(--card-border);
+  background:#fff;
+  border-radius:10px;
+  width:36px; height:36px;
+  display:inline-flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+.toggle-icon{ transition:transform .18s ease; }
+.toggle-card[aria-expanded="true"] .toggle-icon{ transform:rotate(180deg); }
+
+/* Corpo colapsável */
+.toggle-body{
+  display:none;
+  padding:20px 24px 24px;
+  border-top:1px solid var(--card-border);
+  background:#fff;
+}
+.toggle-card[aria-expanded="true"] .toggle-body{ display:block; }
+
+/* ---------- Segmented control (agora DENTRO do card) ---------- */
+.segmented{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:#F4F7FB;
+  padding:6px;
+  border-radius:9999px;
+  border:1px solid #E3EAF5;
+  margin-bottom:10px;            /* respiro antes do conteúdo */
+}
+.segmented .btn-chip{
+  padding:8px 12px;
+  background:transparent;
+  border:1px solid transparent;
+  border-radius:9999px;
+  color:#0F2747;
+  font-weight:700;
+  transition:background .15s ease, border-color .15s ease, transform .06s ease;
+}
+.segmented .btn-chip:hover{ transform:translateY(-1px); }
+.segmented .btn-chip[aria-selected="true"]{
+  background:#EAF2FF;
+  border-color:#C8DBFF;
+  color:#113B8E;
+}
+
+/* Chips “soltos” (se usados fora do segmented) */
+.btn-chip{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:10px 12px;
+  border:1px solid var(--card-border);
+  border-radius:9999px;
+  background:#F8FAFC;
+  font-weight:700;
+  color:#0F2747;
+}
+.btn-chip[aria-pressed="true"]{
+  background:#EAF2FF;
+  border-color:#C8DBFF;
+  color:#113B8E;
+}
+
+/* ---------- Grids auxiliares ---------- */
+.subgrid{ display:grid; gap:12px; }
+@media (min-width: 800px){
+  .subgrid{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+}
+.hidden{ display:none !important; }
+
+/* ---------- Controles de quantidade ---------- */
+.qty-row{ display:flex; align-items:center; gap:8px; }
+.stepper{
+  width:36px; height:36px;
+  border-radius:10px;
+  border:1px solid var(--card-border);
+  background:#fff;
+  cursor:pointer;
+  font-weight:800;
+  color:var(--ink-strong);
+  transition:box-shadow .12s ease, transform .06s ease, background .12s ease;
+}
+.stepper:hover{ transform:translateY(-1px); box-shadow:0 6px 14px rgba(15,23,42,.08); }
+.qty-select{ min-width:84px; }
+
+/* ---------- Texto/justificativa ---------- */
+.service-note{
+  font-size:13px;
+  color:var(--ink-muted);
+  text-align:justify;
+  line-height:1.45;
+}
+
+/* ---------- Ajustes de compatibilidade (remoções do header “split”) ----------
+   Como as opções/chips foram movidas para DENTRO do card, removemos o layout
+   .toggle-head.split e quaisquer z-index/áreas que causavam sobreposição.     */
+
+/* (intencionalmente vazio: estilos antigos do split foram eliminados) */

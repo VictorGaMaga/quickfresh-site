@@ -1,0 +1,309 @@
+// ── QuickFresh — booking-ui.js ──────────────────────────────────────────
+// Responsável por: toggles, chips, steppers, cálculo e breakdown.
+// Expõe uma API global leve via window.QF { calc, getEstimate, getSelections, getCustomer }.
+
+(() => {
+  const $  = (id)  => document.getElementById(id);
+  const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+  // ── Util delegação (se precisar em outro lugar)
+  function on(event, selectorList, handler){
+    const selectors = Array.isArray(selectorList) ? selectorList : [selectorList];
+    document.addEventListener(event, (e) => {
+      const target = selectors
+        .map(sel => e.target.closest(sel))
+        .find(el => !!el && document.contains(el));
+      if (!target) return;
+      handler(e, target);
+    });
+  }
+
+  // ── Preços (usa QUICKFRESH_PRICES se existir)
+  const DEFAULT_PRICES = {
+    MIN_TOTAL: 149,
+    FreshClean: 50,
+    TotalClean: 70,
+    sofa:    { seat1: 50, seat2: 90, seat3: 120, extraSeat: 40, doubleSided: 10 },
+    scotch:  { perSeat: 10, perSeatDouble: 12 },
+    dining:  { standard: 25, full: 30 },
+    mattress:{ single: 80, double: 100, queen: 120, king: 140, bothSidesMultiplier: 1.5, protection: 20 }
+  };
+  const PRICES = (window && window.QUICKFRESH_PRICES) ? window.QUICKFRESH_PRICES : DEFAULT_PRICES;
+  if (!window.QUICKFRESH_PRICES) console.warn('[booking-ui] QUICKFRESH_PRICES não encontrado. Usando fallback.');
+
+  // ── Helpers de UI
+  const val     = (id) => +($(id)?.value || 0);
+  const text    = (id) => (($(id) || {}).value || '').trim();
+  const checked = (id) => !!($(id)?.checked);
+
+  function sofaPrice(seats, doubleSided){
+    if (seats <= 0) return 0;
+    let base = 0;
+    if (seats === 1) base = PRICES.sofa.seat1;
+    else if (seats === 2) base = PRICES.sofa.seat2;
+    else if (seats === 3) base = PRICES.sofa.seat3;
+    else base = PRICES.sofa.seat3 + (seats - 3) * PRICES.sofa.extraSeat;
+    if (doubleSided) base += seats * PRICES.sofa.doubleSided;
+    return base;
+  }
+
+  function addRow(tbody, label, qty, cost){
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${label}</td><td>${qty ?? ''}</td><td style="text-align:right">$${Number(cost || 0).toFixed(0)}</td>`;
+    tbody.appendChild(tr);
+  }
+
+  // ── Cálculo + render do breakdown
+  function calc(){
+    const tbody = document.querySelector('#breakdown tbody');
+    if (!tbody) return 0;
+    tbody.innerHTML = '';
+    let total = 0;
+
+    // pacotes
+    const freshQty = val('freshQty');
+    const totalQty = val('totalQty');
+
+    if (freshQty){
+      const c = freshQty * PRICES.FreshClean;
+      addRow(tbody, 'Fresh Clean — Steam Extraction', freshQty, c);
+      total += c;
+    }
+    if (totalQty){
+      const c = totalQty * PRICES.TotalClean;
+      addRow(tbody, 'Total Clean — CRB + Steam', totalQty, c);
+      total += c;
+    }
+
+    // sofas
+    const seats       = val('seats');
+    const doubleSided = checked('doubleSided');
+    const scotchOpt   = checked('scotchOpt');
+    if (seats){
+      const sCost = sofaPrice(seats, doubleSided);
+      addRow(tbody, `Sofa (${seats} seat${seats>1?'s':''}${doubleSided?' double-sided':''})`, 1, sCost);
+      total += sCost;
+      if (scotchOpt){
+        const sc = seats * (doubleSided ? PRICES.scotch.perSeatDouble : PRICES.scotch.perSeat);
+        addRow(tbody, 'Scotchgard protection', seats, sc);
+        total += sc;
+      }
+    }
+
+    // dining
+    const diningQty  = val('diningQty');
+    const diningFull = checked('diningFull');
+    if (diningQty){
+      const unit = diningFull ? PRICES.dining.full : PRICES.dining.standard;
+      addRow(tbody, `Dining chairs${diningFull ? ' (full fabric)' : ''}`, diningQty, diningQty * unit);
+      total += diningQty * unit;
+    }
+
+    // mattresses
+    const mSingle = val('mSingle');
+    const mDouble = val('mDouble');
+    const mQueen  = val('mQueen');
+    const mKing   = val('mKing');
+    const mBoth   = checked('mBoth');
+    const mProtect= checked('mProtect');
+
+    const mRows = [
+      ['Single mattress', mSingle, PRICES.mattress.single],
+      ['Double mattress', mDouble, PRICES.mattress.double],
+      ['Queen mattress',  mQueen,  PRICES.mattress.queen],
+      ['King mattress',   mKing,   PRICES.mattress.king]
+    ].filter(r => r[1] > 0);
+
+    let mTotal = 0, mQty = 0;
+    mRows.forEach(([label, qty, price])=>{
+      const cost = qty * price;
+      addRow(tbody, label, qty, cost);
+      mTotal += cost; mQty += qty;
+    });
+
+    if (mRows.length){
+      if (mBoth){
+        const extra = mTotal * (PRICES.mattress.bothSidesMultiplier - 1);
+        addRow(tbody, 'Mattress both sides (+50%)', '', extra);
+        mTotal += extra;
+      }
+      if (mProtect){
+        const p = mQty * PRICES.mattress.protection;
+        addRow(tbody, 'Mattress protection', mQty, p);
+        mTotal += p;
+      }
+      total += mTotal;
+    }
+
+    // mínimo
+    const minNotice = $('minNotice');
+    if (total < PRICES.MIN_TOTAL && total > 0){
+      if (minNotice) minNotice.style.display = 'block';
+      total = PRICES.MIN_TOTAL;
+    } else if (minNotice){
+      minNotice.style.display = 'none';
+    }
+
+    // totais
+    const totalStr = `$${total.toFixed(0)}`;
+    if ($('total')) $('total').textContent = totalStr;
+    if ($('stickyTotal')) $('stickyTotal').textContent = totalStr;
+
+    return total;
+  }
+
+  // ── Coleta estruturada para envio
+  function getSelections(){
+    return {
+      freshQty: val('freshQty'),
+      totalQty: val('totalQty'),
+      seats: val('seats'),
+      doubleSided: checked('doubleSided'),
+      scotchOpt: checked('scotchOpt'),
+      diningQty: val('diningQty'),
+      diningFull: checked('diningFull'),
+      mSingle: val('mSingle'),
+      mDouble: val('mDouble'),
+      mQueen:  val('mQueen'),
+      mKing:   val('mKing'),
+      mBoth:   checked('mBoth'),
+      mProtect:checked('mProtect'),
+      access: text('access'),
+      description: text('description')
+    };
+  }
+  function getCustomer(){
+    return {
+      name: text('custName'),
+      email: text('custEmail'),
+      phone: text('custPhone'),
+      address: text('custAddress'),
+      date: text('custDate'),
+      notes: text('custNotes')
+    };
+  }
+  function getEstimate(){
+    const total = calc();
+    const items = Array.from(document.querySelectorAll('#breakdown tbody tr')).map(tr=>{
+      const tds = tr.querySelectorAll('td');
+      return {
+        label: (tds[0]?.textContent || '').trim(),
+        qty:   (tds[1]?.textContent || '').trim() || '1',
+        subtotal: (tds[2]?.textContent || '').trim()
+      };
+    });
+    return {
+      total,
+      items,
+      notes: `(Minimum call-out $${(PRICES?.MIN_TOTAL ?? 149)})`
+    };
+  }
+
+  // ── Stepper
+  function step(targetId, dir){
+    const el = $(targetId);
+    if (!el) return;
+    const opts = Array.from(el.options || []).map(o => +o.value || 0);
+    const max = opts.length ? Math.max(...opts) : 99;
+    const min = opts.length ? Math.min(...opts) : 0;
+    const cur = +el.value || 0;
+    const next = Math.min(max, Math.max(min, cur + (dir === '+' ? 1 : -1)));
+    if (next !== cur){ el.value = String(next); el.dispatchEvent(new Event('change', {bubbles:true})); }
+  }
+
+  // ── Inicialização de UI
+  function initUI(){
+    console.info('[booking-ui] init');
+
+    // stepper
+    $$('.stepper').forEach(btn=>{
+      btn.addEventListener('click', ()=> step(btn.dataset.target, btn.dataset.dir));
+    });
+
+    // auto-calc em inputs
+    let calcT;
+    const queueCalc = () => { clearTimeout(calcT); calcT = setTimeout(calc, 10); };
+    document.querySelectorAll('input, select, textarea').forEach(el=>{
+      el.addEventListener('input', queueCalc);
+      el.addEventListener('change', queueCalc);
+    });
+
+    // Toggle de estimate (mobile)
+    const toggleBtn = $('toggleEstimate');
+    const estimateWrap = $('estimateWrap');
+    if (toggleBtn && estimateWrap){
+      toggleBtn.addEventListener('click', ()=>{
+        estimateWrap.style.display = (estimateWrap.style.display === 'none') ? '' : 'none';
+      });
+    }
+
+    // Toggle dos cards (cabeçalho/caret) – ignora clique em chips
+    document.addEventListener('click', (e) => {
+      const head = e.target.closest('[data-toggle], .toggle-head');
+      if (!head) return;
+
+      // ⛑ NÃO interceptar navegação: se clicou num link dentro do header, deixa seguir
+      if (e.target.closest('a')) return;
+
+      // mantém exceção dos chips
+      if (e.target.closest('.segmented') || e.target.closest('.btn-chip')) return;
+
+      const sel = head.getAttribute('data-toggle');
+      let card = sel ? document.querySelector(sel) : head.closest('.toggle-card');
+      if (!card) return;
+      const open = card.getAttribute('aria-expanded') === 'true';
+      card.setAttribute('aria-expanded', String(!open));
+    });
+
+    // Upholstery: chips dentro do card (Sofas / Dining)
+    $$('#card-upholstery .segmented .btn-chip[data-show], #card-upholstery .segmented .btn-chip[data-target]').forEach(chip=>{
+      chip.addEventListener('click', ()=>{
+        const group = chip.closest('.segmented');
+        group.querySelectorAll('.btn-chip').forEach(c=>c.setAttribute('aria-selected','false'));
+        chip.setAttribute('aria-selected','true');
+
+        const showSel = chip.getAttribute('data-show');
+        const hideSel = chip.getAttribute('data-hide');
+        const target  = chip.getAttribute('data-target'); // fallback
+        if (hideSel) document.querySelector(hideSel)?.classList.add('hidden');
+        if (showSel) document.querySelector(showSel)?.classList.remove('hidden');
+        if (target){
+          ['#blk-sofa','#blk-chair'].forEach(sel=>{
+            if (sel !== target) document.querySelector(sel)?.classList.add('hidden');
+          });
+          document.querySelector(target)?.classList.remove('hidden');
+        }
+        queueCalc();
+      });
+    });
+
+    // Mattresses: tabs → panes
+    $$('#card-mattress .segmented[data-group="mattress"] .btn-chip').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const group = btn.closest('.segmented');
+        group.querySelectorAll('.btn-chip').forEach(b=>b.setAttribute('aria-selected','false'));
+        btn.setAttribute('aria-selected','true');
+
+        const target = btn.getAttribute('data-target');
+        $$('#card-mattress .mattress-pane').forEach(p=>p.classList.add('hidden'));
+        if (target) document.querySelector(target)?.classList.remove('hidden');
+        queueCalc();
+      });
+    });
+
+    // primeira rodada
+    calc();
+  }
+
+  // expõe API global para booking-submit.js
+  window.QF = Object.freeze({
+    calc,
+    getEstimate,
+    getSelections,
+    getCustomer,
+    on // se quiser reutilizar delegação no outro arquivo
+  });
+
+  // inicializa quando DOM pronto
+  document.addEventListener('DOMContentLoaded', initUI);
+})();

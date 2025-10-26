@@ -7,10 +7,17 @@ export default async function handler(req, res) {
 
   try {
     const data = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-    const { mode, estimate, selections, customer } = data;
+    const { mode = 'quote', estimate = {}, selections = {}, customer = {} } = data;
 
-    if (!customer?.name || !customer?.email || !estimate?.total) {
-      return res.status(400).json({ ok:false, error:'Missing required fields' });
+    // Validação: nome + email sempre; total só é obrigatório para "book"
+    const needsTotal = mode !== 'quote';
+    const hasTotal   = Number(estimate.total || 0) > 0;
+
+    if (!customer?.name || !customer?.email || (needsTotal && !hasTotal)) {
+      const msg = needsTotal
+        ? 'Missing required fields: name, email and a non-zero total for booking.'
+        : 'Missing required fields: name and email for custom quote.';
+      return res.status(400).json({ ok:false, error: msg });
     }
 
     const RESEND_API_KEY = process.env.RESEND_API_KEY;
@@ -27,6 +34,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ ok:false, error:'TO_EMAIL not configured' });
     }
 
+    // Monta corpo de texto
     const lines = [];
     lines.push(`New ${mode === 'book' ? 'Booking' : 'Quote'} from QuickFresh site`);
     lines.push('');
@@ -36,6 +44,7 @@ export default async function handler(req, res) {
     lines.push(`Phone: ${customer.phone || '-'}`);
     lines.push(`Address: ${customer.address || '-'}`);
     lines.push(`Preferred date/time: ${customer.date || '-'}`);
+    if (customer.notes) lines.push(`Notes (customer): ${customer.notes}`);
     lines.push('');
     lines.push('— Selections');
     lines.push(`Carpet rooms: ${selections?.carpets ?? 0}`);
@@ -44,13 +53,13 @@ export default async function handler(req, res) {
     lines.push(`Dining chairs: ${selections?.diningQty ?? 0} (full fabric: ${selections?.diningFull ? 'yes' : 'no'})`);
     lines.push(`Mattresses: S:${selections?.mSingle ?? 0} D:${selections?.mDouble ?? 0} Q:${selections?.mQueen ?? 0} K:${selections?.mKing ?? 0} (both sides: ${selections?.mBoth ? 'yes' : 'no'}, protect: ${selections?.mProtect ? 'yes' : 'no'})`);
     lines.push(`Access: ${selections?.access || '-'}`);
-    if (selections?.description) lines.push(`Notes: ${selections.description}`);
+    if (selections?.description) lines.push(`Notes (selection): ${selections.description}`);
     lines.push('');
     lines.push('— Estimate breakdown');
     (estimate?.items || []).forEach(it => {
       lines.push(`${it.label}  x${it.qty}  = ${it.subtotal}`);
     });
-    lines.push(`Total: $${Number(estimate.total).toFixed(0)}`);
+    lines.push(`Total: $${Number(estimate.total || 0).toFixed(0)}`);
     if (estimate?.notes) lines.push(estimate.notes);
 
     const textBody = lines.join('\n');
@@ -67,7 +76,7 @@ export default async function handler(req, res) {
         from: `QuickFresh <${FROM}>`,
         to: TO_EMAIL,
         reply_to: customer.email,
-        subject: `${mode === 'quote' ? 'Quote' : 'Booking'} • ${customer.name} • $${Number(estimate.total).toFixed(0)}`,
+        subject: `${mode === 'quote' ? 'Quote' : 'Booking'} • ${customer.name} • $${Number(estimate.total || 0).toFixed(0)}`,
         text: textBody
       })
     });
