@@ -4,16 +4,15 @@
   "trailingSlash": false,
 
   "routes": [
-    { "src": "^/$",                 "dest": "/index.html" },
-
-    { "src": "^/booking/?$",        "dest": "/html/booking.html" },
-    { "src": "^/services/?$",       "dest": "/html/services.html" },
-    { "src": "^/terms/?$",          "dest": "/html/terms.html" },
-
-    { "src": "^/html/booking(?:\\.html)?$",  "status": 308, "headers": { "Location": "/booking"  } },
-    { "src": "^/html/services(?:\\.html)?$", "status": 308, "headers": { "Location": "/services" } },
-    { "src": "^/html/terms(?:\\.html)?$",    "status": 308, "headers": { "Location": "/terms"    } },
-    { "src": "^/index\\.html$",              "status": 308, "headers": { "Location": "/"         } }
+    { "src": "^/$",               "dest": "/index.html" }
+  ],
+  "redirects": [
+    { "source": "/html/booking",      "destination": "/booking",  "permanent": false },
+    { "source": "/html/booking.html", "destination": "/booking",  "permanent": false },
+    { "source": "/html/services",     "destination": "/services", "permanent": false },
+    { "source": "/html/services.html","destination": "/services", "permanent": false },
+    { "source": "/html/terms",        "destination": "/terms",    "permanent": false },
+    { "source": "/html/terms.html",   "destination": "/terms",    "permanent": false }
   ],
 
   "headers": [
@@ -27,21 +26,15 @@
     },
     {
       "source": "/js/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
-      ]
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
     },
     {
       "source": "/css/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
-      ]
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
     },
     {
       "source": "/assets/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     }
   ]
 }
