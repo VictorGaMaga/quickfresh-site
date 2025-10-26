@@ -3,19 +3,19 @@
   "cleanUrls": true,
   "trailingSlash": false,
 
-  "rewrites": [
-    { "source": "/",         "destination": "/index.html" },
-    { "source": "/booking",  "destination": "/html/booking.html" },
-    { "source": "/services", "destination": "/html/services.html" },
-    { "source": "/terms",    "destination": "/html/terms.html" }
-  ],
+"rewrites": [
+  { "source": "/",         "destination": "/index.html" },
+  { "source": "/booking",  "destination": "/html/booking.html" },
+  { "source": "/services", "destination": "/html/services.html" },
+  { "source": "/terms",    "destination": "/html/terms.html" }
+],
 
-  "redirects": [
-    { "source": "/index.html",    "destination": "/",        "permanent": true },
-    { "source": "/booking.html",  "destination": "/booking", "permanent": true },
-    { "source": "/services.html", "destination": "/services","permanent": true },
-    { "source": "/terms.html",    "destination": "/terms",   "permanent": true }
-  ],
+"redirects": [
+  { "source": "/html/booking",  "destination": "/booking",  "permanent": false },
+  { "source": "/html/services", "destination": "/services", "permanent": false },
+  { "source": "/html/terms",    "destination": "/terms",    "permanent": false },
+  { "source": "/index.html",    "destination": "/",         "permanent": false }
+],
 
   "headers": [
     {
