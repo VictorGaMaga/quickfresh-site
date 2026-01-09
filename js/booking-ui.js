@@ -1,309 +1,349 @@
-// ── QuickFresh — booking-ui.js ──────────────────────────────────────────
-// Responsável por: toggles, chips, steppers, cálculo e breakdown.
-// Expõe uma API global leve via window.QF { calc, getEstimate, getSelections, getCustomer }.
+﻿// QuickFresh booking-ui.js
+// Handles toggles, steppers, calculations, and estimate rendering.
 
 (() => {
-  const $  = (id)  => document.getElementById(id);
+  const $ = (id) => document.getElementById(id);
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
-  // ── Util delegação (se precisar em outro lugar)
-  function on(event, selectorList, handler){
-    const selectors = Array.isArray(selectorList) ? selectorList : [selectorList];
-    document.addEventListener(event, (e) => {
-      const target = selectors
-        .map(sel => e.target.closest(sel))
-        .find(el => !!el && document.contains(el));
-      if (!target) return;
-      handler(e, target);
-    });
+  const MINIMUM_CALLOUT = window.QUICKFRESH_PRICES?.MINIMUM_CALLOUT || window.QUICKFRESH_PRICES?.MIN_TOTAL || 149;
+
+  function getEl(id, warn = true){
+    const el = $(id);
+    if (!el && warn) console.warn('Missing selector:', `#${id}`);
+    return el;
   }
 
-  // ── Preços (usa QUICKFRESH_PRICES se existir)
-  const DEFAULT_PRICES = {
-    MIN_TOTAL: 149,
-    FreshClean: 50,
-    TotalClean: 70,
-    sofa:    { seat1: 50, seat2: 90, seat3: 120, extraSeat: 40, doubleSided: 10 },
-    scotch:  { perSeat: 10, perSeatDouble: 12 },
-    dining:  { standard: 25, full: 30 },
-    mattress:{ single: 80, double: 100, queen: 120, king: 140, bothSidesMultiplier: 1.5, protection: 20 }
-  };
-  const PRICES = (window && window.QUICKFRESH_PRICES) ? window.QUICKFRESH_PRICES : DEFAULT_PRICES;
-  if (!window.QUICKFRESH_PRICES) console.warn('[booking-ui] QUICKFRESH_PRICES não encontrado. Usando fallback.');
-
-  // ── Helpers de UI
-  const val     = (id) => +($(id)?.value || 0);
-  const text    = (id) => (($(id) || {}).value || '').trim();
-  const checked = (id) => !!($(id)?.checked);
-
-  function sofaPrice(seats, doubleSided){
-    if (seats <= 0) return 0;
-    let base = 0;
-    if (seats === 1) base = PRICES.sofa.seat1;
-    else if (seats === 2) base = PRICES.sofa.seat2;
-    else if (seats === 3) base = PRICES.sofa.seat3;
-    else base = PRICES.sofa.seat3 + (seats - 3) * PRICES.sofa.extraSeat;
-    if (doubleSided) base += seats * PRICES.sofa.doubleSided;
-    return base;
+  function toInt(value){
+    const n = parseInt(value || '0', 10);
+    return Number.isFinite(n) ? Math.max(0, n) : 0;
   }
 
-  function addRow(tbody, label, qty, cost){
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${label}</td><td>${qty ?? ''}</td><td style="text-align:right">$${Number(cost || 0).toFixed(0)}</td>`;
-    tbody.appendChild(tr);
+  function money(n){
+    const v = Number.isFinite(n) ? Math.round(n) : 0;
+    return `$${v}`;
   }
 
-  // ── Cálculo + render do breakdown
-  function calc(){
+  function readInt(ids, warn = true){
+    const list = Array.isArray(ids) ? ids : [ids];
+    for (const id of list){
+      const el = getEl(id, false);
+      if (el) return toInt(el.value);
+    }
+    if (warn && list[0]) console.warn('Missing selector:', `#${list[0]}`);
+    return 0;
+  }
+
+  function readText(id){
+    const el = getEl(id, false);
+    return el ? String(el.value || '').trim() : '';
+  }
+
+  function readChecked(id){
+    const el = getEl(id, false);
+    return !!el?.checked;
+  }
+
+  function readCheckedAny(ids){
+    const list = Array.isArray(ids) ? ids : [ids];
+    for (const id of list){
+      const el = getEl(id, false);
+      if (el) return !!el.checked;
+    }
+    return false;
+  }
+
+  function readStateFromDOM(){
+    const rooms = readInt(['carpetRooms', 'carpet-rooms']);
+    const hallway = readInt(['carpetHallway', 'carpet-hallway']);
+    const stairs = readInt(['carpetStairs', 'carpet-stairs']);
+
+    const rugs = {
+      tiny: readInt(['rugTinyQty', 'rug-tiny'], false),
+      small: readInt(['rugSmallQty', 'rug-small'], false),
+      medium: readInt(['rugMediumQty', 'rug-medium'], false),
+      large: readInt(['rugLargeQty', 'rug-large'], false)
+    };
+
+    const seats = readInt('seats');
+    const doubleSided = readChecked('doubleSided');
+    const scotchOpt = readChecked('scotchOpt');
+    const diningQty = readInt('diningQty');
+    const diningFull = readChecked('diningFull');
+
+    const mSingle = readInt('mSingle');
+    const mDouble = readInt('mDouble');
+    const mQueen = readInt('mQueen');
+    const mKing = readInt('mKing');
+    const mBoth = readChecked('mBoth');
+    const mProtect = readCheckedAny(['mattressProtector', 'mProtect']);
+
+    const sqmUnknown = readChecked('tileSqmUnknown');
+    const sqmRaw = Number(getEl('tileSqm', false)?.value || 0);
+    const sqm = Number.isFinite(sqmRaw) && sqmRaw > 0 ? Math.floor(sqmRaw) : 0;
+    const tiles = { sqm: sqmUnknown ? 0 : sqm, sqmUnknown, areaNotes: readText('tileAreaNotes') };
+
+    const addOns = {
+      specialisedTreatment: readChecked('carpetSpecialTreatmentEnabled'),
+      specialisedTreatmentNotes: readText('carpetSpecialTreatmentNotes')
+    };
+
+    return {
+      rooms,
+      hallway,
+      stairs,
+      rugs,
+      seats,
+      doubleSided,
+      scotchOpt,
+      diningQty,
+      diningFull,
+      mSingle,
+      mDouble,
+      mQueen,
+      mKing,
+      mBoth,
+      mProtect,
+      tiles,
+      addOns
+    };
+  }
+
+  function renderEstimateTableSimple(b){
+    const tbody = getEl('estimate-items');
+    if (tbody){
+      tbody.innerHTML = '';
+      const items = b.lineItems || [];
+      if (!items.length){
+        const tr = document.createElement('tr');
+        tr.innerHTML = '<td colspan="3">No items selected yet</td>';
+        tbody.appendChild(tr);
+      } else {
+        items.forEach((item) => {
+          const tr = document.createElement('tr');
+          const qtyText = item.kind === 'quote' ? '' : (item.qty ?? '');
+          const subtotalText = item.kind === 'quote' ? 'On-site quote' : money(item.subtotal);
+          tr.innerHTML = `<td>${item.label}</td><td>${qtyText}</td><td style="text-align:right">${subtotalText}</td>`;
+          tbody.appendChild(tr);
+        });
+      }
+    }
+
+    const totalEl = getEl('estimate-total');
+    if (totalEl) totalEl.textContent = money(b.finalTotal);
+
+    const minEl = getEl('estimate-min-msg');
+    if (minEl){
+      if (b.minimumApplied){
+        minEl.textContent = `Minimum $${MINIMUM_CALLOUT} - $${Number(b.awayFromMinimum || 0).toFixed(0)} away`;
+      } else {
+        minEl.textContent = '';
+      }
+    }
+  }
+
+  function renderEstimateTableLegacy(b){
     const tbody = document.querySelector('#breakdown tbody');
-    if (!tbody) return 0;
-    tbody.innerHTML = '';
-    let total = 0;
-
-    // pacotes
-    const freshQty = val('freshQty');
-    const totalQty = val('totalQty');
-
-    if (freshQty){
-      const c = freshQty * PRICES.FreshClean;
-      addRow(tbody, 'Fresh Clean — Steam Extraction', freshQty, c);
-      total += c;
-    }
-    if (totalQty){
-      const c = totalQty * PRICES.TotalClean;
-      addRow(tbody, 'Total Clean — CRB + Steam', totalQty, c);
-      total += c;
+    if (tbody){
+      tbody.innerHTML = '';
+      (b.breakdown || []).forEach(item => {
+        const tr = document.createElement('tr');
+        const subtotal = typeof item.subtotal === 'string' ? item.subtotal : money(item.subtotal || 0);
+        tr.innerHTML = `<td>${item.label}</td><td>${item.qty ?? ''}</td><td style="text-align:right">${subtotal}</td>`;
+        tbody.appendChild(tr);
+      });
     }
 
-    // sofas
-    const seats       = val('seats');
-    const doubleSided = checked('doubleSided');
-    const scotchOpt   = checked('scotchOpt');
-    if (seats){
-      const sCost = sofaPrice(seats, doubleSided);
-      addRow(tbody, `Sofa (${seats} seat${seats>1?'s':''}${doubleSided?' double-sided':''})`, 1, sCost);
-      total += sCost;
-      if (scotchOpt){
-        const sc = seats * (doubleSided ? PRICES.scotch.perSeatDouble : PRICES.scotch.perSeat);
-        addRow(tbody, 'Scotchgard protection', seats, sc);
-        total += sc;
+    const totalEl = getEl('total', false);
+    if (totalEl) totalEl.textContent = money(b.finalTotal);
+
+    const minNotice = getEl('minNotice', false);
+    if (minNotice) minNotice.style.display = b.minimumApplied ? 'block' : 'none';
+  }
+
+  function updateEstimate(){
+    try {
+      if (typeof window.calculateQuote !== 'function') return;
+      const state = readStateFromDOM();
+      const b = window.calculateQuote(state);
+
+      if (getEl('estimate-items', false)) {
+        renderEstimateTableSimple(b);
+      } else {
+        renderEstimateTableLegacy(b);
       }
+
+      const stickyTotal = getEl('stickyTotal', false);
+      if (stickyTotal) stickyTotal.textContent = money(b.finalTotal);
+      const mobileTotal = getEl('mobile-total', false);
+      if (mobileTotal) mobileTotal.textContent = money(b.finalTotal);
+    } catch (err) {
+      console.error('[booking-ui] updateEstimate failed', err);
     }
-
-    // dining
-    const diningQty  = val('diningQty');
-    const diningFull = checked('diningFull');
-    if (diningQty){
-      const unit = diningFull ? PRICES.dining.full : PRICES.dining.standard;
-      addRow(tbody, `Dining chairs${diningFull ? ' (full fabric)' : ''}`, diningQty, diningQty * unit);
-      total += diningQty * unit;
-    }
-
-    // mattresses
-    const mSingle = val('mSingle');
-    const mDouble = val('mDouble');
-    const mQueen  = val('mQueen');
-    const mKing   = val('mKing');
-    const mBoth   = checked('mBoth');
-    const mProtect= checked('mProtect');
-
-    const mRows = [
-      ['Single mattress', mSingle, PRICES.mattress.single],
-      ['Double mattress', mDouble, PRICES.mattress.double],
-      ['Queen mattress',  mQueen,  PRICES.mattress.queen],
-      ['King mattress',   mKing,   PRICES.mattress.king]
-    ].filter(r => r[1] > 0);
-
-    let mTotal = 0, mQty = 0;
-    mRows.forEach(([label, qty, price])=>{
-      const cost = qty * price;
-      addRow(tbody, label, qty, cost);
-      mTotal += cost; mQty += qty;
-    });
-
-    if (mRows.length){
-      if (mBoth){
-        const extra = mTotal * (PRICES.mattress.bothSidesMultiplier - 1);
-        addRow(tbody, 'Mattress both sides (+50%)', '', extra);
-        mTotal += extra;
-      }
-      if (mProtect){
-        const p = mQty * PRICES.mattress.protection;
-        addRow(tbody, 'Mattress protection', mQty, p);
-        mTotal += p;
-      }
-      total += mTotal;
-    }
-
-    // mínimo
-    const minNotice = $('minNotice');
-    if (total < PRICES.MIN_TOTAL && total > 0){
-      if (minNotice) minNotice.style.display = 'block';
-      total = PRICES.MIN_TOTAL;
-    } else if (minNotice){
-      minNotice.style.display = 'none';
-    }
-
-    // totais
-    const totalStr = `$${total.toFixed(0)}`;
-    if ($('total')) $('total').textContent = totalStr;
-    if ($('stickyTotal')) $('stickyTotal').textContent = totalStr;
-
-    return total;
   }
 
-  // ── Coleta estruturada para envio
-  function getSelections(){
-    return {
-      freshQty: val('freshQty'),
-      totalQty: val('totalQty'),
-      seats: val('seats'),
-      doubleSided: checked('doubleSided'),
-      scotchOpt: checked('scotchOpt'),
-      diningQty: val('diningQty'),
-      diningFull: checked('diningFull'),
-      mSingle: val('mSingle'),
-      mDouble: val('mDouble'),
-      mQueen:  val('mQueen'),
-      mKing:   val('mKing'),
-      mBoth:   checked('mBoth'),
-      mProtect:checked('mProtect'),
-      access: text('access'),
-      description: text('description')
-    };
-  }
-  function getCustomer(){
-    return {
-      name: text('custName'),
-      email: text('custEmail'),
-      phone: text('custPhone'),
-      address: text('custAddress'),
-      date: text('custDate'),
-      notes: text('custNotes')
-    };
-  }
-  function getEstimate(){
-    const total = calc();
-    const items = Array.from(document.querySelectorAll('#breakdown tbody tr')).map(tr=>{
-      const tds = tr.querySelectorAll('td');
-      return {
-        label: (tds[0]?.textContent || '').trim(),
-        qty:   (tds[1]?.textContent || '').trim() || '1',
-        subtotal: (tds[2]?.textContent || '').trim()
-      };
-    });
-    return {
-      total,
-      items,
-      notes: `(Minimum call-out $${(PRICES?.MIN_TOTAL ?? 149)})`
-    };
+  function waitForCalculatorAndUpdate(attempt = 0){
+    if (typeof window.calculateQuote === 'function') {
+      updateEstimate();
+      return;
+    }
+    if (attempt >= 40) {
+      console.warn('[booking-ui] calculateQuote not available');
+      return;
+    }
+    setTimeout(() => waitForCalculatorAndUpdate(attempt + 1), 50);
   }
 
-  // ── Stepper
   function step(targetId, dir){
-    const el = $(targetId);
+    const el = getEl(targetId, false);
     if (!el) return;
     const opts = Array.from(el.options || []).map(o => +o.value || 0);
-    const max = opts.length ? Math.max(...opts) : 99;
-    const min = opts.length ? Math.min(...opts) : 0;
+    const hasOptions = opts.length > 0;
+    const min = hasOptions ? Math.min(...opts) : (el.min ? Number(el.min) : 0);
+    const max = hasOptions ? Math.max(...opts) : (el.max ? Number(el.max) : 999);
+    const step = hasOptions ? 1 : (el.step ? Number(el.step) : 1);
     const cur = +el.value || 0;
-    const next = Math.min(max, Math.max(min, cur + (dir === '+' ? 1 : -1)));
-    if (next !== cur){ el.value = String(next); el.dispatchEvent(new Event('change', {bubbles:true})); }
+    const next = Math.min(max, Math.max(min, cur + (dir === '+' ? step : -step)));
+    if (next !== cur){
+      el.value = String(next);
+      el.dispatchEvent(new Event('change', { bubbles: true }));
+    }
   }
 
-  // ── Inicialização de UI
-  function initUI(){
-    console.info('[booking-ui] init');
+  function initSteppers(){
+    const steppers = $$('.stepper');
+    if (!steppers.length) return;
+    steppers.forEach(btn => {
+      btn.addEventListener('click', () => step(btn.dataset.target, btn.dataset.dir));
+    });
+  }
 
-    // stepper
-    $$('.stepper').forEach(btn=>{
-      btn.addEventListener('click', ()=> step(btn.dataset.target, btn.dataset.dir));
+  function initEstimate(){
+    const hasEstimate = !!getEl('estimate-items', false) || !!document.querySelector('#breakdown tbody');
+    if (!hasEstimate) return;
+
+    document.addEventListener('change', (e) => {
+      if (e.target.matches('select, input, textarea')) updateEstimate();
+    });
+    document.addEventListener('input', (e) => {
+      if (e.target.matches('input[type=number], textarea')) updateEstimate();
     });
 
-    // auto-calc em inputs
-    let calcT;
-    const queueCalc = () => { clearTimeout(calcT); calcT = setTimeout(calc, 10); };
-    document.querySelectorAll('input, select, textarea').forEach(el=>{
-      el.addEventListener('input', queueCalc);
-      el.addEventListener('change', queueCalc);
-    });
-
-    // Toggle de estimate (mobile)
-    const toggleBtn = $('toggleEstimate');
-    const estimateWrap = $('estimateWrap');
+    const toggleBtn = getEl('toggleEstimate', false);
+    const estimateWrap = getEl('estimateWrap', false);
     if (toggleBtn && estimateWrap){
-      toggleBtn.addEventListener('click', ()=>{
+      toggleBtn.addEventListener('click', () => {
         estimateWrap.style.display = (estimateWrap.style.display === 'none') ? '' : 'none';
       });
     }
 
-    // Toggle dos cards (cabeçalho/caret) – ignora clique em chips
-    document.addEventListener('click', (e) => {
-      const head = e.target.closest('[data-toggle], .toggle-head');
-      if (!head) return;
-
-      // ⛑ NÃO interceptar navegação: se clicou num link dentro do header, deixa seguir
-      if (e.target.closest('a')) return;
-
-      // mantém exceção dos chips
-      if (e.target.closest('.segmented') || e.target.closest('.btn-chip')) return;
-
-      const sel = head.getAttribute('data-toggle');
-      let card = sel ? document.querySelector(sel) : head.closest('.toggle-card');
-      if (!card) return;
-      const open = card.getAttribute('aria-expanded') === 'true';
-      card.setAttribute('aria-expanded', String(!open));
-    });
-
-    // Upholstery: chips dentro do card (Sofas / Dining)
-    $$('#card-upholstery .segmented .btn-chip[data-show], #card-upholstery .segmented .btn-chip[data-target]').forEach(chip=>{
-      chip.addEventListener('click', ()=>{
-        const group = chip.closest('.segmented');
-        group.querySelectorAll('.btn-chip').forEach(c=>c.setAttribute('aria-selected','false'));
-        chip.setAttribute('aria-selected','true');
-
-        const showSel = chip.getAttribute('data-show');
-        const hideSel = chip.getAttribute('data-hide');
-        const target  = chip.getAttribute('data-target'); // fallback
-        if (hideSel) document.querySelector(hideSel)?.classList.add('hidden');
-        if (showSel) document.querySelector(showSel)?.classList.remove('hidden');
-        if (target){
-          ['#blk-sofa','#blk-chair'].forEach(sel=>{
-            if (sel !== target) document.querySelector(sel)?.classList.add('hidden');
-          });
-          document.querySelector(target)?.classList.remove('hidden');
-        }
-        queueCalc();
-      });
-    });
-
-    // Mattresses: tabs → panes
-    $$('#card-mattress .segmented[data-group="mattress"] .btn-chip').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        const group = btn.closest('.segmented');
-        group.querySelectorAll('.btn-chip').forEach(b=>b.setAttribute('aria-selected','false'));
-        btn.setAttribute('aria-selected','true');
-
-        const target = btn.getAttribute('data-target');
-        $$('#card-mattress .mattress-pane').forEach(p=>p.classList.add('hidden'));
-        if (target) document.querySelector(target)?.classList.remove('hidden');
-        queueCalc();
-      });
-    });
-
-    // primeira rodada
-    calc();
+    waitForCalculatorAndUpdate();
   }
 
-  // expõe API global para booking-submit.js
-  window.QF = Object.freeze({
-    calc,
-    getEstimate,
-    getSelections,
-    getCustomer,
-    on // se quiser reutilizar delegação no outro arquivo
-  });
+  function initCarpetCleaning(){
+    const hasCarpet = !!getEl('carpetRooms', false) || !!getEl('carpet-rooms', false);
+    if (!hasCarpet) return;
 
-  // inicializa quando DOM pronto
-  document.addEventListener('DOMContentLoaded', initUI);
+    const specialCb = getEl('carpetSpecialTreatmentEnabled', false);
+    if (specialCb){
+      const wrap = getEl('carpetSpecialTreatmentWrap', false);
+      const syncSpecial = () => {
+        if (wrap) wrap.classList.toggle('hidden', !specialCb.checked);
+      };
+      specialCb.addEventListener('change', () => {
+        syncSpecial();
+        updateEstimate();
+      });
+      syncSpecial();
+    }
+  }
+
+  function initUpholstery(){
+    const hasUpholstery = !!getEl('seats', false) || !!getEl('diningQty', false);
+    if (!hasUpholstery) return;
+
+    const doubleToggle = document.querySelector('[data-double-sided-toggle]');
+    const doubleCb = getEl('doubleSided', false);
+    if (doubleToggle && doubleCb){
+      const updateButtons = () => {
+        const isDouble = !!doubleCb.checked;
+        doubleToggle.querySelectorAll('[data-double-sided]').forEach((btn) => {
+          const val = btn.getAttribute('data-double-sided') === 'true';
+          btn.setAttribute('aria-selected', val === isDouble ? 'true' : 'false');
+        });
+      };
+      doubleToggle.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-double-sided]');
+        if (!btn) return;
+        const isDouble = btn.getAttribute('data-double-sided') === 'true';
+        doubleCb.checked = isDouble;
+        updateButtons();
+        updateEstimate();
+      });
+      updateButtons();
+    }
+  }
+
+  function initTileGrout(){
+    const sqmUnknownCb = getEl('tileSqmUnknown', false);
+    if (!sqmUnknownCb) return;
+    const syncTileUnknown = () => {
+      const unknown = sqmUnknownCb.checked;
+      const sqmInput = getEl('tileSqm', false);
+      const sqmRow = getEl('tileSqmRow', false);
+      const areaWrap = getEl('tileAreaWrap', false);
+      if (sqmInput) sqmInput.disabled = unknown;
+      if (sqmRow) sqmRow.classList.toggle('hidden', unknown);
+      if (areaWrap) areaWrap.classList.toggle('hidden', !unknown);
+      if (unknown && sqmInput) sqmInput.value = '0';
+    };
+    sqmUnknownCb.addEventListener('change', () => {
+      syncTileUnknown();
+      updateEstimate();
+    });
+    syncTileUnknown();
+  }
+
+  function openPrimarySection(){
+    const key = document.body?.dataset?.openSection;
+    if (!key) return;
+    const map = {
+      rugs: 'rugs-content',
+      sofa: 'upholstery-sofa-content',
+      chairs: 'upholstery-chairs-content',
+      mattress: 'mattresses-content',
+      tile: 'tiles-content'
+    };
+    const targetId = map[key];
+    if (!targetId) return;
+    document.querySelectorAll('.toggle-card').forEach((card) => {
+      const content = card.querySelector('[data-accordion-content]');
+      if (content) content.hidden = true;
+      card.setAttribute('aria-expanded', 'false');
+      const btn = card.querySelector('[data-accordion-toggle=\"true\"]');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
+    const targetContent = getEl(targetId, false);
+    if (!targetContent) return;
+    const card = targetContent.closest('.toggle-card');
+    if (card) card.setAttribute('aria-expanded', 'true');
+    targetContent.hidden = false;
+    const btn = document.querySelector(`[data-accordion-toggle=\"true\"][aria-controls=\"${targetId}\"]`);
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+  }
+
+  function initUI(){
+    initSteppers();
+    initEstimate();
+    initCarpetCleaning();
+    initUpholstery();
+    initTileGrout();
+    openPrimarySection();
+
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initUI);
+  } else {
+    initUI();
+  }
 })();

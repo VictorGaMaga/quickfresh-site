@@ -1,6 +1,6 @@
 :root{
-  --ink:#0f172a;
-  --muted:#64748B;
+  --ink:#111827;
+  --muted:#4b5563;
   --navy:#0D3550;
   --leaf:#2FAA5E;
   --blue:#2563EB;
@@ -8,11 +8,18 @@
   --surface:#ffffff;
   --border:#CBD5E1;
 
+  --fs-body:18.5px;
+  --fs-title:38px;
+  --fs-card-title:17px;
+  --fs-label:15.5px;
+  --fs-muted:16.5px;
+  --fs-badge:13.5px;
+
   --radius:12px;
   --shadow-sm:0 2px 10px rgba(15,23,42,.05);
   --shadow-md:0 10px 24px rgba(15,23,42,.10);
 
-  --container-w: clamp(760px, 92vw, 960px);
+  --container-w: clamp(1040px, 94vw, 1320px);
   --space-1: 6px;
   --space-2: 10px;
   --space-3: 14px;

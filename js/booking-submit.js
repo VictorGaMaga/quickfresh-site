@@ -65,6 +65,16 @@
     }
     const estimate   = window.QF.getEstimate();   // força calc e lê tabela
     const selections = window.QF.getSelections();
+    const rugTiny = Number(selections.rugTinyQty || 0);
+    const rugSmall = Number(selections.rugSmallQty || 0);
+    const rugMedium = Number(selections.rugMediumQty || 0);
+    const rugLarge = Number(selections.rugLargeQty || 0);
+    const rugTotal = rugTiny + rugSmall + rugMedium + rugLarge;
+    const rugSummary = `Rugs: tiny ${rugTiny}, small ${rugSmall}, medium ${rugMedium}, large ${rugLarge} (total ${rugTotal}).`;
+    const rooms = Number(selections.carpetRooms || 0);
+    const special = selections.carpetSpecialisedTreatmentEnabled ? 'quoted' : 'no';
+    const specialNotes = selections.carpetSpecialisedTreatmentNotes ? ` Notes: ${selections.carpetSpecialisedTreatmentNotes}` : '';
+    const carpetSummary = `Carpets: ${rooms} rooms. Specialised treatment: ${special}.${specialNotes}`;
     const customer   = window.QF.getCustomer();
 
     // Para QUOTE não exigimos total > 0; para BOOK exigimos.
@@ -95,7 +105,7 @@
       const r = await fetch(apiPath, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mode, estimate, selections, customer })
+        body: JSON.stringify({ mode, estimate, selections, customer, carpetSummary, rugSummary })
       });
 
       let j;

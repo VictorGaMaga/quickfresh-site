@@ -17,10 +17,11 @@
 
 /* ---------- Campos base ---------- */
 label{
-  font-weight:750;
+  font-weight:700;
   display:block;
   margin:2px 0 6px;
-  color:var(--navy);
+  color:var(--ink);
+  font-size:var(--fs-label);
 }
 input,select,textarea{
   width:100%;
@@ -54,8 +55,50 @@ input[type=number]{
 }
 
 /* Ajuda / utilidades */
-.help{ font-size:13px; color:var(--ink-muted); margin-top:4px }
+.help{ font-size:var(--fs-muted); color:var(--muted); margin-top:4px; line-height:1.55 }
 .sm-only{ display:none }
+.field-label{
+  font-weight:700;
+  color:var(--ink);
+  font-size:var(--fs-label);
+  margin-bottom:6px;
+}
+.pill{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:9999px;
+  background:#E9F9F0;
+  color:#166534;
+  border:1px solid #C6F1DC;
+  font-weight:600;
+  font-size:var(--fs-badge);
+}
+.info-box{
+  width:100%;
+  background:#f6f8fb;
+  border:1px solid #e7eef7;
+  border-radius:12px;
+  padding:12px 14px;
+  font-size:0.95rem;
+  color:#374151;
+}
+.grid-2{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:14px;
+}
+@media (max-width:640px){
+  .grid-2{ grid-template-columns: 1fr; }
+}
+.toggle-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:var(--blue);
+  text-decoration:underline;
+  font-weight:700;
+  cursor:pointer;
+}
 
 /* Select com caret */
 select{
@@ -68,9 +111,13 @@ select{
 }
 
 /* ---------- Cards / layout ---------- */
-.card-stack{ display:grid; gap:18px; }
+.card-stack{ display:grid; gap:20px; }
 @media (min-width: 900px){
-  .card-stack{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .card-stack{
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    column-gap:24px;
+    row-gap:20px;
+  }
   .card-stack .wide{ grid-column: 1 / -1; }
 }
 
@@ -92,9 +139,9 @@ select{
 }
 .card-title{
   margin:0;
-  font-weight:800;
-  color:var(--navy);
-  font-size:16px;
+  font-weight:700;
+  color:var(--ink);
+  font-size:var(--fs-card-title);
   line-height:1.2;
 }
 
@@ -106,13 +153,50 @@ select{
   background:#E9F9F0;
   color:#166534;
   border:1px solid #C6F1DC;
-  font-weight:800;
-  font-size:12px;
+  font-weight:600;
+  font-size:var(--fs-badge);
 }
+.upholstery-card .price-badge{ margin-top:8px; }
 
 /* Corpo / rodapé */
 .card-body{ display:grid; gap:10px; }
 .card-footer{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+
+/* SEO compact block */
+.seo-compact-card{
+  overflow:hidden;
+}
+.seo-compact-card > summary{
+  list-style:none;
+  cursor:pointer;
+}
+.seo-compact-card > summary::-webkit-details-marker{ display:none; }
+.seo-compact-head{
+  margin-bottom:0;
+}
+.seo-compact-card .card-body{
+  margin-top:10px;
+}
+
+.card-access select{
+  padding:12px 12px;
+  border-radius:12px;
+}
+
+.card-notes textarea{
+  min-height:120px;
+  padding:12px 14px;
+  font-size:1rem;
+}
+
+.card-estimate .card-head{
+  align-items:flex-start;
+  gap:8px;
+}
+
+.card-estimate .card-footer .btn{
+  min-height:44px;
+}
 
 /* ---------- Toggle cards (colapsáveis) ---------- */
 .toggle-card{ overflow:hidden; }
@@ -127,6 +211,8 @@ select{
   min-height:48px;                 /* tap-target confortável */
   padding:16px 20px;
   cursor:pointer;
+  position:relative;
+  z-index:1;
   user-select:none;
   text-align:left;
   border:none;
@@ -172,6 +258,7 @@ select{
   background:#fff;
 }
 .toggle-card[aria-expanded="true"] .toggle-body{ display:block; }
+[data-accordion-content][hidden]{ display:none !important; }
 
 /* ---------- Segmented control (chips dentro do card) ---------- */
 .segmented{
@@ -199,6 +286,82 @@ select{
   background:#EAF2FF;
   border-color:#C8DBFF;
   color:#113B8E;
+}
+
+.u-card-block{ margin-top:12px; }
+.u-card-block:first-child{ margin-top:0; }
+.u-muted{ font-size:var(--fs-muted); color:var(--muted); line-height:1.55; }
+.u-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.u-label{ font-weight:600; white-space:nowrap; color:#334155; }
+.u-stack{ display:flex; flex-direction:column; gap:16px; }
+.upholstery-card .u-stack{ gap:24px; }
+.u-segment{
+  display:flex;
+  width:100%;
+  border:1px solid var(--card-border);
+  border-radius:999px;
+  overflow:hidden;
+  background:#f6f8fb;
+}
+.u-segment button{
+  flex:1;
+  text-align:center;
+  padding:6px 10px;
+  font-size:13px;
+  white-space:nowrap;
+  background:transparent;
+  border:none;
+  cursor:pointer;
+}
+.u-segment button[aria-selected="true"]{
+  background:#EAF2FF;
+  font-weight:700;
+}
+.u-guide{
+  width:100%;
+  background:#f6f8fb;
+  border:1px solid #e7eef7;
+  border-radius:12px;
+  padding:12px 14px;
+  font-size:0.95rem;
+  line-height:1.55;
+  color:#334155;
+}
+.u-guide-label{
+  font-weight:700;
+  font-size:0.95rem;
+  color:#334155;
+  margin-bottom:4px;
+}
+
+.row-between{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.label-inline{
+  font-weight:750;
+  color:var(--navy);
+  margin:0;
+}
+.options-toggle .btn-chip{
+  padding:8px 12px;
+}
+.subtle-option{
+  color:var(--ink-muted);
+}
+.compact-lines{
+  display:grid;
+  gap:2px;
+}
+.visually-hidden{
+  position:absolute !important;
+  height:1px;
+  width:1px;
+  overflow:hidden;
+  clip:rect(1px, 1px, 1px, 1px);
+  white-space:nowrap;
 }
 
 /* Chips “soltos” (se usados fora do segmented) */
@@ -242,10 +405,10 @@ select{
 
 /* ---------- Texto/justificativa ---------- */
 .service-note{
-  font-size:13px;
+  font-size:0.95rem;
   color:var(--ink-muted);
   text-align:justify;
-  line-height:1.45;
+  line-height:1.55;
 }
 
 /* ---------- Acessibilidade / motion ---------- */

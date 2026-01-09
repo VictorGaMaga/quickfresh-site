@@ -9,6 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const yearEl = $('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  // Update legacy /booking links to the carpet quote page
+  $$('a[href="/booking"], a[href="/booking/"]').forEach(link => {
+    link.setAttribute('href', '/carpet-cleaning.html');
+  });
+
   // ───────────────────────────────────────────────
   // 2. Ativa carrossel (se existir)
   // ───────────────────────────────────────────────
@@ -60,5 +65,27 @@ document.addEventListener('DOMContentLoaded', () => {
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
+  });
+
+  // 7. Accordion genérico (toggle-card) com delegação
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-accordion-toggle="true"]');
+    if (!btn) return;
+
+    const id = btn.getAttribute('aria-controls');
+    if (!id) return;
+
+    const panel = document.getElementById(id);
+    if (!panel) return;
+
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+    panel.hidden = expanded;
+
+    const card = btn.closest('.toggle-card');
+    if (card) card.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+
+    const chevron = btn.querySelector('[data-chevron]');
+    if (chevron) chevron.classList.toggle('is-open', !expanded);
   });
 });

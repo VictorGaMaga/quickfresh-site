@@ -1,97 +1,135 @@
-// ── QuickFresh — SEO helper (dynamic meta & schema) ──────────────────────
+// QuickFresh SEO helper
+// Included on: index.html, services.html, carpet-cleaning.html, rugs-cleaning.html,
+// couch-sofa-cleaning.html, dining-chair-cleaning.html, mattress-cleaning.html, tile-grout-cleaning.html.
+// This script only updates <head> meta/link tags and JSON-LD schema.
+
 document.addEventListener('DOMContentLoaded', () => {
+  const SITE_ORIGIN = (document.querySelector('meta[property="og:url"]')?.content || location.origin).replace(/\/$/, '');
 
-  const PAGE = document.body.dataset.page || 'home'; // ex: <body data-page="booking">
-
-  // 🔹 Configurações base
-  const base = {
-    name: 'QuickFresh — Cleaning & Care',
-    url: 'https://quickfresh.com.au/',
-    phone: '+61 451 664 247',
-    email: 'info@quickfresh.com.au',
-    logo: 'https://quickfresh.com.au/assets/logo.png',
-    image: 'https://quickfresh.com.au/assets/og-cover.jpg',
-    city: 'Perth',
-    region: 'WA',
-    country: 'AU',
-    priceRange: '$$'
+  const normalizePath = (path) => {
+    if (!path || path === '/') return '/index.html';
+    if (path.endsWith('/')) return path + 'index.html';
+    return path;
   };
 
-  // 🔹 Conteúdo dinâmico por página
   const pages = {
-    home: {
-      title: 'QuickFresh — Carpet & Upholstery Cleaning Perth',
-      description: 'Owner-operated steam cleaning in Perth. Professional, eco-friendly, insured. Minimum call-out $149.',
-      type: 'HomeAndConstructionBusiness'
+    '/index.html': {
+      serviceName: null,
+      serviceType: null,
+      faq: []
     },
-    services: {
-      title: 'Our Services — QuickFresh Steam Cleaning Perth',
-      description: 'Explore our carpet, rug, couch, and mattress cleaning services. Safe for pets & families.',
-      type: 'Service'
+    '/services.html': {
+      serviceName: null,
+      serviceType: null,
+      faq: []
     },
-    booking: {
-      title: 'QuickFresh — Instant Pre-Quote & Booking',
-      description: 'Hybrid form: instant estimate and booking request. Minimum call-out $149. Final price confirmed on site.',
-      type: 'Offer'
+    '/carpet-cleaning.html': {
+      serviceName: 'Carpet Cleaning',
+      serviceType: 'Carpet Cleaning',
+      faq: [
+        { q: 'How long will carpets take to dry?', a: 'Dry time depends on airflow, humidity, and carpet type. Opening windows or using fans helps.' },
+        { q: 'Will all stains be removed?', a: 'Results vary by stain type, dye, and age. We aim for the best improvement possible.' },
+        { q: 'Is the final price confirmed on site?', a: 'Yes. We confirm access, condition, and scope before starting.' }
+      ]
     },
-    terms: {
-      title: 'Service Conditions & Privacy Policy — QuickFresh',
-      description: 'View QuickFresh Perth’s terms, conditions, and privacy policy for all cleaning services.',
-      type: 'WebPage'
+    '/rugs-cleaning.html': {
+      serviceName: 'Rug Cleaning',
+      serviceType: 'Rug Cleaning',
+      faq: [
+        { q: 'Can I add rugs to a carpet booking?', a: 'Yes. Rugs are an on-site add-on for the same visit.' },
+        { q: 'Do you clean delicate or antique rugs?', a: 'No, we only clean everyday rugs.' },
+        { q: 'Is the final price confirmed on site?', a: 'Yes. We confirm size and condition before starting.' }
+      ]
+    },
+    '/couch-sofa-cleaning.html': {
+      serviceName: 'Couch & Sofa Cleaning',
+      serviceType: 'Upholstery Cleaning',
+      faq: [
+        { q: 'How long does a couch take to dry?', a: 'Dry time depends on fabric and airflow.' },
+        { q: 'Will every stain be removed?', a: 'Results vary by stain type, dye, and age.' },
+        { q: 'Is the final price confirmed on site?', a: 'Yes. We confirm condition and scope before starting.' }
+      ]
+    },
+    '/dining-chair-cleaning.html': {
+      serviceName: 'Dining Chair Cleaning',
+      serviceType: 'Upholstery Cleaning',
+      faq: [
+        { q: 'Do you clean fully upholstered chairs?', a: 'Yes, select the fully upholstered option.' },
+        { q: 'How long do chairs take to dry?', a: 'Dry time depends on fabric and airflow.' },
+        { q: 'Is pricing confirmed on site?', a: 'Yes. We confirm condition and scope before starting.' }
+      ]
+    },
+    '/mattress-cleaning.html': {
+      serviceName: 'Mattress Cleaning',
+      serviceType: 'Mattress Cleaning',
+      faq: [
+        { q: 'How long does a mattress take to dry?', a: 'Dry time depends on airflow and mattress type.' },
+        { q: 'Is both sides required?', a: 'No. Both sides is optional if you want a deeper clean.' },
+        { q: 'Is the final price confirmed on site?', a: 'Yes. We confirm condition and access before starting.' }
+      ]
+    },
+    '/tile-grout-cleaning.html': {
+      serviceName: 'Tile & Grout Cleaning',
+      serviceType: 'Tile & Grout Cleaning',
+      faq: [
+        { q: 'Do I need exact sqm?', a: 'No. Provide an estimate or describe the area.' },
+        { q: 'Is there a minimum charge?', a: 'Yes. Minimum $200 covers up to 25 sqm.' },
+        { q: 'Is the final price confirmed on site?', a: 'Yes. We confirm size and condition before starting.' }
+      ]
     }
   };
 
-  const meta = pages[PAGE] || pages.home;
+  const page = pages[normalizePath(location.pathname)] || pages['/index.html'];
 
-  // === Atualiza título e descrição ===
-  if (meta.title) document.title = meta.title;
-  let descTag = document.querySelector('meta[name="description"]');
-  if (!descTag) {
-    descTag = document.createElement('meta');
-    descTag.name = 'description';
-    document.head.appendChild(descTag);
+  // JSON-LD
+  const schemaBlocks = [];
+  schemaBlocks.push({
+    '@context': 'https://schema.org',
+    '@type': 'CleaningService',
+    name: 'QuickFresh Cleaning & Care',
+    url: SITE_ORIGIN + '/',
+    telephone: '+61451664247',
+    email: 'info@quickfresh.com.au',
+    areaServed: 'Perth, WA'
+  });
+
+  if (page.serviceName) {
+    schemaBlocks.push({
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: page.serviceName,
+      serviceType: page.serviceType,
+      areaServed: 'Perth, WA',
+      provider: {
+        '@type': 'CleaningService',
+        name: 'QuickFresh Cleaning & Care',
+        url: SITE_ORIGIN + '/'
+      }
+    });
   }
-  descTag.content = meta.description;
 
-  // === Open Graph / Twitter (fallback) ===
-  const addMeta = (property, content, attr = 'property') => {
-    if (!document.querySelector(`meta[${attr}="${property}"]`)) {
-      const m = document.createElement('meta');
-      m.setAttribute(attr, property);
-      m.content = content;
-      document.head.appendChild(m);
-    }
-  };
-  addMeta('og:title', meta.title);
-  addMeta('og:description', meta.description);
-  addMeta('og:image', base.image);
-  addMeta('og:type', 'website');
-  addMeta('og:url', base.url + PAGE);
-  addMeta('twitter:card', 'summary_large_image');
-  addMeta('twitter:title', meta.title);
-  addMeta('twitter:description', meta.description);
+  const faqVisible = document.querySelector('.seo-section details, .seo-compact details');
+  if (faqVisible && page.faq && page.faq.length) {
+    schemaBlocks.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: page.faq.map(item => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.a
+        }
+      }))
+    });
+  }
 
-  // === JSON-LD Schema.org ===
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": meta.type || "WebPage",
-    "name": meta.title,
-    "description": meta.description,
-    "url": base.url + (PAGE === 'home' ? '' : PAGE),
-    "image": base.image,
-    "telephone": base.phone,
-    "email": base.email,
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": base.city,
-      "addressRegion": base.region,
-      "addressCountry": base.country
-    },
-    "areaServed": ["Dianella", "Morley", "Noranda", "Nollamara", "Yokine", "Perth"]
-  };
-
-  const ld = document.createElement('script');
-  ld.type = 'application/ld+json';
-  ld.textContent = JSON.stringify(schema, null, 2);
-  document.head.appendChild(ld);
+  document.querySelectorAll('script[type="application/ld+json"][data-seo]').forEach(el => el.remove());
+  schemaBlocks.forEach((block) => {
+    const ld = document.createElement('script');
+    ld.type = 'application/ld+json';
+    ld.setAttribute('data-seo', 'true');
+    ld.textContent = JSON.stringify(block);
+    document.head.appendChild(ld);
+  });
 });

@@ -1,10 +1,68 @@
-.trust{ display:flex; gap:12px; flex-wrap:wrap; padding:0; margin:14px 0 0; list-style:none; color:var(--muted) }
-.trust li{ background:#fff; border:1px solid var(--border); border-radius:999px; padding:6px 10px; font-size:13px }
-.contact-link{ color:var(--navy); text-decoration:none; border-bottom:2px solid transparent }
-.contact-link:hover{ border-color:rgba(37,99,235,.35) }
-
-footer{ background:#fff; border-top:1px solid var(--border) }
-.footer-inner{
-  padding:22px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;
+.trust{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  list-style:none;
+  padding:0;
+  margin:12px 0 0;
 }
-.footer-inner .sub{ color:var(--muted) }
+.trust li{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:13px;
+}
+
+.footer-contact{
+  margin-top:16px;
+}
+.footer-contact-top{
+  display:grid;
+  gap:8px;
+}
+.footer-contact-title{
+  margin:0;
+  font-size:16px;
+  font-weight:700;
+  color:var(--navy);
+}
+.footer-contact-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  font-size:13px;
+  color:var(--muted);
+}
+.footer-contact-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.footer-contact-form{
+  display:grid;
+  gap:10px;
+  margin-top:12px;
+}
+.footer-form-row label{
+  display:block;
+  margin-bottom:4px;
+  font-weight:700;
+  font-size:var(--fs-label);
+}
+
+/* Home contact styles moved to /css/contact.css */
+
+.faq-list details{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px 14px;
+  margin:10px 0;
+}
+.faq-list summary{
+  cursor:pointer;
+  font-weight:800;
+  color:var(--navy);
+}
+.faq-list p{ margin:8px 0 0; color:var(--ink); font-size:1rem; line-height:1.55; }

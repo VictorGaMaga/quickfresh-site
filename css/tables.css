@@ -11,6 +11,29 @@ tbody tr:nth-child(odd){ background:#FCFDFF }
 tfoot td{ font-weight:800 }
 td:last-child{ text-align:right }
 
+#estimateTable thead th{
+  background:#F8FAFC;
+  color:#334155;
+  text-transform:none;
+  letter-spacing:0;
+  font-size:13px;
+}
+
+#estimateTable tbody td{
+  border-top:1px solid #E2E8F0;
+}
+
+#estimateTable tbody td[colspan]{
+  text-align:center;
+  color:var(--muted);
+  font-size:var(--fs-muted);
+}
+
+#estimateTable tfoot td{
+  font-weight:800;
+  font-size:16px;
+}
+
 /* Aviso de mínimo */
 #minNotice{
   display:none; border:1px solid #FCA5A5; background:#FEF2F2; color:#B91C1C;
