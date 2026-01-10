@@ -9,9 +9,94 @@
       "permanent": true
     },
     {
-      "source": "/html/:page(.+)",
-      "destination": "/:page",
-      "permanent": false
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/html/services.html",
+      "destination": "/services",
+      "permanent": true
+    },
+    {
+      "source": "/html/carpet-cleaning.html",
+      "destination": "/carpet-cleaning",
+      "permanent": true
+    },
+    {
+      "source": "/html/rugs-cleaning.html",
+      "destination": "/rugs-cleaning",
+      "permanent": true
+    },
+    {
+      "source": "/html/couch-sofa-cleaning.html",
+      "destination": "/couch-sofa-cleaning",
+      "permanent": true
+    },
+    {
+      "source": "/html/dining-chair-cleaning.html",
+      "destination": "/dining-chair-cleaning",
+      "permanent": true
+    },
+    {
+      "source": "/html/mattress-cleaning.html",
+      "destination": "/mattress-cleaning",
+      "permanent": true
+    },
+    {
+      "source": "/html/tile-grout-cleaning.html",
+      "destination": "/tile-grout-cleaning",
+      "permanent": true
+    },
+    {
+      "source": "/html/terms.html",
+      "destination": "/terms",
+      "permanent": true
+    },
+    {
+      "source": "/html/:path*",
+      "destination": "/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/services.html",
+      "destination": "/services",
+      "permanent": true
+    },
+    {
+      "source": "/carpet-cleaning.html",
+      "destination": "/carpet-cleaning",
+      "permanent": true
+    },
+    {
+      "source": "/rugs-cleaning.html",
+      "destination": "/rugs-cleaning",
+      "permanent": true
+    },
+    {
+      "source": "/couch-sofa-cleaning.html",
+      "destination": "/couch-sofa-cleaning",
+      "permanent": true
+    },
+    {
+      "source": "/dining-chair-cleaning.html",
+      "destination": "/dining-chair-cleaning",
+      "permanent": true
+    },
+    {
+      "source": "/mattress-cleaning.html",
+      "destination": "/mattress-cleaning",
+      "permanent": true
+    },
+    {
+      "source": "/tile-grout-cleaning.html",
+      "destination": "/tile-grout-cleaning",
+      "permanent": true
+    },
+    {
+      "source": "/terms.html",
+      "destination": "/terms",
+      "permanent": true
     }
   ],
   "headers": [
