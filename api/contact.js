@@ -55,63 +55,56 @@ export default async function handler(req, res) {
     const dateStr = new Date(meta?.timestamp || Date.now()).toLocaleString('en-AU');
     const pageRef = meta?.page || customer?.page || '-';
     const lines = [];
-    lines.push(`Request ID: ${requestId}`);
+    const headline = mode === 'quote' ? 'QF QUOTE' : 'QF BOOKING';
+    lines.push(`[${headline}] ${customer.name}  $${Number(estimate?.total || 0).toFixed(0)}`);
     lines.push(`Page: ${pageRef}`);
-    lines.push(`Submitted at: ${dateStr}`);
-    lines.push('==================================================');
-    lines.push('CUSTOMER DETAILS');
-    lines.push(`Name: ${customer.name}`);
-    lines.push(`Email: ${customer.email}`);
-    lines.push(`Phone: ${customer.phone || '-'}`);
-    lines.push(`Address: ${customer.address || '-'}`);
-    lines.push(`Preferred date/time: ${customer.date || '-'}`);
-    if (customer.notes) {
-      lines.push('Customer notes:');
-      lines.push(`${customer.notes}`);
-    }
-
-    lines.push('==================================================');
-    lines.push('SELECTED SERVICES');
+    lines.push(`When: ${customer?.date || '-'}`);
+    lines.push(`Submitted: ${dateStr}`);
+    lines.push('--------------------------------------------------');
+    lines.push('');
+    lines.push(`CUSTOMER: ${customer.name} | ${customer.email} | ${customer.phone || '-'}`);
+    lines.push(`ADDRESS: ${customer.address || '-'}`);
+    lines.push('');
+    const accessText = String(selections?.access ?? '').trim();
+    const accessLines = accessText ? accessText.split(/\r?\n/) : ['-'];
+    lines.push('ACCESS:');
+    accessLines.forEach((line) => {
+      lines.push(`  ${line || '-'}`);
+    });
+    const notesText = (customer?.notes ?? '').toString();
+    const notesLines = notesText ? notesText.split(/\r?\n/) : ['-'];
+    lines.push('NOTES:');
+    notesLines.forEach((line) => {
+      lines.push(`  ${line || '-'}`);
+    });
+    const jobText = (selections?.description ?? '').toString();
+    const jobLines = jobText ? jobText.split(/\r?\n/) : ['-'];
+    lines.push('JOB:');
+    jobLines.forEach((line) => {
+      lines.push(`  ${line || '-'}`);
+    });
+    lines.push('');
     const carpetRooms   = Number(selections?.carpetRooms ?? selections?.carpets ?? selections?.rooms ?? 0);
     const carpetHallway = Number(selections?.carpetHallway ?? selections?.hallway ?? 0);
     const carpetStairs  = Number(selections?.carpetStairs ?? selections?.stairs ?? 0);
-    lines.push(`Carpet rooms: ${carpetRooms}`);
-    lines.push(`Hallways: ${carpetHallway}`);
-    lines.push(`Stairs: ${carpetStairs}`);
     const rugTiny   = Number(selections?.rugTinyQty ?? 0);
     const rugSmall  = Number(selections?.rugSmallQty ?? 0);
     const rugMedium = Number(selections?.rugMediumQty ?? 0);
     const rugLarge  = Number(selections?.rugLargeQty ?? 0);
-    lines.push(`Rugs: tiny ${rugTiny}, small ${rugSmall}, medium ${rugMedium}, large ${rugLarge}`);
     const sofaSeats = Number(selections?.seats ?? 0);
-    lines.push(
-      `Upholstery seats: ${sofaSeats} (double-sided: ${
-        selections?.doubleSided ? 'yes' : 'no'
-      }, protector: ${selections?.scotchOpt ? 'yes' : 'no'})`
-    );
     const diningQty = Number(selections?.diningQty ?? 0);
-    lines.push(
-      `Dining chairs: ${diningQty} (full fabric: ${
-        selections?.diningFull ? 'yes' : 'no'
-      })`
-    );
     const mSingle = Number(selections?.mSingle ?? 0);
     const mDouble = Number(selections?.mDouble ?? 0);
     const mQueen = Number(selections?.mQueen ?? 0);
     const mKing = Number(selections?.mKing ?? 0);
     lines.push(
-      `Mattresses: S:${mSingle} D:${mDouble} Q:${mQueen} K:${mKing} (both sides: ${
-        selections?.mBoth ? 'yes' : 'no'
-      }, protector: ${selections?.mProtect ? 'yes' : 'no'})`
+      `SERVICES: Carpet(${carpetRooms}) Hallway(${carpetHallway}) Stairs(${carpetStairs}) | ` +
+      `Rugs T${rugTiny} S${rugSmall} M${rugMedium} L${rugLarge} | ` +
+      `Upholstery(${sofaSeats}) | Dining(${diningQty}) | Matt S${mSingle} D${mDouble} Q${mQueen} K${mKing}`
     );
-    lines.push(`Access notes: ${selections?.access || '-'}`);
-    if (selections?.description) {
-      lines.push('Quote / job description:');
-      lines.push(`${selections.description}`);
-    }
-
-    lines.push('==================================================');
-    lines.push('ESTIMATE BREAKDOWN');
+    lines.push(`TOTAL: $${Number(estimate?.total || 0).toFixed(0)}`);
+    lines.push('');
+    lines.push('ITEMS:');
     const estItems = Array.isArray(estimate?.items)
       ? estimate.items
       : (Array.isArray(estimate?.lineItems) ? estimate.lineItems : []);
@@ -123,24 +116,21 @@ export default async function handler(req, res) {
           : typeof it?.subtotal === 'number'
             ? `$${Number(it.subtotal).toFixed(0)}`
             : (it?.subtotal ?? '');
-      lines.push(`${it.label}${qty ? ` x${qty}` : ''}  ${subtotal}`);
+      lines.push(`- ${it.label}${qty ? ` x${qty}` : ''} = ${subtotal}`);
     });
-    lines.push(`TOTAL: $${Number(estimate?.total || 0).toFixed(0)}`);
-
-    lines.push('==================================================');
-    lines.push('END OF REQUEST');
-    lines.push('==================================================');
-const textBody = lines.join('\n');
+    lines.push('--------------------------------------------------');
+    lines.push(`Request ID: ${requestId}`);
+    const textBody = lines.join('\n');
 
     // Send via Resend
     const payload = {
       from: `QuickFresh <${FROM_EMAIL}>`,
       to: TO_EMAIL,
       reply_to: customer.email,
-      subject: `[${prefix} #${requestId}] ${customer.name}  ${mode === 'quote' ? 'Quote request' : `$${total.toFixed(0)}`}  QuickFresh`,
+      subject: `[${headline}] ${customer.name} • $${total.toFixed(0)} • ${requestId}`,
       text: textBody,
     };
-const resp = await fetch('https://api.resend.com/emails', {
+    const resp = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${RESEND_API_KEY}`,
