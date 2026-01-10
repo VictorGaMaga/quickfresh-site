@@ -55,8 +55,11 @@ export default async function handler(req, res) {
     const dateStr = new Date(meta?.timestamp || Date.now()).toLocaleString('en-AU');
     const pageRef = meta?.page || customer?.page || '-';
     const lines = [];
-    const headline = mode === 'quote' ? 'QF QUOTE' : 'QF BOOKING';
+    const headline = mode === 'contact'
+      ? 'QF CONTACT'
+      : (mode === 'quote' ? 'QF QUOTE' : 'QF BOOKING');
     lines.push(`[${headline}] ${customer.name}  $${Number(estimate?.total || 0).toFixed(0)}`);
+    lines.push(`Mode: ${mode}`);
     lines.push(`Page: ${pageRef}`);
     lines.push(`When: ${customer?.date || '-'}`);
     lines.push(`Submitted: ${dateStr}`);
@@ -71,6 +74,7 @@ export default async function handler(req, res) {
     accessLines.forEach((line) => {
       lines.push(`  ${line || '-'}`);
     });
+    lines.push('');
     const notesText = (customer?.notes ?? '').toString();
     const notesLines = notesText ? notesText.split(/\r?\n/) : ['-'];
     lines.push('NOTES:');
@@ -97,11 +101,11 @@ export default async function handler(req, res) {
     const mDouble = Number(selections?.mDouble ?? 0);
     const mQueen = Number(selections?.mQueen ?? 0);
     const mKing = Number(selections?.mKing ?? 0);
-    lines.push(
-      `SERVICES: Carpet(${carpetRooms}) Hallway(${carpetHallway}) Stairs(${carpetStairs}) | ` +
-      `Rugs T${rugTiny} S${rugSmall} M${rugMedium} L${rugLarge} | ` +
-      `Upholstery(${sofaSeats}) | Dining(${diningQty}) | Matt S${mSingle} D${mDouble} Q${mQueen} K${mKing}`
-    );
+    lines.push('SERVICES:');
+    lines.push(`  Carpet: ${carpetRooms}   Hallway: ${carpetHallway}   Stairs: ${carpetStairs}`);
+    lines.push(`  Rugs: T${rugTiny} S${rugSmall} M${rugMedium} L${rugLarge}`);
+    lines.push(`  Upholstery: ${sofaSeats}   Dining: ${diningQty}`);
+    lines.push(`  Mattresses: S${mSingle} D${mDouble} Q${mQueen} K${mKing}`);
     lines.push(`TOTAL: $${Number(estimate?.total || 0).toFixed(0)}`);
     lines.push('');
     lines.push('ITEMS:');
@@ -127,8 +131,9 @@ export default async function handler(req, res) {
       from: `QuickFresh <${FROM_EMAIL}>`,
       to: TO_EMAIL,
       reply_to: customer.email,
-      subject: `[${headline}] ${customer.name} • $${total.toFixed(0)} • ${requestId}`,
+      subject: `[${headline}] ${customer.name || customer.email || 'New message'}  ${requestId}`,
       text: textBody,
+      headers: { 'X-Entity-Ref-ID': requestId },
     };
     const resp = await fetch('https://api.resend.com/emails', {
       method: 'POST',

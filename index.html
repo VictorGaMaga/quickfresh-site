@@ -279,31 +279,50 @@
   <script src="/js/carousel.js" defer></script>
   <script>
     (function(){
-      function mailtoFrom(form, fields){
-        var email = form.querySelector(fields.email)?.value?.trim() || '';
-        var message = form.querySelector(fields.message)?.value?.trim() || '';
-        var name = fields.name ? (form.querySelector(fields.name)?.value?.trim() || '') : '';
-        if (!email || !message) return;
-        var page = window.location.pathname || '/';
-        var body = [
-          'Name: ' + (name || 'N/A'),
-          'Email: ' + email,
-          'Page: ' + page,
-          '',
-          'Message:',
-          message
-        ].join('\n');
-        var subject = encodeURIComponent('QuickFresh enquiry');
-        var mailto = 'mailto:info@quickfresh.com.au?subject=' + subject + '&body=' + encodeURIComponent(body);
-        window.location.href = mailto;
-      }
-
       var contactForm = document.getElementById('contactForm');
       if (contactForm) {
-        contactForm.addEventListener('submit', function(e){
+        console.log('[home-contact] init ok');
+        contactForm.addEventListener('submit', async function(e){
           e.preventDefault();
           if (!contactForm.checkValidity()) { contactForm.reportValidity(); return; }
-          mailtoFrom(contactForm, { name: '#contactName', email: '#contactEmail', message: '#contactMessage' });
+          var name = document.getElementById('contactName')?.value?.trim() || '';
+          var email = document.getElementById('contactEmail')?.value?.trim() || '';
+          var message = document.getElementById('contactMessage')?.value?.trim() || '';
+          if (!email) {
+            alert('Please enter your email.');
+            return;
+          }
+          if (!message) {
+            alert('Please enter a message.');
+            return;
+          }
+          var payload = {
+            mode: 'contact',
+            customer: { name: name, email: email, notes: message },
+            selections: { description: message },
+            estimate: { total: 0, items: [] },
+            meta: { page: location.href, timestamp: new Date().toISOString() }
+          };
+          console.log('[home-contact] submit fired', payload);
+          try {
+            var resp = await fetch('/api/contact', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            var details = null;
+            try { details = await resp.json(); } catch (_) {}
+            if (!resp.ok) {
+              console.error('[home-contact] submit failed', resp.status, details);
+              alert("Couldn't send your message. Please try again.");
+              return;
+            }
+            alert("Sent! We'll reply by email shortly.");
+            contactForm.reset();
+          } catch (err) {
+            console.error('[home-contact] submit failed', err);
+            alert("Couldn't send your message. Please try again.");
+          }
         });
       }
     })();
