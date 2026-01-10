@@ -60,10 +60,10 @@
 
   async function submitContact(mode){
     if (!window.QF){
-      alert('Erro de inicializaÃ§Ã£o. Recarregue a pÃ¡gina.');
+      alert('Initialization error. Please reload the page.');
       return;
     }
-    const estimate   = window.QF.getEstimate();   // forÃ§a calc e lÃª tabela
+    const estimate   = window.QF.getEstimate();
     const selections = window.QF.getSelections();
     const rugTiny = Number(selections.rugTinyQty || 0);
     const rugSmall = Number(selections.rugSmallQty || 0);
@@ -75,28 +75,41 @@
     const special = selections.carpetSpecialisedTreatmentEnabled ? 'quoted' : 'no';
     const specialNotes = selections.carpetSpecialisedTreatmentNotes ? ` Notes: ${selections.carpetSpecialisedTreatmentNotes}` : '';
     const carpetSummary = `Carpets: ${rooms} rooms. Specialised treatment: ${special}.${specialNotes}`;
-    const customer   = window.QF.getCustomer();
-    const payload = { mode, estimate, selections, customer, carpetSummary, rugSummary };
+    const customer = window.QF.getCustomer();
+    const estimatePayload = {
+      total: Number(estimate.total || 0),
+      items: Array.isArray(estimate.items) ? estimate.items : [],
+      notes: estimate.minimumApplied ? `Minimum call-out applied ($${Number(estimate.total || 0)})` : ''
+    };
+    const payload = {
+      mode,
+      estimate: estimatePayload,
+      selections,
+      customer,
+      carpetSummary,
+      rugSummary,
+      meta: { page: location.href, timestamp: new Date().toISOString() }
+    };
     console.log('[booking-submit] submit fired', payload);
+    if (mode === 'quote') {
+      console.log('[booking-submit] quote notes', payload.customer?.notes, payload.selections?.description);
+    }
 
-    // Para QUOTE nÃ£o exigimos total > 0; para BOOK exigimos.
     const needsTotal = mode !== 'quote';
     const hasTotal   = Number(estimate.total || 0) > 0;
 
     if (!customer.name || !customer.email || (needsTotal && !hasTotal)) {
       alert(needsTotal
-        ? 'Por favor, preencha nome, e-mail e gere um total.'
-        : 'Para solicitar uma cotaÃ§Ã£o personalizada, preencha nome e e-mail (o total pode ficar em $0).'
+        ? 'Please enter your name and email, and generate a total before confirming.'
+        : 'Please enter your name and email to request a custom quote.'
       );
-      // garante que a seÃ§Ã£o de cliente esteja visÃ­vel quando a validaÃ§Ã£o falhar
       openForm({ target: document.body });
       return;
     }
 
-    // feedback no botÃ£o ativo
     const btnSend = document.activeElement;
     const prevTxt = btnSend && btnSend.textContent;
-    if (btnSend) { btnSend.disabled = true; btnSend.textContent = 'Enviando...'; }
+    if (btnSend) { btnSend.disabled = true; btnSend.textContent = 'Sending...'; }
 
     try {
       const r = await fetch('/api/contact', {
@@ -109,22 +122,22 @@
       try { j = await r.json(); }
       catch (_e) {
         const txt = await r.text().catch(()=> '');
-        console.warn('Resposta nÃ£o-JSON da API:', txt);
+        console.warn('Non-JSON API response:', txt);
         j = { ok:false, error:`HTTP ${r.status}`, details: txt };
       }
 
       if (!r.ok || !j.ok) {
         console.error('[booking-submit] submit failed', r.status, j);
-        alert(`NÃ£o consegui enviar (${j.error || 'erro'}). Tente novamente em instantes.`);
+        alert(`Couldn't send: ${j.error || 'error'}. Please try again.`);
         return;
       }
 
-      alert('Enviado! Vamos responder por e-mail em breve.');
+      alert('Sent! We\'ll reply by email shortly.');
     } catch (err) {
-      console.error('Falha de rede ao enviar:', err);
-      alert('Falha de rede. Verifique sua conexÃ£o e tente novamente.');
+      console.error('[booking-submit] network failed', err);
+      alert('Couldn\'t send your request. Please try again.');
     } finally {
-      if (btnSend) { btnSend.disabled = false; btnSend.textContent = prevTxt || 'Enviar'; }
+      if (btnSend) { btnSend.disabled = false; btnSend.textContent = prevTxt || 'Send'; }
     }
   }
 
@@ -180,4 +193,7 @@
     wireActions();
   });
 })();
+
+
+
 

@@ -1,4 +1,4 @@
-// /api/contact.js
+﻿// /api/contact.js
 export default async function handler(req, res) {
   // Allow only POST
   if (req.method !== 'POST') {
@@ -47,48 +47,84 @@ export default async function handler(req, res) {
     }
 
     // Build plain-text body
+    const meta = data?.meta || {};
+    const dateStr = new Date(meta?.timestamp || Date.now()).toLocaleString('en-AU');
     const lines = [];
-    lines.push(`New ${mode === 'book' ? 'Booking' : 'Quote'} from QuickFresh site`);
-    lines.push('');
-    lines.push('— Customer');
+    lines.push(`New ${mode === 'book' ? 'BOOKING' : 'CUSTOM QUOTE'}  QuickFresh`);
+    lines.push(`Page: ${meta?.page || '-'}`);
+    lines.push(`Date: ${dateStr}`);
+    lines.push('====================');
+    lines.push('CUSTOMER DETAILS');
     lines.push(`Name: ${customer.name}`);
     lines.push(`Email: ${customer.email}`);
     lines.push(`Phone: ${customer.phone || '-'}`);
     lines.push(`Address: ${customer.address || '-'}`);
     lines.push(`Preferred date/time: ${customer.date || '-'}`);
-    if (customer.notes) lines.push(`Notes (customer): ${customer.notes}`);
+    if (customer.notes) {
+      lines.push('Customer notes:');
+      lines.push(`${customer.notes}`);
+    }
 
-    lines.push('');
-    lines.push('— Selections');
-    lines.push(`Carpet rooms: ${selections?.carpets ?? 0}`);
-    lines.push(`Rugs: ${selections?.rugs ?? 0}`);
+    lines.push('====================');
+    lines.push('SELECTED SERVICES');
+    const carpetRooms   = Number(selections?.carpetRooms ?? selections?.carpets ?? selections?.rooms ?? 0);
+    const carpetHallway = Number(selections?.carpetHallway ?? selections?.hallway ?? 0);
+    const carpetStairs  = Number(selections?.carpetStairs ?? selections?.stairs ?? 0);
+    lines.push(`Carpet rooms: ${carpetRooms}`);
+    lines.push(`Hallways: ${carpetHallway}`);
+    lines.push(`Stairs: ${carpetStairs}`);
+    const rugTiny   = Number(selections?.rugTinyQty ?? 0);
+    const rugSmall  = Number(selections?.rugSmallQty ?? 0);
+    const rugMedium = Number(selections?.rugMediumQty ?? 0);
+    const rugLarge  = Number(selections?.rugLargeQty ?? 0);
+    lines.push(`Rugs: tiny ${rugTiny}, small ${rugSmall}, medium ${rugMedium}, large ${rugLarge}`);
+    const sofaSeats = Number(selections?.seats ?? 0);
     lines.push(
-      `Sofa seats: ${selections?.seats ?? 0} (double-sided: ${
+      `Upholstery seats: ${sofaSeats} (double-sided: ${
         selections?.doubleSided ? 'yes' : 'no'
-      }, scotch: ${selections?.scotchOpt ? 'yes' : 'no'})`
+      }, protector: ${selections?.scotchOpt ? 'yes' : 'no'})`
     );
+    const diningQty = Number(selections?.diningQty ?? 0);
     lines.push(
-      `Dining chairs: ${selections?.diningQty ?? 0} (full fabric: ${
+      `Dining chairs: ${diningQty} (full fabric: ${
         selections?.diningFull ? 'yes' : 'no'
       })`
     );
+    const mSingle = Number(selections?.mSingle ?? 0);
+    const mDouble = Number(selections?.mDouble ?? 0);
+    const mQueen = Number(selections?.mQueen ?? 0);
+    const mKing = Number(selections?.mKing ?? 0);
     lines.push(
-      `Mattresses: S:${selections?.mSingle ?? 0} D:${selections?.mDouble ?? 0} Q:${
-        selections?.mQueen ?? 0
-      } K:${selections?.mKing ?? 0} (both sides: ${
+      `Mattresses: S:${mSingle} D:${mDouble} Q:${mQueen} K:${mKing} (both sides: ${
         selections?.mBoth ? 'yes' : 'no'
-      }, protect: ${selections?.mProtect ? 'yes' : 'no'})`
+      }, protector: ${selections?.mProtect ? 'yes' : 'no'})`
     );
-    lines.push(`Access: ${selections?.access || '-'}`);
-    if (selections?.description) lines.push(`Notes (selection): ${selections.description}`);
+    lines.push(`Access notes: ${selections?.access || '-'}`);
+    if (selections?.description) {
+      lines.push('Quote / job description:');
+      lines.push(`${selections.description}`);
+    }
 
-    lines.push('');
-    lines.push('— Estimate breakdown');
-    (estimate?.items || []).forEach((it) => {
-      lines.push(`${it.label}  x${it.qty}  = ${it.subtotal}`);
+    lines.push('====================');
+    lines.push('ESTIMATE');
+    const estItems = Array.isArray(estimate?.items)
+      ? estimate.items
+      : (Array.isArray(estimate?.lineItems) ? estimate.lineItems : []);
+    estItems.forEach((it) => {
+      const qty = it?.kind === 'quote' ? '' : (it?.qty ?? '');
+      const subtotal =
+        it?.kind === 'quote'
+          ? 'On-site quote'
+          : typeof it?.subtotal === 'number'
+            ? `$${Number(it.subtotal).toFixed(0)}`
+            : (it?.subtotal ?? '');
+      lines.push(`${it.label}${qty ? ` x${qty}` : ''}  ${subtotal}`);
     });
-    lines.push(`Total: $${total.toFixed(0)}`);
-    if (estimate?.notes) lines.push(estimate.notes);
+    lines.push(`TOTAL: $${Number(estimate?.total || 0).toFixed(0)}`);
+
+    lines.push('====================');
+    lines.push('END OF REQUEST');
+    lines.push('====================');
 
     const textBody = lines.join('\n');
 
@@ -97,7 +133,7 @@ export default async function handler(req, res) {
       from: `QuickFresh <${FROM_EMAIL}>`,
       to: TO_EMAIL,
       reply_to: customer.email,
-      subject: `${mode === 'quote' ? 'Quote' : 'Booking'} • ${customer.name} • $${total.toFixed(
+      subject: `${mode === 'quote' ? 'Quote' : 'Booking'} â€¢ ${customer.name} â€¢ $${total.toFixed(
         0
       )}`,
       text: textBody,
@@ -134,3 +170,6 @@ export default async function handler(req, res) {
     return res.status(500).json({ ok: false, error: e?.message || 'Unexpected error' });
   }
 }
+
+
+

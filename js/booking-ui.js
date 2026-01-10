@@ -352,7 +352,7 @@
           total: Number(b.finalTotal || 0),
           rawSubtotal: Number(b.rawSubtotal || 0),
           minimumApplied: !!b.minimumApplied,
-          lineItems: b.lineItems || []
+          items: Array.isArray(b.lineItems) ? b.lineItems : []
         };
       },
       getSelections: () => {
@@ -379,6 +379,8 @@
           tileSqm: state.tiles.sqm,
           tileSqmUnknown: state.tiles.sqmUnknown,
           tileAreaNotes: state.tiles.areaNotes,
+          access: readText('access'),
+          description: readText('description'),
           carpetSpecialisedTreatmentEnabled: state.addOns.specialisedTreatment,
           carpetSpecialisedTreatmentNotes: state.addOns.specialisedTreatmentNotes
         };
@@ -388,7 +390,9 @@
           name: readText('custName'),
           phone: readText('custPhone'),
           email: readText('custEmail'),
-          address: readText('custAddress')
+          address: readText('custAddress'),
+          date: readText('custDate'),
+          notes: readText('custNotes')
         };
       }
     };
