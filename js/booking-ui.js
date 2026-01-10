@@ -341,9 +341,66 @@
 
   }
 
+  function exposeQF(){
+    if (window.QF) return;
+    window.QF = {
+      getEstimate: () => {
+        if (typeof window.calculateQuote !== 'function') return { total: 0 };
+        const state = readStateFromDOM();
+        const b = window.calculateQuote(state);
+        return {
+          total: Number(b.finalTotal || 0),
+          rawSubtotal: Number(b.rawSubtotal || 0),
+          minimumApplied: !!b.minimumApplied,
+          lineItems: b.lineItems || []
+        };
+      },
+      getSelections: () => {
+        const state = readStateFromDOM();
+        return {
+          carpetRooms: state.rooms,
+          carpetHallway: state.hallway,
+          carpetStairs: state.stairs,
+          rugTinyQty: state.rugs.tiny,
+          rugSmallQty: state.rugs.small,
+          rugMediumQty: state.rugs.medium,
+          rugLargeQty: state.rugs.large,
+          seats: state.seats,
+          doubleSided: state.doubleSided,
+          scotchOpt: state.scotchOpt,
+          diningQty: state.diningQty,
+          diningFull: state.diningFull,
+          mSingle: state.mSingle,
+          mDouble: state.mDouble,
+          mQueen: state.mQueen,
+          mKing: state.mKing,
+          mBoth: state.mBoth,
+          mProtect: state.mProtect,
+          tileSqm: state.tiles.sqm,
+          tileSqmUnknown: state.tiles.sqmUnknown,
+          tileAreaNotes: state.tiles.areaNotes,
+          carpetSpecialisedTreatmentEnabled: state.addOns.specialisedTreatment,
+          carpetSpecialisedTreatmentNotes: state.addOns.specialisedTreatmentNotes
+        };
+      },
+      getCustomer: () => {
+        return {
+          name: readText('custName'),
+          phone: readText('custPhone'),
+          email: readText('custEmail'),
+          address: readText('custAddress')
+        };
+      }
+    };
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initUI);
+    document.addEventListener('DOMContentLoaded', () => {
+      initUI();
+      exposeQF();
+    });
   } else {
     initUI();
+    exposeQF();
   }
 })();

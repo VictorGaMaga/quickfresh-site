@@ -1,5 +1,5 @@
-// ── QuickFresh — booking-submit.js ──────────────────────────────────────
-// Responsável por: abrir form, validar, montar payload e enviar para a API.
+﻿// â”€â”€ QuickFresh â€” booking-submit.js â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ResponsÃ¡vel por: abrir form, validar, montar payload e enviar para a API.
 // Depende de window.QF exposto por booking-ui.js.
 
 (() => {
@@ -12,16 +12,16 @@
     });
   }
 
-  // ── util: revela um elemento e seus ancestrais (expande cards/toggles)
+  // â”€â”€ util: revela um elemento e seus ancestrais (expande cards/toggles)
   function revealChain(el){
     if (!el) return;
     let node = el;
     while (node && node !== document.body) {
-      // remove "hidden" utilitário
+      // remove "hidden" utilitÃ¡rio
       if (node.classList && node.classList.contains('hidden')) {
         node.classList.remove('hidden');
       }
-      // se estiver dentro de uma área colapsável, mostra
+      // se estiver dentro de uma Ã¡rea colapsÃ¡vel, mostra
       const body = node.classList && node.classList.contains('toggle-body') ? node : node.closest?.('.toggle-body');
       if (body && body.style && body.style.display === 'none') {
         body.style.display = '';
@@ -35,7 +35,7 @@
     }
   }
 
-  // abrir formulário (e garantir que a seção de cliente apareça)
+  // abrir formulÃ¡rio (e garantir que a seÃ§Ã£o de cliente apareÃ§a)
   function openForm(e){
     const el = e?.target?.closest?.('a,button');
     if (el && el.tagName === 'A') e.preventDefault();
@@ -47,7 +47,7 @@
     formWrap.style.display = 'block';
     revealChain(formWrap);
 
-    // garante que a sub-seção de detalhes do cliente esteja visível
+    // garante que a sub-seÃ§Ã£o de detalhes do cliente esteja visÃ­vel
     const email = $('custEmail');
     const name  = $('custName');
     // revela cadeia acima dos inputs
@@ -60,10 +60,10 @@
 
   async function submitContact(mode){
     if (!window.QF){
-      alert('Erro de inicialização. Recarregue a página.');
+      alert('Erro de inicializaÃ§Ã£o. Recarregue a pÃ¡gina.');
       return;
     }
-    const estimate   = window.QF.getEstimate();   // força calc e lê tabela
+    const estimate   = window.QF.getEstimate();   // forÃ§a calc e lÃª tabela
     const selections = window.QF.getSelections();
     const rugTiny = Number(selections.rugTinyQty || 0);
     const rugSmall = Number(selections.rugSmallQty || 0);
@@ -76,56 +76,53 @@
     const specialNotes = selections.carpetSpecialisedTreatmentNotes ? ` Notes: ${selections.carpetSpecialisedTreatmentNotes}` : '';
     const carpetSummary = `Carpets: ${rooms} rooms. Specialised treatment: ${special}.${specialNotes}`;
     const customer   = window.QF.getCustomer();
+    const payload = { mode, estimate, selections, customer, carpetSummary, rugSummary };
+    console.log('[booking-submit] submit fired', payload);
 
-    // Para QUOTE não exigimos total > 0; para BOOK exigimos.
+    // Para QUOTE nÃ£o exigimos total > 0; para BOOK exigimos.
     const needsTotal = mode !== 'quote';
     const hasTotal   = Number(estimate.total || 0) > 0;
 
     if (!customer.name || !customer.email || (needsTotal && !hasTotal)) {
       alert(needsTotal
         ? 'Por favor, preencha nome, e-mail e gere um total.'
-        : 'Para solicitar uma cotação personalizada, preencha nome e e-mail (o total pode ficar em $0).'
+        : 'Para solicitar uma cotaÃ§Ã£o personalizada, preencha nome e e-mail (o total pode ficar em $0).'
       );
-      // garante que a seção de cliente esteja visível quando a validação falhar
+      // garante que a seÃ§Ã£o de cliente esteja visÃ­vel quando a validaÃ§Ã£o falhar
       openForm({ target: document.body });
       return;
     }
 
-    // feedback no botão ativo
+    // feedback no botÃ£o ativo
     const btnSend = document.activeElement;
     const prevTxt = btnSend && btnSend.textContent;
     if (btnSend) { btnSend.disabled = true; btnSend.textContent = 'Enviando...'; }
 
     try {
-      // caminho relativo resiliente: funciona em / e em /html/*
-      const apiPath = (location.pathname.startsWith('/html/') || location.pathname.endsWith('.html'))
-        ? '../api/contact'
-        : 'api/contact';
-
-      const r = await fetch(apiPath, {
+      const r = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mode, estimate, selections, customer, carpetSummary, rugSummary })
+        body: JSON.stringify(payload)
       });
 
       let j;
       try { j = await r.json(); }
       catch (_e) {
         const txt = await r.text().catch(()=> '');
-        console.warn('Resposta não-JSON da API:', txt);
+        console.warn('Resposta nÃ£o-JSON da API:', txt);
         j = { ok:false, error:`HTTP ${r.status}`, details: txt };
       }
 
       if (!r.ok || !j.ok) {
-        console.error('Falha API /api/contact:', j);
-        alert(`Não consegui enviar (${j.error || 'erro'}). Tente novamente em instantes.`);
+        console.error('[booking-submit] submit failed', r.status, j);
+        alert(`NÃ£o consegui enviar (${j.error || 'erro'}). Tente novamente em instantes.`);
         return;
       }
 
       alert('Enviado! Vamos responder por e-mail em breve.');
     } catch (err) {
       console.error('Falha de rede ao enviar:', err);
-      alert('Falha de rede. Verifique sua conexão e tente novamente.');
+      alert('Falha de rede. Verifique sua conexÃ£o e tente novamente.');
     } finally {
       if (btnSend) { btnSend.disabled = false; btnSend.textContent = prevTxt || 'Enviar'; }
     }
@@ -148,7 +145,7 @@
       submitContact('book');
     });
 
-    // Pedir quote (fora do form → abre; dentro do form → envia)
+    // Pedir quote (fora do form â†’ abre; dentro do form â†’ envia)
     document.addEventListener('click', (e)=>{
       const el = e.target.closest('.js-quote, [data-action="quote"], #quoteBtn, button[name="quote"]');
       if (!el) return;
@@ -156,7 +153,7 @@
 
       const insideForm = el.closest('#bookingForm');
       if (!insideForm){
-        // Apenas abre o formulário e revela a seção de cliente
+        // Apenas abre o formulÃ¡rio e revela a seÃ§Ã£o de cliente
         openForm(e);
         return;
       }
@@ -175,8 +172,12 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    console.info('[booking-submit] init');
+    const hasAny = document.getElementById('bookingForm')
+      || document.querySelector('.js-book, .js-quote, .js-book-confirm, #bookOpen, #bookConfirm');
+    if (!hasAny) return;
+    console.log('[booking-submit] init ok');
     ensureButtonTypes();
     wireActions();
   });
 })();
+
