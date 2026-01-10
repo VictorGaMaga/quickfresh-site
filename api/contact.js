@@ -14,6 +14,10 @@ export default async function handler(req, res) {
         : (req.body || {});
 
     const { mode = 'quote', estimate = {}, selections = {}, customer = {} } = data;
+    const requestId =
+      `QF-${new Date().toISOString().slice(0,10).replace(/-/g,'')}-` +
+      Math.random().toString(36).slice(2,6).toUpperCase();
+    const prefix = mode === 'quote' ? 'QF QUOTE' : 'QF BOOKING';
 
     // Basic validation
     const needsTotal = mode !== 'quote';
@@ -49,11 +53,12 @@ export default async function handler(req, res) {
     // Build plain-text body
     const meta = data?.meta || {};
     const dateStr = new Date(meta?.timestamp || Date.now()).toLocaleString('en-AU');
+    const pageRef = meta?.page || customer?.page || '-';
     const lines = [];
-    lines.push(`New ${mode === 'book' ? 'BOOKING' : 'CUSTOM QUOTE'}  QuickFresh`);
-    lines.push(`Page: ${meta?.page || '-'}`);
-    lines.push(`Date: ${dateStr}`);
-    lines.push('====================');
+    lines.push(`Request ID: ${requestId}`);
+    lines.push(`Page: ${pageRef}`);
+    lines.push(`Submitted at: ${dateStr}`);
+    lines.push('==================================================');
     lines.push('CUSTOMER DETAILS');
     lines.push(`Name: ${customer.name}`);
     lines.push(`Email: ${customer.email}`);
@@ -65,7 +70,7 @@ export default async function handler(req, res) {
       lines.push(`${customer.notes}`);
     }
 
-    lines.push('====================');
+    lines.push('==================================================');
     lines.push('SELECTED SERVICES');
     const carpetRooms   = Number(selections?.carpetRooms ?? selections?.carpets ?? selections?.rooms ?? 0);
     const carpetHallway = Number(selections?.carpetHallway ?? selections?.hallway ?? 0);
@@ -105,8 +110,8 @@ export default async function handler(req, res) {
       lines.push(`${selections.description}`);
     }
 
-    lines.push('====================');
-    lines.push('ESTIMATE');
+    lines.push('==================================================');
+    lines.push('ESTIMATE BREAKDOWN');
     const estItems = Array.isArray(estimate?.items)
       ? estimate.items
       : (Array.isArray(estimate?.lineItems) ? estimate.lineItems : []);
@@ -122,24 +127,20 @@ export default async function handler(req, res) {
     });
     lines.push(`TOTAL: $${Number(estimate?.total || 0).toFixed(0)}`);
 
-    lines.push('====================');
+    lines.push('==================================================');
     lines.push('END OF REQUEST');
-    lines.push('====================');
-
-    const textBody = lines.join('\n');
+    lines.push('==================================================');
+const textBody = lines.join('\n');
 
     // Send via Resend
     const payload = {
       from: `QuickFresh <${FROM_EMAIL}>`,
       to: TO_EMAIL,
       reply_to: customer.email,
-      subject: `${mode === 'quote' ? 'Quote' : 'Booking'} â€¢ ${customer.name} â€¢ $${total.toFixed(
-        0
-      )}`,
+      subject: `[${prefix} #${requestId}] ${customer.name}  ${mode === 'quote' ? 'Quote request' : `$${total.toFixed(0)}`}  QuickFresh`,
       text: textBody,
     };
-
-    const resp = await fetch('https://api.resend.com/emails', {
+const resp = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${RESEND_API_KEY}`,
@@ -164,12 +165,25 @@ export default async function handler(req, res) {
       });
     }
 
-    return res.status(200).json({ ok: true });
+    return res.status(200).json({ ok: true, requestId });
   } catch (e) {
     console.error('Handler error:', e);
     return res.status(500).json({ ok: false, error: e?.message || 'Unexpected error' });
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
