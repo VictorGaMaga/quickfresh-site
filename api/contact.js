@@ -17,19 +17,28 @@ export default async function handler(req, res) {
     const requestId =
       `QF-${new Date().toISOString().slice(0,10).replace(/-/g,'')}-` +
       Math.random().toString(36).slice(2,6).toUpperCase();
-    const prefix = mode === 'quote' ? 'QF QUOTE' : 'QF BOOKING';
-
     // Basic validation
-    const needsTotal = mode !== 'quote';
+    const isContact = mode === 'contact';
+    const isQuote = mode === 'quote';
+    const isBook = mode === 'book';
     const total = Number(estimate?.total || 0);
+    const contactMessage = (customer?.notes || selections?.description || '').toString().trim();
+    const missing = [];
 
-    if (!customer?.name || !customer?.email || (needsTotal && total <= 0)) {
-      return res.status(400).json({
-        ok: false,
-        error: needsTotal
-          ? 'Missing required fields: name, email and a non-zero total for booking.'
-          : 'Missing required fields: name and email for custom quote.',
-      });
+    if (isContact) {
+      if (!customer?.email) missing.push('customer.email');
+      if (!contactMessage) missing.push('message');
+    } else if (isQuote) {
+      if (!customer?.name) missing.push('customer.name');
+      if (!customer?.email) missing.push('customer.email');
+    } else if (isBook) {
+      if (!customer?.name) missing.push('customer.name');
+      if (!customer?.email) missing.push('customer.email');
+      if (total <= 0) missing.push('estimate.total');
+    }
+
+    if (missing.length) {
+      return res.status(400).json({ ok: false, error: 'Missing required fields', mode, missing });
     }
 
     // Env vars
@@ -55,75 +64,91 @@ export default async function handler(req, res) {
     const dateStr = new Date(meta?.timestamp || Date.now()).toLocaleString('en-AU');
     const pageRef = meta?.page || customer?.page || '-';
     const lines = [];
-    const headline = mode === 'contact'
-      ? 'QF CONTACT'
-      : (mode === 'quote' ? 'QF QUOTE' : 'QF BOOKING');
-    lines.push(`[${headline}] ${customer.name}  $${Number(estimate?.total || 0).toFixed(0)}`);
-    lines.push(`Mode: ${mode}`);
-    lines.push(`Page: ${pageRef}`);
-    lines.push(`When: ${customer?.date || '-'}`);
-    lines.push(`Submitted: ${dateStr}`);
-    lines.push('--------------------------------------------------');
-    lines.push('');
-    lines.push(`CUSTOMER: ${customer.name} | ${customer.email} | ${customer.phone || '-'}`);
-    lines.push(`ADDRESS: ${customer.address || '-'}`);
-    lines.push('');
-    const accessText = String(selections?.access ?? '').trim();
-    const accessLines = accessText ? accessText.split(/\r?\n/) : ['-'];
-    lines.push('ACCESS:');
-    accessLines.forEach((line) => {
-      lines.push(`  ${line || '-'}`);
-    });
-    lines.push('');
-    const notesText = (customer?.notes ?? '').toString();
-    const notesLines = notesText ? notesText.split(/\r?\n/) : ['-'];
-    lines.push('NOTES:');
-    notesLines.forEach((line) => {
-      lines.push(`  ${line || '-'}`);
-    });
-    const jobText = (selections?.description ?? '').toString();
-    const jobLines = jobText ? jobText.split(/\r?\n/) : ['-'];
-    lines.push('JOB:');
-    jobLines.forEach((line) => {
-      lines.push(`  ${line || '-'}`);
-    });
-    lines.push('');
-    const carpetRooms   = Number(selections?.carpetRooms ?? selections?.carpets ?? selections?.rooms ?? 0);
-    const carpetHallway = Number(selections?.carpetHallway ?? selections?.hallway ?? 0);
-    const carpetStairs  = Number(selections?.carpetStairs ?? selections?.stairs ?? 0);
-    const rugTiny   = Number(selections?.rugTinyQty ?? 0);
-    const rugSmall  = Number(selections?.rugSmallQty ?? 0);
-    const rugMedium = Number(selections?.rugMediumQty ?? 0);
-    const rugLarge  = Number(selections?.rugLargeQty ?? 0);
-    const sofaSeats = Number(selections?.seats ?? 0);
-    const diningQty = Number(selections?.diningQty ?? 0);
-    const mSingle = Number(selections?.mSingle ?? 0);
-    const mDouble = Number(selections?.mDouble ?? 0);
-    const mQueen = Number(selections?.mQueen ?? 0);
-    const mKing = Number(selections?.mKing ?? 0);
-    lines.push('SERVICES:');
-    lines.push(`  Carpet: ${carpetRooms}   Hallway: ${carpetHallway}   Stairs: ${carpetStairs}`);
-    lines.push(`  Rugs: T${rugTiny} S${rugSmall} M${rugMedium} L${rugLarge}`);
-    lines.push(`  Upholstery: ${sofaSeats}   Dining: ${diningQty}`);
-    lines.push(`  Mattresses: S${mSingle} D${mDouble} Q${mQueen} K${mKing}`);
-    lines.push(`TOTAL: $${Number(estimate?.total || 0).toFixed(0)}`);
-    lines.push('');
-    lines.push('ITEMS:');
-    const estItems = Array.isArray(estimate?.items)
-      ? estimate.items
-      : (Array.isArray(estimate?.lineItems) ? estimate.lineItems : []);
-    estItems.forEach((it) => {
-      const qty = it?.kind === 'quote' ? '' : (it?.qty ?? '');
-      const subtotal =
-        it?.kind === 'quote'
-          ? 'On-site quote'
-          : typeof it?.subtotal === 'number'
-            ? `$${Number(it.subtotal).toFixed(0)}`
-            : (it?.subtotal ?? '');
-      lines.push(`- ${it.label}${qty ? ` x${qty}` : ''} = ${subtotal}`);
-    });
-    lines.push('--------------------------------------------------');
-    lines.push(`Request ID: ${requestId}`);
+    const headline = isContact ? 'QF CONTACT' : (isQuote ? 'QF QUOTE' : 'QF BOOKING');
+    if (isContact) {
+      lines.push(`[${headline}]`);
+      lines.push(`Page: ${pageRef}`);
+      lines.push(`Submitted: ${dateStr}`);
+      lines.push('');
+      lines.push('FROM:');
+      lines.push(`  Name: ${customer?.name || '-'}`);
+      lines.push(`  Email: ${customer?.email}`);
+      lines.push('');
+      lines.push('MESSAGE');
+      const messageText = (customer?.notes || selections?.description || '').toString();
+      const messageLines = messageText ? messageText.split(/\r?\n/) : ['-'];
+      messageLines.forEach((line) => {
+        lines.push(`  ${line || '-'}`);
+      });
+    } else {
+      const totalLabel = `  $${Number(estimate?.total || 0).toFixed(0)}`;
+      lines.push(`[${headline}] ${customer.name || customer.email || 'New message'}${totalLabel}`);
+      lines.push(`Mode: ${mode}`);
+      lines.push(`Page: ${pageRef}`);
+      lines.push(`When: ${customer?.date || '-'}`);
+      lines.push(`Submitted: ${dateStr}`);
+      lines.push('--------------------------------------------------');
+      lines.push('');
+      lines.push(`CUSTOMER: ${customer.name || '-'} | ${customer.email} | ${customer.phone || '-'}`);
+      lines.push(`ADDRESS: ${customer.address || '-'}`);
+      lines.push('');
+      const accessText = String(selections?.access ?? '').trim();
+      const accessLines = accessText ? accessText.split(/\r?\n/) : ['-'];
+      lines.push('ACCESS:');
+      accessLines.forEach((line) => {
+        lines.push(`  ${line || '-'}`);
+      });
+      lines.push('');
+      const notesText = (customer?.notes ?? '').toString();
+      const notesLines = notesText ? notesText.split(/\r?\n/) : ['-'];
+      lines.push('NOTES:');
+      notesLines.forEach((line) => {
+        lines.push(`  ${line || '-'}`);
+      });
+      const jobText = (selections?.description ?? '').toString();
+      const jobLines = jobText ? jobText.split(/\r?\n/) : ['-'];
+      lines.push('JOB:');
+      jobLines.forEach((line) => {
+        lines.push(`  ${line || '-'}`);
+      });
+      lines.push('');
+      const carpetRooms   = Number(selections?.carpetRooms ?? selections?.carpets ?? selections?.rooms ?? 0);
+      const carpetHallway = Number(selections?.carpetHallway ?? selections?.hallway ?? 0);
+      const carpetStairs  = Number(selections?.carpetStairs ?? selections?.stairs ?? 0);
+      const rugTiny   = Number(selections?.rugTinyQty ?? 0);
+      const rugSmall  = Number(selections?.rugSmallQty ?? 0);
+      const rugMedium = Number(selections?.rugMediumQty ?? 0);
+      const rugLarge  = Number(selections?.rugLargeQty ?? 0);
+      const sofaSeats = Number(selections?.seats ?? 0);
+      const diningQty = Number(selections?.diningQty ?? 0);
+      const mSingle = Number(selections?.mSingle ?? 0);
+      const mDouble = Number(selections?.mDouble ?? 0);
+      const mQueen = Number(selections?.mQueen ?? 0);
+      const mKing = Number(selections?.mKing ?? 0);
+      lines.push('SERVICES:');
+      lines.push(`  Carpet: ${carpetRooms}   Hallway: ${carpetHallway}   Stairs: ${carpetStairs}`);
+      lines.push(`  Rugs: T${rugTiny} S${rugSmall} M${rugMedium} L${rugLarge}`);
+      lines.push(`  Upholstery: ${sofaSeats}   Dining: ${diningQty}`);
+      lines.push(`  Mattresses: S${mSingle} D${mDouble} Q${mQueen} K${mKing}`);
+      lines.push(`TOTAL: $${Number(estimate?.total || 0).toFixed(0)}`);
+      lines.push('');
+      lines.push('ITEMS:');
+      const estItems = Array.isArray(estimate?.items)
+        ? estimate.items
+        : (Array.isArray(estimate?.lineItems) ? estimate.lineItems : []);
+      estItems.forEach((it) => {
+        const qty = it?.kind === 'quote' ? '' : (it?.qty ?? '');
+        const subtotal =
+          it?.kind === 'quote'
+            ? 'On-site quote'
+            : typeof it?.subtotal === 'number'
+              ? `$${Number(it.subtotal).toFixed(0)}`
+              : (it?.subtotal ?? '');
+        lines.push(`- ${it.label}${qty ? ` x${qty}` : ''} = ${subtotal}`);
+      });
+      lines.push('--------------------------------------------------');
+      lines.push(`Request ID: ${requestId}`);
+    }
     const textBody = lines.join('\n');
 
     // Send via Resend
@@ -131,7 +156,9 @@ export default async function handler(req, res) {
       from: `QuickFresh <${FROM_EMAIL}>`,
       to: TO_EMAIL,
       reply_to: customer.email,
-      subject: `[${headline}] ${customer.name || customer.email || 'New message'}  ${requestId}`,
+      subject: isContact
+        ? `[${headline}] ${customer.name || customer.email || 'New message'}  ${requestId}`
+        : `[${headline}] ${customer.name || customer.email || 'New message'}  $${total.toFixed(0)}  ${requestId}`,
       text: textBody,
       headers: { 'X-Entity-Ref-ID': requestId },
     };
