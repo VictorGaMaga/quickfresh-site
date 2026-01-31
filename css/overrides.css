@@ -67,3 +67,32 @@ input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-
 @media (max-width: 640px){
   .hero-media{ aspect-ratio:4 / 3; }
 }
+
+@media (min-width: 1024px){
+  .container,
+  .wrap,
+  main .content,
+  .page,
+  .page-wrap{
+    max-width:1160px;
+    margin:0 auto;
+    padding-left:24px;
+    padding-right:24px;
+  }
+
+  .hero .btn.primary,
+  .hero .primary-cta,
+  .hero a.btn-primary,
+  .hero button.btn-primary{
+    width:100%;
+    max-width:780px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  body[data-page="services"] .grid.cols-3{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap:20px;
+    align-items:stretch;
+  }
+}
