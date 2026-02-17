@@ -1,8 +1,8 @@
 // QuickFresh - base prices + quote calculator
 const QUICKFRESH_PRICES = {
   // Minimum call-out
-  MINIMUM_CALLOUT: 149,
-  MIN_TOTAL: 149,
+  MINIMUM_CALLOUT: 129,
+  MIN_TOTAL: 129,
 
   // Carpets
   CARPET_ROOM_PRICE: 50,
