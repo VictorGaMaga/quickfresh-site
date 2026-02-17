@@ -69,12 +69,6 @@ function sofaTierBase(seats){
   return QUICKFRESH_PRICES.sofa.seat3 + (seats - 3) * QUICKFRESH_PRICES.sofa.extraSeat;
 }
 
-function sofaTotal(seats, isDoubleSided){
-  const base = sofaTierBase(seats);
-  if (!isDoubleSided) return base;
-  return base + seats * QUICKFRESH_PRICES.sofa.doubleSided;
-}
-
 function safeInt(value){
   const n = parseInt(value ?? 0, 10);
   return Number.isFinite(n) ? Math.max(0, n) : 0;
