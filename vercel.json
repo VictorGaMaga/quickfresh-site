@@ -25,7 +25,7 @@
     },
     {
       "source": "/html/rugs-cleaning.html",
-      "destination": "/rugs-cleaning",
+      "destination": "/rugs",
       "permanent": true
     },
     {
@@ -35,7 +35,7 @@
     },
     {
       "source": "/html/dining-chair-cleaning.html",
-      "destination": "/dining-chair-cleaning",
+      "destination": "/couch-sofa-cleaning",
       "permanent": true
     },
     {
@@ -70,7 +70,7 @@
     },
     {
       "source": "/rugs-cleaning.html",
-      "destination": "/rugs-cleaning",
+      "destination": "/rugs",
       "permanent": true
     },
     {
@@ -80,7 +80,7 @@
     },
     {
       "source": "/dining-chair-cleaning.html",
-      "destination": "/dining-chair-cleaning",
+      "destination": "/couch-sofa-cleaning",
       "permanent": true
     },
     {
