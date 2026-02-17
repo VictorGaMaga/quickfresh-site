@@ -24,9 +24,10 @@ const QUICKFRESH_PRICES = {
 
   // Upholstery
   sofa: {
-    seat1: 50,
-    seat2: 90,
-    seat3: 120,
+    seat1: 59,
+    seat2: 99,
+    seat3: 129,
+    soloMinUpTo3: 129,
     extraSeat: 40,
     doubleSided: 10
   },
@@ -60,18 +61,18 @@ const QUICKFRESH_PRICES = {
   }
 };
 
-function sofaStandardTotal(seats){
+function sofaTierBase(seats){
   if (seats <= 0) return 0;
-  if (seats === 1) return 50;
-  if (seats === 2) return 90;
-  if (seats === 3) return 120;
-  return 120 + (seats - 3) * 40;
+  if (seats === 1) return QUICKFRESH_PRICES.sofa.seat1;
+  if (seats === 2) return QUICKFRESH_PRICES.sofa.seat2;
+  if (seats === 3) return QUICKFRESH_PRICES.sofa.seat3;
+  return QUICKFRESH_PRICES.sofa.seat3 + (seats - 3) * QUICKFRESH_PRICES.sofa.extraSeat;
 }
 
 function sofaTotal(seats, isDoubleSided){
-  const base = sofaStandardTotal(seats);
+  const base = sofaTierBase(seats);
   if (!isDoubleSided) return base;
-  return base + seats * 10;
+  return base + seats * QUICKFRESH_PRICES.sofa.doubleSided;
 }
 
 function safeInt(value){
@@ -146,26 +147,6 @@ function calculateQuote(state){
     rugsSubtotal += cost;
   });
 
-  const seats = safeInt(state?.seats);
-  const doubleSided = !!state?.doubleSided;
-  const scotchOpt = !!state?.scotchOpt;
-  if (seats > 0){
-    const sCost = sofaTotal(seats, doubleSided);
-    lineItems.push({
-      key: 'sofa',
-      label: 'Sofa / Couch',
-      qty: seats,
-      subtotal: sCost,
-      kind: 'priced'
-    });
-    upholsterySubtotal += sCost;
-    if (scotchOpt){
-      const sc = seats * (doubleSided ? prices.scotch.perSeatDouble : prices.scotch.perSeat);
-      lineItems.push({ key: 'sofa-scotch', label: 'Fabric protector', qty: seats, subtotal: sc, kind: 'priced' });
-      upholsterySubtotal += sc;
-    }
-  }
-
   const diningQty = safeInt(state?.diningQty);
   const diningFull = !!state?.diningFull;
   if (diningQty > 0){
@@ -228,6 +209,33 @@ function calculateQuote(state){
     const label = cost > base ? `Tile & Grout cleaning (min $${min})` : 'Tile & Grout cleaning';
     lineItems.push({ key: 'tile', label, qty: `${tileSqm} sqm`, subtotal: cost, kind: 'priced' });
     tileSubtotal += cost;
+  }
+
+  const seats = safeInt(state?.seats);
+  const doubleSided = !!state?.doubleSided;
+  const scotchOpt = !!state?.scotchOpt;
+  if (seats > 0){
+    const sofaTierPrice = sofaTierBase(seats);
+    const otherServicesSubtotal =
+      carpetsSubtotal + rugsSubtotal + carpetAddOnsSubtotal + upholsterySubtotal + tileSubtotal + mattressSubtotal;
+    const sofaBase = otherServicesSubtotal > 0
+      ? sofaTierPrice
+      : Math.max(prices.sofa.soloMinUpTo3, sofaTierPrice);
+    const bothSidesCost = doubleSided ? (seats * prices.sofa.doubleSided) : 0;
+    const sofaLineSubtotal = sofaBase + bothSidesCost;
+    lineItems.push({
+      key: 'sofa',
+      label: 'Sofa / Couch',
+      qty: seats,
+      subtotal: sofaLineSubtotal,
+      kind: 'priced'
+    });
+    upholsterySubtotal += sofaLineSubtotal;
+    if (scotchOpt){
+      const sc = seats * (doubleSided ? prices.scotch.perSeatDouble : prices.scotch.perSeat);
+      lineItems.push({ key: 'sofa-scotch', label: 'Fabric protector', qty: seats, subtotal: sc, kind: 'priced' });
+      upholsterySubtotal += sc;
+    }
   }
 
   if (addOns?.specialisedTreatment){
