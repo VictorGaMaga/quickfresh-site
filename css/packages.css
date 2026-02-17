@@ -1,0 +1,325 @@
+html {
+  scroll-behavior: smooth;
+}
+
+.packages-section .package-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.package-card {
+  border: 2px solid var(--card-border);
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .1s ease;
+}
+
+.package-card:hover {
+  border-color: #d5dbe4;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.package-card .pill {
+  white-space: nowrap;
+}
+
+.package-card h3 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.package-price {
+  display: grid;
+  gap: 3px;
+  margin: 10px 0;
+}
+
+.package-price strong {
+  font-size: 1.2rem;
+}
+
+.package-price span {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.package-note {
+  margin-top: 8px;
+}
+
+.package-card .packages-cta {
+  margin-top: auto !important;
+  padding-top: 12px;
+}
+
+.package-main-wa {
+  min-height: 42px;
+  padding: 10px 14px;
+}
+
+.package-estimate-link {
+  border-style: dashed;
+}
+
+.pkg-cta {
+  display: block;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+}
+
+.hero-links {
+  margin-top: 8px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.hero-link {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.hero-contact-links {
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  align-items: center;
+  font-size: 13px;
+  color: rgba(15, 23, 42, 0.62);
+}
+
+.hero-contact-link {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.addons-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.addon-card {
+  padding: 12px;
+  min-height: 84px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+
+.addon-card h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.addon-card .sub {
+  margin: 0;
+  font-size: 14px;
+}
+
+.addon-disclaimer {
+  margin-top: 10px;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.review-featured .card {
+  padding: 16px;
+}
+
+.featured-label {
+  margin-top: 8px;
+  font-size: 12px;
+  color: rgba(15, 23, 42, 0.62);
+}
+
+.reviews-accordion > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 12px 14px;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  border-radius: 12px;
+  background: #fff;
+  font-weight: 600;
+}
+
+.reviews-accordion > summary::-webkit-details-marker {
+  display: none;
+}
+
+.reviews-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.review-compact {
+  padding: 12px;
+}
+
+.review-compact .review-text {
+  margin: 6px 0;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.review-compact .review-name {
+  margin-top: 2px;
+}
+
+.review-compact .review-note {
+  margin-top: 2px;
+  font-size: 12px;
+}
+
+@media (max-width: 900px) {
+  .addons-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .package-primary-cta {
+    min-height: 46px;
+    font-weight: 700;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .reviews-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .packages-section .package-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .addons-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ===== Packages / Add-ons / Reviews refresh (2026-02-16) ===== */
+.packages-section .package-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+
+.packages-section .package-card {
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+  padding: 18px;
+}
+
+.packages-section .option-head {
+  align-items: flex-start;
+}
+
+.packages-section .option-head .pill {
+  margin-left: auto;
+}
+
+.packages-section .list {
+  margin: 10px 0 0;
+  padding-left: 18px;
+}
+
+.packages-section .list li + li {
+  margin-top: 6px;
+}
+
+.packages-section .pkg-cta {
+  width: 100%;
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.packages-section .pkg-cta:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.32);
+  outline-offset: 2px;
+}
+
+.packages-section .pkg-secondary-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.packages-section .pkg-secondary-row .btn {
+  min-height: 40px;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  border: 1px solid rgba(15, 23, 42, 0.2);
+  background: #fff;
+}
+
+.packages-section .pkg-secondary-row .btn:hover {
+  background: rgba(37, 99, 235, 0.06);
+}
+
+.packages-section .pkg-secondary-row .btn:focus-visible {
+  outline: 2px solid rgba(37, 99, 235, 0.28);
+  outline-offset: 2px;
+}
+
+.addons-section .addons-grid {
+  gap: 12px;
+}
+
+.addons-section .addon-card {
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+}
+
+.reviews-section .review-featured .card,
+.reviews-section .review-compact {
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 14px;
+}
+
+.reviews-section .review-featured blockquote,
+.reviews-section .review-text {
+  line-height: 1.6;
+}
+
+.reviews-section .review-name strong {
+  font-weight: 700;
+}
+
+@media (max-width: 860px) {
+  .packages-section .package-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .packages-section .pkg-secondary-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}

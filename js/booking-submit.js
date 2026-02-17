@@ -1,199 +1,180 @@
-﻿// â”€â”€ QuickFresh â€” booking-submit.js â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// ResponsÃ¡vel por: abrir form, validar, montar payload e enviar para a API.
-// Depende de window.QF exposto por booking-ui.js.
+﻿(() => {
+  const $ = (id) => document.getElementById(id);
 
-(() => {
-  const $  = (id)  => document.getElementById(id);
-  const $$ = (sel) => Array.from(document.querySelectorAll(sel));
-
-  function ensureButtonTypes(){
-    document.querySelectorAll('.js-book, .js-book-confirm, .js-quote, #bookConfirm, [data-action="book-confirm"]').forEach(btn=>{
+  function ensureButtonTypes() {
+    document.querySelectorAll('.js-book, .js-book-confirm, .js-quote, #bookConfirm, [data-action="book-confirm"]').forEach((btn) => {
       if (btn.tagName === 'BUTTON' && btn.type !== 'button') btn.type = 'button';
     });
   }
 
-  // â”€â”€ util: revela um elemento e seus ancestrais (expande cards/toggles)
-  function revealChain(el){
+  function revealChain(el) {
     if (!el) return;
     let node = el;
     while (node && node !== document.body) {
-      // remove "hidden" utilitÃ¡rio
-      if (node.classList && node.classList.contains('hidden')) {
-        node.classList.remove('hidden');
-      }
-      // se estiver dentro de uma Ã¡rea colapsÃ¡vel, mostra
+      if (node.classList && node.classList.contains('hidden')) node.classList.remove('hidden');
       const body = node.classList && node.classList.contains('toggle-body') ? node : node.closest?.('.toggle-body');
-      if (body && body.style && body.style.display === 'none') {
-        body.style.display = '';
-      }
-      // expande o card pai
+      if (body && body.style && body.style.display === 'none') body.style.display = '';
       const card = node.closest?.('.toggle-card');
-      if (card && card.getAttribute('aria-expanded') !== 'true') {
-        card.setAttribute('aria-expanded','true');
-      }
+      if (card && card.getAttribute('aria-expanded') !== 'true') card.setAttribute('aria-expanded', 'true');
       node = node.parentElement;
     }
   }
 
-  // abrir formulÃ¡rio (e garantir que a seÃ§Ã£o de cliente apareÃ§a)
-  function openForm(e){
-    const el = e?.target?.closest?.('a,button');
-    if (el && el.tagName === 'A') e.preventDefault();
-
+  function openForm() {
     const formWrap = $('bookingForm');
     if (!formWrap) return;
-
-    // mostra o container principal do form
     formWrap.style.display = 'block';
     revealChain(formWrap);
-
-    // garante que a sub-seÃ§Ã£o de detalhes do cliente esteja visÃ­vel
     const email = $('custEmail');
-    const name  = $('custName');
-    // revela cadeia acima dos inputs
+    const name = $('custName');
     revealChain(email || name);
-
-    // scroll + foco
     (email || name)?.focus({ preventScroll: false });
     formWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  async function submitContact(mode){
-    if (!window.QF){
-      alert('Initialization error. Please reload the page.');
+  function openCustomQuoteFocus() {
+    const target = $('custom-quote') || $('estimate');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const quoteEmail = $('customQuoteEmail') || $('quoteEmail');
+    const quoteSuburb = $('quoteSuburb');
+    const quoteNotes = $('customQuoteMessage') || $('quoteDetails');
+    const pref = $('contactPref');
+    if (pref) pref.value = 'email';
+    window.setTimeout(() => {
+      const focusTarget = quoteEmail || quoteSuburb || quoteNotes;
+      focusTarget?.focus({ preventScroll: true });
+    }, 220);
+  }
+
+  function buildBookingPayload() {
+    if (!window.QF) return null;
+    const estimate = window.QF.getEstimate?.() || {};
+    const selections = window.QF.getSelections?.() || {};
+    const customer = window.QF.getCustomer?.() || {};
+
+    return {
+      type: 'booking',
+      pageUrl: location.href,
+      contactPref: $('contactPref')?.value || 'booking',
+      packageName: $('package')?.value || '',
+      name: (customer.name || '').trim(),
+      phone: (customer.phone || '').trim(),
+      email: (customer.email || '').trim(),
+      address: (customer.address || '').trim(),
+      preferredDateTime: (customer.date || '').trim(),
+      notes: (customer.notes || selections.description || '').trim(),
+      estimateBreakdown: {
+        total: Number(estimate.total || 0),
+        items: Array.isArray(estimate.items) ? estimate.items : [],
+        minimumApplied: !!estimate.minimumApplied,
+      },
+    };
+  }
+
+  function validateBookingPayload(payload) {
+    if (!payload) return 'Initialization error. Please reload the page.';
+    if (payload.name.length < 2) return 'Please enter your full name.';
+    if (payload.phone.length < 6) return 'Please enter a valid phone number.';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) return 'Please enter a valid email address.';
+    if (payload.address.length < 5) return 'Please enter your service address.';
+    return '';
+  }
+
+  async function sendBooking(button) {
+    const payload = buildBookingPayload();
+    const validationError = validateBookingPayload(payload);
+    const statusEl = $('bookingStatus');
+
+    if (validationError) {
+      if (statusEl) {
+        statusEl.textContent = validationError;
+        statusEl.style.color = '#b91c1c';
+      }
+      openForm();
       return;
     }
-    const estimate   = window.QF.getEstimate();
-    const selections = window.QF.getSelections();
-    const rugTiny = Number(selections.rugTinyQty || 0);
-    const rugSmall = Number(selections.rugSmallQty || 0);
-    const rugMedium = Number(selections.rugMediumQty || 0);
-    const rugLarge = Number(selections.rugLargeQty || 0);
-    const rugTotal = rugTiny + rugSmall + rugMedium + rugLarge;
-    const rugSummary = `Rugs: tiny ${rugTiny}, small ${rugSmall}, medium ${rugMedium}, large ${rugLarge} (total ${rugTotal}).`;
-    const rooms = Number(selections.carpetRooms || 0);
-    const special = selections.carpetSpecialisedTreatmentEnabled ? 'quoted' : 'no';
-    const specialNotes = selections.carpetSpecialisedTreatmentNotes ? ` Notes: ${selections.carpetSpecialisedTreatmentNotes}` : '';
-    const carpetSummary = `Carpets: ${rooms} rooms. Specialised treatment: ${special}.${specialNotes}`;
-    const customer = window.QF.getCustomer();
-    const estimatePayload = {
-      total: Number(estimate.total || 0),
-      items: Array.isArray(estimate.items) ? estimate.items : [],
-      notes: estimate.minimumApplied ? `Minimum call-out applied ($${Number(estimate.total || 0)})` : ''
-    };
-    const payload = {
-      mode,
-      estimate: estimatePayload,
-      selections,
-      customer,
-      carpetSummary,
-      rugSummary,
-      meta: { page: location.href, timestamp: new Date().toISOString() }
-    };
-    console.log('[booking-submit] submit fired', payload);
-    if (mode === 'quote') {
-      console.log('[booking-submit] quote notes', payload.customer?.notes, payload.selections?.description);
-    }
 
-    const needsTotal = mode !== 'quote';
-    const hasTotal   = Number(estimate.total || 0) > 0;
-
-    if (!customer.name || !customer.email || (needsTotal && !hasTotal)) {
-      alert(needsTotal
-        ? 'Please enter your name and email, and generate a total before confirming.'
-        : 'Please enter your name and email to request a custom quote.'
-      );
-      openForm({ target: document.body });
+    if (typeof window.submitContact === 'function') {
+      await window.submitContact(payload, {
+        button,
+        statusEl,
+        loadingText: 'Sending...',
+        successText: 'Booking request sent. We will reply shortly.',
+        errorPrefix: 'Could not send booking request.',
+      });
       return;
     }
 
-    const btnSend = document.activeElement;
-    const prevTxt = btnSend && btnSend.textContent;
-    if (btnSend) { btnSend.disabled = true; btnSend.textContent = 'Sending...'; }
+    const originalText = button ? button.textContent : '';
+    if (button) {
+      button.disabled = true;
+      button.textContent = 'Sending...';
+    }
 
     try {
-      const r = await fetch('/api/contact', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
-
-      let j;
-      try { j = await r.json(); }
-      catch (_e) {
-        const txt = await r.text().catch(()=> '');
-        console.warn('Non-JSON API response:', txt);
-        j = { ok:false, error:`HTTP ${r.status}`, details: txt };
+      const data = await response.json().catch(() => ({ ok: false, error: 'Server error' }));
+      if (statusEl) {
+        if (response.ok && data.ok) {
+          statusEl.textContent = 'Booking request sent. We will reply shortly.';
+          statusEl.style.color = '#166534';
+        } else {
+          statusEl.textContent = `Could not send booking request. ${data.error || 'Server error'}`;
+          statusEl.style.color = '#b91c1c';
+        }
       }
-
-      if (!r.ok || !j.ok) {
-        console.error('[booking-submit] submit failed', r.status, j);
-        alert(`Couldn't send: ${j.error || 'error'}. Please try again.`);
-        return;
+    } catch (_err) {
+      if (statusEl) {
+        statusEl.textContent = 'Could not send booking request. Network error.';
+        statusEl.style.color = '#b91c1c';
       }
-
-      alert('Sent! We\'ll reply by email shortly.');
-    } catch (err) {
-      console.error('[booking-submit] network failed', err);
-      alert('Couldn\'t send your request. Please try again.');
     } finally {
-      if (btnSend) { btnSend.disabled = false; btnSend.textContent = prevTxt || 'Send'; }
+      if (button) {
+        button.disabled = false;
+        button.textContent = originalText || 'Confirm Booking';
+      }
     }
   }
 
-  function wireActions(){
-    // Abrir form (Book with Estimate)
-    document.addEventListener('click', (e)=>{
+  function wireActions() {
+    document.addEventListener('click', (e) => {
       const el = e.target.closest('.js-book, [data-action="book-open"], #bookOpen');
       if (!el) return;
       e.preventDefault();
-      openForm(e);
+      openForm();
     });
 
-    // Confirmar booking (enviar)
-    document.addEventListener('click', (e)=>{
+    document.addEventListener('click', (e) => {
       const el = e.target.closest('.js-book-confirm, [data-action="book-confirm"], #bookConfirm, button[name="book-confirm"]');
       if (!el) return;
       e.preventDefault();
-      submitContact('book');
+      sendBooking(el);
     });
 
-    // Pedir quote (fora do form â†’ abre; dentro do form â†’ envia)
-    document.addEventListener('click', (e)=>{
+    document.addEventListener('click', (e) => {
       const el = e.target.closest('.js-quote, [data-action="quote"], #quoteBtn, button[name="quote"]');
       if (!el) return;
       e.preventDefault();
-
-      const insideForm = el.closest('#bookingForm');
-      if (!insideForm){
-        // Apenas abre o formulÃ¡rio e revela a seÃ§Ã£o de cliente
-        openForm(e);
-        return;
-      }
-      submitContact('quote');
+      openCustomQuoteFocus();
     });
 
-    // prevenir submit/reload em #bookingForm
     const form = $('bookingForm');
     if (form) {
       form.addEventListener('submit', (ev) => {
         ev.preventDefault();
         ev.stopPropagation();
-        console.info('[booking-submit] submit prevenido');
       }, true);
     }
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    const hasAny = document.getElementById('bookingForm')
-      || document.querySelector('.js-book, .js-quote, .js-book-confirm, #bookOpen, #bookConfirm');
+    const hasAny = $('bookingForm') || document.querySelector('.js-book, .js-quote, .js-book-confirm, #bookOpen, #bookConfirm');
     if (!hasAny) return;
-    console.log('[booking-submit] init ok');
     ensureButtonTypes();
     wireActions();
   });
 })();
-
-
-
-

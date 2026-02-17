@@ -1,211 +1,168 @@
-﻿// /api/contact.js
+﻿const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function clean(value) {
+  return (value ?? "").toString().trim();
+}
+
+function escapeHtml(value) {
+  return clean(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function formatMultiline(value) {
+  return clean(value) || "-";
+}
+
 export default async function handler(req, res) {
-  // Allow only POST
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
-    return res.status(405).json({ ok: false, error: 'Method not allowed' });
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    return res.status(405).json({ ok: false, error: "Method not allowed" });
   }
 
   try {
-    // Parse body (handles cases where body comes as a string)
-    const data =
-      typeof req.body === 'string'
-        ? JSON.parse(req.body || '{}')
-        : (req.body || {});
+    const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : (req.body || {});
+    const type = clean(body.type).toLowerCase();
+    const pageUrl = clean(body.pageUrl);
+    const contactPref = clean(body.contactPref);
+    const packageName = clean(body.packageName);
+    const submittedAt = new Date().toISOString();
 
-    const { mode = 'quote', estimate = {}, selections = {}, customer = {} } = data;
-    const requestId =
-      `QF-${new Date().toISOString().slice(0,10).replace(/-/g,'')}-` +
-      Math.random().toString(36).slice(2,6).toUpperCase();
-    // Basic validation
-    const isContact = mode === 'contact';
-    const isQuote = mode === 'quote';
-    const isBook = mode === 'book';
-    const total = Number(estimate?.total || 0);
-    const contactMessage = (customer?.notes || selections?.description || '').toString().trim();
-    const missing = [];
-
-    if (isContact) {
-      if (!customer?.email) missing.push('customer.email');
-      if (!contactMessage) missing.push('message');
-    } else if (isQuote) {
-      if (!customer?.name) missing.push('customer.name');
-      if (!customer?.email) missing.push('customer.email');
-    } else if (isBook) {
-      if (!customer?.name) missing.push('customer.name');
-      if (!customer?.email) missing.push('customer.email');
-      if (total <= 0) missing.push('estimate.total');
+    if (type !== "quote" && type !== "booking") {
+      return res.status(400).json({ ok: false, error: "Invalid type" });
     }
 
-    if (missing.length) {
-      return res.status(400).json({ ok: false, error: 'Missing required fields', mode, missing });
+    const quoteEmail = clean(body.email);
+    const quoteSuburb = clean(body.suburb);
+    const quoteMessage = clean(body.message);
+
+    const bookingName = clean(body.name);
+    const bookingPhone = clean(body.phone);
+    const bookingEmail = clean(body.email);
+    const bookingAddress = clean(body.address);
+    const bookingPreferredDateTime = clean(body.preferredDateTime);
+    const bookingNotes = clean(body.notes);
+    const estimateBreakdown = body.estimateBreakdown || null;
+
+    if (type === "quote") {
+      if (!EMAIL_RE.test(quoteEmail)) {
+        return res.status(400).json({ ok: false, error: "Valid email is required" });
+      }
+      if (quoteSuburb.length < 2) {
+        return res.status(400).json({ ok: false, error: "Suburb must be at least 2 characters" });
+      }
+      if (quoteMessage.length < 10) {
+        return res.status(400).json({ ok: false, error: "Message must be at least 10 characters" });
+      }
     }
 
-    // Env vars
+    if (type === "booking") {
+      if (bookingName.length < 2) {
+        return res.status(400).json({ ok: false, error: "Name must be at least 2 characters" });
+      }
+      if (bookingPhone.length < 6) {
+        return res.status(400).json({ ok: false, error: "Phone must be at least 6 characters" });
+      }
+      if (!EMAIL_RE.test(bookingEmail)) {
+        return res.status(400).json({ ok: false, error: "Valid email is required" });
+      }
+      if (bookingAddress.length < 5) {
+        return res.status(400).json({ ok: false, error: "Address must be at least 5 characters" });
+      }
+    }
+
     const RESEND_API_KEY = process.env.RESEND_API_KEY;
     const FROM_EMAIL = process.env.FROM_EMAIL;
-    const TO_EMAIL = (process.env.TO_EMAIL || '')
-      .split(',')
-      .map((s) => s.trim())
-      .filter(Boolean);
-
-    if (!RESEND_API_KEY) {
-      return res.status(500).json({ ok: false, error: 'Missing RESEND_API_KEY' });
-    }
-    if (!FROM_EMAIL) {
-      return res.status(500).json({ ok: false, error: 'Missing FROM_EMAIL' });
-    }
-    if (!TO_EMAIL.length) {
-      return res.status(500).json({ ok: false, error: 'TO_EMAIL not configured' });
+    const TO_EMAIL = clean(process.env.TO_EMAIL);
+    if (!RESEND_API_KEY || !FROM_EMAIL || !TO_EMAIL) {
+      console.error("Missing required env vars for contact API");
+      return res.status(500).json({ ok: false, error: "Server error" });
     }
 
-    // Build plain-text body
-    const meta = data?.meta || {};
-    const dateStr = new Date(meta?.timestamp || Date.now()).toLocaleString('en-AU');
-    const pageRef = meta?.page || customer?.page || '-';
-    const lines = [];
-    const headline = isContact ? 'QF CONTACT' : (isQuote ? 'QF QUOTE' : 'QF BOOKING');
-    if (isContact) {
-      lines.push(`[${headline}]`);
-      lines.push(`Page: ${pageRef}`);
-      lines.push(`Submitted: ${dateStr}`);
-      lines.push('');
-      lines.push('FROM:');
-      lines.push(`  Name: ${customer?.name || '-'}`);
-      lines.push(`  Email: ${customer?.email}`);
-      lines.push('');
-      lines.push('MESSAGE');
-      const messageText = (customer?.notes || selections?.description || '').toString();
-      const messageLines = messageText ? messageText.split(/\r?\n/) : ['-'];
-      messageLines.forEach((line) => {
-        lines.push(`  ${line || '-'}`);
-      });
+    const recipientEmail = type === "quote" ? quoteEmail : bookingEmail;
+    const subjectBase = type === "quote" ? "QuickFresh Quote Request" : "QuickFresh Booking Request";
+    const subject = packageName ? `${subjectBase} - ${packageName}` : subjectBase;
+
+    const textParts = [
+      `Type: ${type}`,
+      `Package: ${packageName || "-"}`,
+      `Contact preference: ${contactPref || "-"}`,
+      `Customer email: ${recipientEmail || "-"}`,
+      `Page URL: ${pageUrl || "-"}`,
+      `Submitted at: ${submittedAt}`,
+      "",
+    ];
+
+    if (type === "quote") {
+      textParts.push(`Suburb: ${quoteSuburb || "-"}`);
+      textParts.push("Quote message:");
+      textParts.push(formatMultiline(quoteMessage));
     } else {
-      const totalLabel = `  $${Number(estimate?.total || 0).toFixed(0)}`;
-      lines.push(`[${headline}] ${customer.name || customer.email || 'New message'}${totalLabel}`);
-      lines.push(`Mode: ${mode}`);
-      lines.push(`Page: ${pageRef}`);
-      lines.push(`When: ${customer?.date || '-'}`);
-      lines.push(`Submitted: ${dateStr}`);
-      lines.push('--------------------------------------------------');
-      lines.push('');
-      lines.push(`CUSTOMER: ${customer.name || '-'} | ${customer.email} | ${customer.phone || '-'}`);
-      lines.push(`ADDRESS: ${customer.address || '-'}`);
-      lines.push('');
-      const accessText = String(selections?.access ?? '').trim();
-      const accessLines = accessText ? accessText.split(/\r?\n/) : ['-'];
-      lines.push('ACCESS:');
-      accessLines.forEach((line) => {
-        lines.push(`  ${line || '-'}`);
-      });
-      lines.push('');
-      const notesText = (customer?.notes ?? '').toString();
-      const notesLines = notesText ? notesText.split(/\r?\n/) : ['-'];
-      lines.push('NOTES:');
-      notesLines.forEach((line) => {
-        lines.push(`  ${line || '-'}`);
-      });
-      const jobText = (selections?.description ?? '').toString();
-      const jobLines = jobText ? jobText.split(/\r?\n/) : ['-'];
-      lines.push('JOB:');
-      jobLines.forEach((line) => {
-        lines.push(`  ${line || '-'}`);
-      });
-      lines.push('');
-      const carpetRooms   = Number(selections?.carpetRooms ?? selections?.carpets ?? selections?.rooms ?? 0);
-      const carpetHallway = Number(selections?.carpetHallway ?? selections?.hallway ?? 0);
-      const carpetStairs  = Number(selections?.carpetStairs ?? selections?.stairs ?? 0);
-      const rugTiny   = Number(selections?.rugTinyQty ?? 0);
-      const rugSmall  = Number(selections?.rugSmallQty ?? 0);
-      const rugMedium = Number(selections?.rugMediumQty ?? 0);
-      const rugLarge  = Number(selections?.rugLargeQty ?? 0);
-      const sofaSeats = Number(selections?.seats ?? 0);
-      const diningQty = Number(selections?.diningQty ?? 0);
-      const mSingle = Number(selections?.mSingle ?? 0);
-      const mDouble = Number(selections?.mDouble ?? 0);
-      const mQueen = Number(selections?.mQueen ?? 0);
-      const mKing = Number(selections?.mKing ?? 0);
-      lines.push('SERVICES:');
-      lines.push(`  Carpet: ${carpetRooms}   Hallway: ${carpetHallway}   Stairs: ${carpetStairs}`);
-      lines.push(`  Rugs: T${rugTiny} S${rugSmall} M${rugMedium} L${rugLarge}`);
-      lines.push(`  Upholstery: ${sofaSeats}   Dining: ${diningQty}`);
-      lines.push(`  Mattresses: S${mSingle} D${mDouble} Q${mQueen} K${mKing}`);
-      lines.push(`TOTAL: $${Number(estimate?.total || 0).toFixed(0)}`);
-      lines.push('');
-      lines.push('ITEMS:');
-      const estItems = Array.isArray(estimate?.items)
-        ? estimate.items
-        : (Array.isArray(estimate?.lineItems) ? estimate.lineItems : []);
-      estItems.forEach((it) => {
-        const qty = it?.kind === 'quote' ? '' : (it?.qty ?? '');
-        const subtotal =
-          it?.kind === 'quote'
-            ? 'On-site quote'
-            : typeof it?.subtotal === 'number'
-              ? `$${Number(it.subtotal).toFixed(0)}`
-              : (it?.subtotal ?? '');
-        lines.push(`- ${it.label}${qty ? ` x${qty}` : ''} = ${subtotal}`);
-      });
-      lines.push('--------------------------------------------------');
-      lines.push(`Request ID: ${requestId}`);
+      textParts.push(`Name: ${bookingName || "-"}`);
+      textParts.push(`Phone: ${bookingPhone || "-"}`);
+      textParts.push(`Address: ${bookingAddress || "-"}`);
+      textParts.push(`Preferred date/time: ${bookingPreferredDateTime || "-"}`);
+      textParts.push("Notes:");
+      textParts.push(formatMultiline(bookingNotes));
+      if (estimateBreakdown) {
+        textParts.push("");
+        textParts.push("Estimate breakdown:");
+        textParts.push(JSON.stringify(estimateBreakdown, null, 2));
+      }
     }
-    const textBody = lines.join('\n');
 
-    // Send via Resend
-    const payload = {
-      from: `QuickFresh <${FROM_EMAIL}>`,
-      to: TO_EMAIL,
-      reply_to: customer.email,
-      subject: isContact
-        ? `[${headline}] ${customer.name || customer.email || 'New message'}  ${requestId}`
-        : `[${headline}] ${customer.name || customer.email || 'New message'}  $${total.toFixed(0)}  ${requestId}`,
-      text: textBody,
-      headers: { 'X-Entity-Ref-ID': requestId },
-    };
-    const resp = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
+    const htmlSections = [
+      `<h2>${escapeHtml(subjectBase)}</h2>`,
+      `<p><strong>Type:</strong> ${escapeHtml(type)}</p>`,
+      `<p><strong>Package:</strong> ${escapeHtml(packageName || "-")}</p>`,
+      `<p><strong>Contact preference:</strong> ${escapeHtml(contactPref || "-")}</p>`,
+      `<p><strong>Customer email:</strong> ${escapeHtml(recipientEmail || "-")}</p>`,
+      `<p><strong>Page URL:</strong> ${escapeHtml(pageUrl || "-")}</p>`,
+      `<p><strong>Submitted at:</strong> ${escapeHtml(submittedAt)}</p>`,
+    ];
+
+    if (type === "quote") {
+      htmlSections.push(`<p><strong>Suburb:</strong> ${escapeHtml(quoteSuburb || "-")}</p>`);
+      htmlSections.push(`<h3>Quote message</h3><pre>${escapeHtml(quoteMessage)}</pre>`);
+    } else {
+      htmlSections.push(`<p><strong>Name:</strong> ${escapeHtml(bookingName || "-")}</p>`);
+      htmlSections.push(`<p><strong>Phone:</strong> ${escapeHtml(bookingPhone || "-")}</p>`);
+      htmlSections.push(`<p><strong>Address:</strong> ${escapeHtml(bookingAddress || "-")}</p>`);
+      htmlSections.push(`<p><strong>Preferred date/time:</strong> ${escapeHtml(bookingPreferredDateTime || "-")}</p>`);
+      htmlSections.push(`<h3>Notes</h3><pre>${escapeHtml(bookingNotes || "-")}</pre>`);
+      if (estimateBreakdown) {
+        htmlSections.push(`<h3>Estimate breakdown</h3><pre>${escapeHtml(JSON.stringify(estimateBreakdown, null, 2))}</pre>`);
+      }
+    }
+
+    const resendResponse = await fetch("https://api.resend.com/emails", {
+      method: "POST",
       headers: {
         Authorization: `Bearer ${RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        from: FROM_EMAIL,
+        to: TO_EMAIL,
+        reply_to: recipientEmail,
+        subject,
+        text: textParts.join("\n"),
+        html: htmlSections.join("\n"),
+      }),
     });
 
-    // Parse error details (Resend often returns JSON)
-    const ct = resp.headers.get('content-type') || '';
-    const details = ct.includes('application/json')
-      ? await resp.json().catch(() => null)
-      : await resp.text().catch(() => '');
-
-    if (!resp.ok) {
-      console.error('Resend error:', resp.status, details);
-      // Return the real status, so debugging is easier
-      return res.status(resp.status).json({
-        ok: false,
-        error: 'Resend API error',
-        details,
-      });
+    if (!resendResponse.ok) {
+      const detailText = await resendResponse.text().catch(() => "");
+      console.error("Resend API error", resendResponse.status, detailText);
+      return res.status(500).json({ ok: false, error: "Server error" });
     }
 
-    return res.status(200).json({ ok: true, requestId });
-  } catch (e) {
-    console.error('Handler error:', e);
-    return res.status(500).json({ ok: false, error: e?.message || 'Unexpected error' });
+    return res.status(200).json({ ok: true });
+  } catch (error) {
+    console.error("Contact API handler error", error);
+    return res.status(500).json({ ok: false, error: "Server error" });
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

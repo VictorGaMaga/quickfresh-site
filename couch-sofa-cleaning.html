@@ -49,6 +49,165 @@
       text-decoration-thickness:1px;
       text-underline-offset:2px;
     }
+    .cta-pills{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      align-items:center;
+      gap:10px;
+      margin-top:10px;
+      width:100%;
+      max-width:520px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+    .cta-secondary{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:38px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid #d3dde7;
+      background:#f5f8fc;
+      color:#1f2937;
+      font-size:13px;
+      font-weight:700;
+      text-decoration:none;
+      transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+    }
+    .cta-secondary:hover{
+      background:#e9f1f9;
+      border-color:#bfd0e0;
+    }
+    .cta-secondary:focus-visible{
+      outline:2px solid #1d4ed8;
+      outline-offset:2px;
+      box-shadow:0 0 0 3px rgba(29,78,216,.2);
+    }
+    .cta-secondary.is-default{
+      border-color:#9fc0de;
+      background:#e8f1fb;
+      color:#0f3f74;
+    }
+    .quick-price-card{
+      margin-top:10px;
+      display:grid;
+      gap:12px;
+      grid-template-columns: 1.2fr .8fr;
+      align-items:start;
+    }
+    .quick-price-main{
+      display:grid;
+      gap:8px;
+      min-width:0;
+    }
+    .quick-price-head{
+      display:grid;
+      gap:2px;
+    }
+    .quick-price-line{
+      display:flex;
+      align-items:baseline;
+      gap:8px;
+      line-height:1.2;
+      color:#0f172a;
+    }
+    .quick-price-value{
+      font-size:34px;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+    .quick-price-label{
+      font-size:15px;
+      font-weight:700;
+    }
+    .quick-price-extra{
+      font-size:17px;
+      font-weight:700;
+      color:#0f3f74;
+    }
+    .quick-price-note{
+      font-size:13px;
+      color:var(--muted);
+      margin:0;
+    }
+    .quick-price-combo{
+      display:grid;
+      gap:4px;
+      margin-top:2px;
+    }
+    .quick-price-combo-line{
+      font-size:13px;
+      color:#1f2937;
+    }
+    .quick-price-chip{
+      display:inline-flex;
+      align-items:center;
+      min-height:24px;
+      padding:2px 10px;
+      border-radius:999px;
+      border:1px solid #dbe3ed;
+      background:#f8fafc;
+      color:#334155;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:.02em;
+      text-transform:uppercase;
+      margin-right:6px;
+      vertical-align:middle;
+    }
+    .quick-price-combo-note{
+      font-size:12px;
+      color:var(--muted);
+      margin-left:2px;
+    }
+    .quick-price-process{
+      display:grid;
+      gap:6px;
+      padding:10px 12px;
+      border:1px solid var(--card-border);
+      border-radius:12px;
+      background:#fafcff;
+    }
+    .quick-price-process-title{
+      font-size:13px;
+      font-weight:700;
+      color:#0f172a;
+    }
+    .quick-price-process-list{
+      margin:0;
+      padding-left:18px;
+      display:grid;
+      gap:4px;
+      color:#334155;
+      font-size:13px;
+    }
+    .offer-card .packages-cta{ margin-top:12px; display:grid; gap:10px; }
+    .offer-card .packages-cta .btn.primary{ width:100%; }
+    .offer-card .packages-cta .cta-pills{
+      margin-top:0;
+      justify-content:flex-start;
+      max-width:none;
+      margin-left:0;
+      gap:10px;
+    }
+    .offer-card .packages-cta .cta-secondary{
+      min-height:42px;
+      padding:10px 16px;
+      font-size:14px;
+    }
+    @media (max-width: 640px){
+      .quick-price-card{ grid-template-columns: 1fr; gap:10px; }
+      .quick-price-value{ font-size:30px; }
+      .quick-price-label{ font-size:15px; }
+      .quick-price-extra{ font-size:16px; }
+      .offer-card .packages-cta .cta-secondary{
+        min-height:44px;
+        padding:11px 16px;
+      }
+    }
+    .quote-form-card .help{ margin-top:6px; }
     .estimate-toggle{
       font-size:12px;
       color:var(--muted);
@@ -254,21 +413,86 @@
         <span class="pill">Light deodorising included</span>
       </div>
       <div class="actions hero-cta" style="margin-top:10px">
-        <a class="btn primary" href="#estimate" data-open-section="upholstery-sofa-content" data-focus="seats">GET INSTANT ESTIMATE (30S)</a>
+        <button class="btn primary" id="cta-quote" type="button">REQUEST A QUOTE</button>
       </div>
-      <a class="hero-wa-link" style="margin-top:6px; display:inline-block" href="https://wa.me/61451664247">Prefer WhatsApp? Fast reply.</a>
+      <div class="cta-pills" aria-label="Contact options">
+        <a class="cta-secondary wa-quote is-default" id="cta-wa"
+           data-package="Couch / Sofa Cleaning"
+           data-base="129"
+           data-extra="40"
+           target="_blank" rel="noopener"
+           href="https://wa.me/61451664247"
+           aria-label="Quote via WhatsApp">WhatsApp</a>
+        <a class="cta-secondary sms-quote" id="cta-sms"
+           data-package="Couch / Sofa Cleaning"
+           data-base="129"
+           data-extra="40"
+           href="sms:+61451664247?&body=Hi%20QuickFresh%20%F0%9F%91%8B%20Id%20like%20a%20quote%20for%20Couch%20/%20Sofa%20Cleaning."
+           aria-label="Quote via SMS">SMS</a>
+        <a class="cta-secondary email-quote" id="cta-email"
+           href="#custom-quote"
+           data-package="Couch / Sofa Cleaning"
+           data-base="129"
+           data-extra="40"
+           aria-label="Quote via Email">Email</a>
+      </div>
     </div>
   </section>
 
   <section class="section package-section">
     <div class="container">
       <div class="card offer-card" style="padding:16px 18px">
-        <h2>Pick your path</h2>
-        <div class="actions" style="margin-top:10px; display:grid; gap:10px">
-          <a class="btn secondary" href="#estimate" data-set-seats="2" data-open-section="upholstery-sofa-content" data-focus="seats">Start from $149</a>
+        <h2>Quick price</h2>
+        <div class="quick-price-card" aria-label="Sofa quick pricing">
+          <div class="quick-price-main">
+            <div class="quick-price-head">
+              <div class="quick-price-line">
+                <span class="quick-price-value">$129</span>
+                <span class="quick-price-label">up to 3 seats</span>
+              </div>
+              <div class="quick-price-line">
+                <span class="quick-price-extra">+$40 per extra seat</span>
+              </div>
+            </div>
+            <p class="quick-price-note">Seat = one seating position. Final price confirmed after a quick inspection.</p>
+            <div class="quick-price-combo">
+              <div class="quick-price-combo-line"><span class="quick-price-chip">COMBO DISCOUNT</span>1 seat from $59 (with another service in the same visit)</div>
+              <div class="quick-price-combo-note">Applies only when the combined total stays &ge; $129 minimum call-out.</div>
+            </div>
+          </div>
+          <div class="quick-price-process" aria-label="Standard upholstery process">
+            <div class="quick-price-process-title">Process (standard upholstery clean):</div>
+            <ul class="quick-price-process-list">
+              <li>Pre-vacuum (if needed)</li>
+              <li>Pre-spray</li>
+              <li>Scrub / agitation</li>
+              <li>Hot water extraction (steam)</li>
+            </ul>
+          </div>
         </div>
-        <div class="sub" style="margin-top:6px">Minimum call-out covers travel + setup and a standard upholstery clean. Final price confirmed on-site after a quick inspection.</div>
-        <a class="sub" href="#description" data-quote-link="true" data-quote-prefix="Complex job: " style="margin-top:6px; display:inline-block; font-size:12px; color:var(--muted)">Stains / pet accidents / odour? Add details in Notes for an on-site assessment.</a>
+        <div class="actions packages-cta">
+          <a class="btn primary wa-quote"
+             data-package="Couch / Sofa Cleaning"
+             data-base="129"
+             data-extra="40"
+             href="https://wa.me/61451664247"
+             target="_blank" rel="noopener"
+             aria-label="Quote couch cleaning via WhatsApp">QUOTE VIA WHATSAPP</a>
+          <div class="cta-pills">
+            <a class="cta-secondary sms-quote"
+               data-package="Couch / Sofa Cleaning"
+               data-base="129"
+               data-extra="40"
+               href="sms:+61451664247?&body=Hi%20QuickFresh%20%F0%9F%91%8B%20Id%20like%20a%20quote%20for%20Couch%20/%20Sofa%20Cleaning."
+               aria-label="Quote couch cleaning via SMS">SMS</a>
+            <a class="cta-secondary email-quote"
+               data-package="Couch / Sofa Cleaning"
+               data-base="129"
+               data-extra="40"
+               href="#custom-quote"
+               aria-label="Quote couch cleaning via Email">Email</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -316,7 +540,27 @@
 
   <section class="section estimate-section" id="estimate">
     <div class="container">
-      <h2>Get your instant estimate</h2>
+      <h2 id="custom-quote">Request a quote</h2>
+      <p class="sub">Share your details first. Prefer an itemised estimate? Use the optional calculator below.</p>
+
+      <section class="card quote-form-card">
+        <div class="card-head"><h3 class="card-title">Custom quote details</h3></div>
+        <div class="card-body">
+          <input type="hidden" id="contactPref" name="contact_pref" value="">
+          <input type="hidden" id="package" name="package" value="">
+          <label for="customQuoteEmail">Your email</label>
+          <input type="email" id="customQuoteEmail" name="quoteEmail" placeholder="you@example.com" required>
+          <label for="quoteSuburb">Suburb</label>
+          <input type="text" id="quoteSuburb" name="quoteSuburb" placeholder="Subiaco" required>
+          <p class="help">We reply from enquiries@quickfresh.com.au.</p>
+          <label for="customQuoteMessage">Quote details</label>
+          <textarea id="customQuoteMessage" name="quoteDetails" rows="4" placeholder="Sofa seats: __. Suburb: __. Preferred day/time: __. Notes: __" required></textarea>
+          <button class="btn primary" id="sendQuoteBtn" type="button" style="margin-top:10px">SEND QUOTE REQUEST</button>
+          <div id="quoteStatus" class="help" role="status" aria-live="polite" style="margin-top:8px"></div>
+        </div>
+      </section>
+
+      <h3 style="margin-top:14px">Prefer an itemised estimate? (Optional)</h3>
       <p class="sub">Start with Seats. Add rugs/carpets only if needed.</p>
 
       <div class="card-stack">
@@ -347,8 +591,8 @@
                   </select>
                   <button class="stepper" type="button" data-target="seats" data-dir="+">+</button>
                 </div>
-                <span class="price-badge" style="margin-top:8px">From $40/seat</span>
-                <div class="u-muted">Seat = one sitting spot.</div>
+                <span class="price-badge" style="margin-top:8px">Up to 3 seats $129  +$40 each additional seat</span>
+                <div class="u-muted">Seat = one sitting spot (one sitting position).</div>
               </div>
 
               <div>
@@ -357,8 +601,8 @@
                   <button type="button" data-double-sided="false" aria-selected="true">Standard</button>
                   <button type="button" data-double-sided="true" aria-selected="false">Both sides</button>
                 </div>
-                <span class="price-badge" style="margin-top:8px">+$10 / seat</span>
-                <div class="u-muted">Only if cushions come off and you want both sides cleaned.</div>
+                <span class="price-badge" style="margin-top:8px">Optional add-on</span>
+                <div class="u-muted">Both-sides cleaning is available where cushions can be safely cleaned on both faces.</div>
                 <input id="doubleSided" type="checkbox" class="visually-hidden">
               </div>
 
@@ -371,9 +615,8 @@
               </div>
 
               <div class="u-guide">
-                <div class="u-guide-label">Price guide</div>
-                <div>Standard: 1 $50  2 $90  3 $120  4+ +$40/seat</div>
-                <div>Both sides: +$10/seat</div>
+                <div class="u-guide-label">Combo discount</div>
+                <div>Single seat from $59 only when bundled with another service and the combined total remains at or above the $129 minimum call-out.</div>
               </div>
             </div>
           </div>
@@ -843,7 +1086,7 @@
           <div class="tag">ABN 34 299 171 377 Perth, WA</div>
         </div>
       </div>
-      <div class="sub">c <span id="year"></span> QuickFresh. Minimum call-out $149. Final price confirmed on site.</div>
+      <div class="sub">c <span id="year"></span> QuickFresh. Minimum call-out $129. Final price confirmed on site.</div>
     </div>
   </footer>
 
@@ -869,6 +1112,202 @@
   <script src="js/booking-ui.js" defer></script>
   <script src="js/booking-submit.js" defer></script>
   <script src="js/script.js" defer></script>
+  <script>
+    (() => {
+      const QF_PHONE_E164 = "61451664247";
+      const DEFAULT_QUOTE_DATA = { packageName: "Couch / Sofa Cleaning", basePrice: "129", extraRoomPrice: "40" };
+      let selectedQuoteData = { ...DEFAULT_QUOTE_DATA };
+      const quoteEmailInput = document.getElementById("customQuoteEmail");
+      const quoteSuburbInput = document.getElementById("quoteSuburb");
+      const quoteDetailsInput = document.getElementById("customQuoteMessage");
+      const quoteStatus = document.getElementById("quoteStatus");
+      const quoteSubmitBtn = document.getElementById("sendQuoteBtn");
+      const contactPrefInput = document.getElementById("contactPref");
+      const packageInput = document.getElementById("package");
+
+      function buildQuoteMessage({ packageName, basePrice, extraRoomPrice }) {
+        const pkg = packageName || "Couch / Sofa Cleaning";
+        const priceText = basePrice ? ` (up to 3 seats $${basePrice}${extraRoomPrice ? `, +$${extraRoomPrice} per extra seat` : ""})` : "";
+        return `Hi QuickFresh - Id like a quote for: ${pkg}${priceText}.\nSeats: __  Suburb: __  Preferred day/time: __\nNotes (fabric/odour/stains): __`;
+      }
+
+      function buildWhatsAppHref(message) {
+        return `https://wa.me/${QF_PHONE_E164}?text=${encodeURIComponent(message)}`;
+      }
+
+      function getSmsHref(message) {
+        return `sms:+${QF_PHONE_E164}?&body=${encodeURIComponent(message)}`;
+      }
+
+      function readCtaData(el) {
+        return {
+          packageName: (el.getAttribute("data-package") || "").trim(),
+          basePrice: (el.getAttribute("data-base") || "").trim(),
+          extraRoomPrice: (el.getAttribute("data-extra") || "").trim(),
+        };
+      }
+
+      function getQuoteDataFromSource(el) {
+        const data = el ? readCtaData(el) : {};
+        return {
+          packageName: data.packageName || selectedQuoteData.packageName || "Couch / Sofa Cleaning",
+          basePrice: data.basePrice || selectedQuoteData.basePrice || "129",
+          extraRoomPrice: data.extraRoomPrice || selectedQuoteData.extraRoomPrice || "40",
+        };
+      }
+
+      function setStatus(el, message, isError) {
+        if (!el) return;
+        el.textContent = message || "";
+        el.style.color = isError ? "#b91c1c" : "#166534";
+      }
+
+      async function submitContact(payload, opts = {}) {
+        const button = opts.button || null;
+        const statusEl = opts.statusEl || null;
+        const loadingText = opts.loadingText || "Sending...";
+        const successText = opts.successText || "Sent successfully.";
+        const errorPrefix = opts.errorPrefix || "Couldn't send request.";
+        const originalText = button ? button.textContent : "";
+
+        if (button) {
+          button.disabled = true;
+          button.textContent = loadingText;
+        }
+        setStatus(statusEl, "", false);
+
+        try {
+          const response = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const data = await response.json().catch(() => ({ ok: false, error: "Server error" }));
+          if (!response.ok || !data.ok) {
+            setStatus(statusEl, `${errorPrefix} ${data.error || "Server error"}`, true);
+            return { ok: false };
+          }
+          setStatus(statusEl, successText, false);
+          return { ok: true };
+        } catch (_error) {
+          setStatus(statusEl, `${errorPrefix} Network error.`, true);
+          return { ok: false };
+        } finally {
+          if (button) {
+            button.disabled = false;
+            button.textContent = originalText || "Send";
+          }
+        }
+      }
+
+      function openCustomQuote({ quoteData, focus = "email" }) {
+        const data = quoteData || selectedQuoteData || DEFAULT_QUOTE_DATA;
+        const message = buildQuoteMessage(data);
+        const target = document.getElementById("custom-quote") || document.getElementById("estimate");
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        if (contactPrefInput) contactPrefInput.value = "email";
+        if (packageInput) packageInput.value = data.packageName || "Couch / Sofa Cleaning";
+        if (quoteDetailsInput && !quoteDetailsInput.value.trim()) {
+          quoteDetailsInput.value = message;
+        }
+
+        const fallback = quoteDetailsInput || quoteSuburbInput;
+        const focusTarget = focus === "email" ? (quoteEmailInput || fallback) : (fallback || quoteEmailInput);
+        if (focusTarget) {
+          window.setTimeout(() => focusTarget.focus({ preventScroll: true }), 260);
+        }
+      }
+
+      function wireQuoteActions() {
+        const quoteBtn = document.getElementById("cta-quote");
+        if (quoteBtn) {
+          quoteBtn.addEventListener("click", () => openCustomQuote({ quoteData: selectedQuoteData, focus: "email" }));
+        }
+
+        document.querySelectorAll(".wa-quote").forEach((el) => {
+          const data = getQuoteDataFromSource(el);
+          el.setAttribute("href", buildWhatsAppHref(buildQuoteMessage(data)));
+          el.addEventListener("click", () => {
+            selectedQuoteData = { ...data };
+            if (contactPrefInput) contactPrefInput.value = "whatsapp";
+            if (packageInput) packageInput.value = data.packageName || "Couch / Sofa Cleaning";
+          });
+        });
+
+        document.querySelectorAll(".sms-quote").forEach((el) => {
+          const data = getQuoteDataFromSource(el);
+          el.setAttribute("href", getSmsHref(buildQuoteMessage(data)));
+          el.addEventListener("click", () => {
+            selectedQuoteData = { ...data };
+            if (contactPrefInput) contactPrefInput.value = "sms";
+            if (packageInput) packageInput.value = data.packageName || "Couch / Sofa Cleaning";
+          });
+        });
+
+        document.querySelectorAll(".email-quote").forEach((el) => {
+          el.addEventListener("click", (event) => {
+            event.preventDefault();
+            const data = getQuoteDataFromSource(el);
+            selectedQuoteData = { ...data };
+            openCustomQuote({ quoteData: data, focus: "email" });
+          });
+        });
+
+        if (quoteSubmitBtn) {
+          quoteSubmitBtn.addEventListener("click", async () => {
+            const email = quoteEmailInput ? quoteEmailInput.value.trim() : "";
+            const suburb = quoteSuburbInput ? quoteSuburbInput.value.trim() : "";
+            const message = quoteDetailsInput ? quoteDetailsInput.value.trim() : "";
+            const packageName = (packageInput && packageInput.value.trim()) || selectedQuoteData.packageName || "Couch / Sofa Cleaning";
+            if (contactPrefInput) contactPrefInput.value = "email";
+            if (packageInput) packageInput.value = packageName;
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+              setStatus(quoteStatus, "Please enter a valid email.", true);
+              return;
+            }
+            if (suburb.length < 2) {
+              setStatus(quoteStatus, "Please enter your suburb.", true);
+              return;
+            }
+            if (message.length < 10) {
+              setStatus(quoteStatus, "Quote details must be at least 10 characters.", true);
+              return;
+            }
+
+            const result = await submitContact(
+              {
+                type: "quote",
+                pageUrl: location.href,
+                contactPref: "email",
+                packageName,
+                email,
+                suburb,
+                message,
+              },
+              {
+                button: quoteSubmitBtn,
+                statusEl: quoteStatus,
+                loadingText: "Sending...",
+                successText: "Thanks! Well reply soon.",
+                errorPrefix: "Could not send quote request.",
+              }
+            );
+            if (result.ok && quoteDetailsInput) {
+              quoteDetailsInput.value = "";
+            }
+          });
+        }
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", wireQuoteActions, { once: true });
+      } else {
+        wireQuoteActions();
+      }
+    })();
+  </script>
   <script>
     document.addEventListener('keydown', (e) => {
       const card = e.target.closest('.card-select');

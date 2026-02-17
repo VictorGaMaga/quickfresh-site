@@ -5,7 +5,7 @@
   const $ = (id) => document.getElementById(id);
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
-  const MINIMUM_CALLOUT = window.QUICKFRESH_PRICES?.MINIMUM_CALLOUT || window.QUICKFRESH_PRICES?.MIN_TOTAL || 149;
+  const MINIMUM_CALLOUT = window.QUICKFRESH_PRICES?.MINIMUM_CALLOUT || window.QUICKFRESH_PRICES?.MIN_TOTAL || 129;
 
   function getEl(id, warn = true){
     const el = $(id);

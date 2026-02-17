@@ -1,20 +1,20 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Perth Carpet Cleaning | QuickFresh Cleaning &amp; Care</title>
-  <meta name="description" content="Perth carpet cleaning by owner-operator. Fast quotes, minimum $149, standard rooms from $50. Text confirmation, no online payment.">
+  <meta name="description" content="Perth carpet cleaning by owner-operator. Fast quotes, minimum $129, standard rooms from $50. Text confirmation, no online payment.">
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
   <link rel="canonical" href="https://quickfresh.com.au/carpet-cleaning">
   <meta property="og:title" content="Perth Carpet Cleaning | QuickFresh Cleaning &amp; Care">
-  <meta property="og:description" content="Perth carpet cleaning by owner-operator. Fast quotes, minimum $149, standard rooms from $50. Text confirmation, no online payment.">
+  <meta property="og:description" content="Perth carpet cleaning by owner-operator. Fast quotes, minimum $129, standard rooms from $50. Text confirmation, no online payment.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://quickfresh.com.au/carpet-cleaning">
   <meta property="og:image" content="https://quickfresh.com.au/assets/logo.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Perth Carpet Cleaning | QuickFresh Cleaning &amp; Care">
-  <meta name="twitter:description" content="Perth carpet cleaning by owner-operator. Fast quotes, minimum $149, standard rooms from $50. Text confirmation, no online payment.">
+  <meta name="twitter:description" content="Perth carpet cleaning by owner-operator. Fast quotes, minimum $129, standard rooms from $50. Text confirmation, no online payment.">
   <meta name="twitter:image" content="https://quickfresh.com.au/assets/logo.png">
   <script type="application/ld+json">[{"@context":"https://schema.org","@type":"LocalBusiness","@id":"https://quickfresh.com.au/#business","name":"QuickFresh Cleaning & Care","url":"https://quickfresh.com.au/","areaServed":"Perth, WA","telephone":"0451664247","email":"info@quickfresh.com.au","address":{"@type":"PostalAddress","addressLocality":"Perth","addressRegion":"WA","addressCountry":"AU"}},{"@type":"Service","name":"Carpet Cleaning","serviceType":"Carpet Cleaning","areaServed":"Perth, WA","provider":{"@id":"https://quickfresh.com.au/#business"}}]</script>
 <link rel="preload" href="/css/variables.css" as="style">
@@ -36,6 +36,7 @@
   <link rel="stylesheet" href="/css/accessibility-motion.css">
   <link rel="stylesheet" href="/css/responsive.css">
   <link rel="stylesheet" href="/css/overrides.css">
+  <link rel="stylesheet" href="/css/packages.css">
   <style>
     #estimate{ scroll-margin-top:90px; }
     .offers-grid{ display:grid; gap:12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -46,6 +47,163 @@
       text-decoration:underline;
       text-decoration-thickness:1px;
       text-underline-offset:2px;
+    }
+    .contact-row,
+    .cta-pills{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      align-items:center;
+      gap:10px;
+      margin-top:10px;
+      width:100%;
+    }
+    .contact-row.is-hero,
+    .cta-pills.is-hero{
+      max-width:520px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+    .cta-primary{
+      width:100%;
+    }
+    .cta-secondary{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:36px;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid #d3dde7;
+      background:#f5f8fc;
+      color:#1f2937;
+      font-size:13px;
+      font-weight:700;
+      text-decoration:none;
+      transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+    }
+    .cta-secondary:hover{
+      background:#e9f1f9;
+      border-color:#bfd0e0;
+    }
+    .cta-secondary:focus-visible{
+      outline:2px solid #1d4ed8;
+      outline-offset:2px;
+      box-shadow:0 0 0 3px rgba(29,78,216,.2);
+    }
+    .cta-secondary.is-default{
+      border-color:#9fc0de;
+      background:#e8f1fb;
+      color:#0f3f74;
+    }
+    .cta-secondary.is-default:hover{
+      border-color:#89add0;
+      background:#dceaf8;
+    }
+    .cta-mini{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:36px;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid #d3dde7;
+      background:#f5f8fc;
+      color:#1f2937;
+      font-size:13px;
+      font-weight:700;
+      text-decoration:none;
+      transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+    }
+    .cta-mini:hover{
+      background:#e9f1f9;
+      border-color:#bfd0e0;
+    }
+    .cta-mini:focus-visible{
+      outline:2px solid #1d4ed8;
+      outline-offset:2px;
+      box-shadow:0 0 0 3px rgba(29,78,216,.2);
+    }
+    .package-cta{
+      margin-top:10px;
+      display:grid;
+      gap:8px;
+    }
+    .package-cta .contact-row,
+    .card-secondary-cta{
+      justify-content:flex-start;
+      margin-top:0;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .package-cta .cta-mini,
+    .card-secondary-cta a,
+    .card-secondary-cta button{
+      min-height:40px;
+      padding:9px 14px;
+      font-size:14px;
+      font-weight:600;
+      line-height:1;
+      border:1.5px solid rgba(15, 23, 42, 0.14);
+      background:#fff;
+      color:rgba(15, 23, 42, 0.88);
+      text-decoration:none;
+      border-radius:999px;
+    }
+    .package-cta .cta-mini:hover,
+    .card-secondary-cta a:hover,
+    .card-secondary-cta button:hover{
+      border-color:rgba(37, 99, 235, 0.35);
+      box-shadow:0 6px 14px rgba(2, 6, 23, 0.06);
+      background:#f8fbff;
+    }
+    .package-cta .cta-mini:focus-visible,
+    .card-secondary-cta a:focus-visible,
+    .card-secondary-cta button:focus-visible{
+      outline:2px solid #1d4ed8;
+      outline-offset:2px;
+      box-shadow:0 0 0 3px rgba(29,78,216,.2);
+    }
+    .quote-section-title{
+      margin-bottom:6px;
+    }
+    .optional-estimate{
+      margin-top:14px;
+      border:1px solid #dbe3ed;
+      border-radius:14px;
+      background:#f8fafc;
+      padding:10px 12px;
+    }
+    .optional-estimate > summary{
+      cursor:pointer;
+      font-weight:700;
+      color:#0f172a;
+      list-style:none;
+    }
+    .optional-estimate > summary::-webkit-details-marker{
+      display:none;
+    }
+    .optional-estimate .optional-estimate-help{
+      margin-top:6px;
+      margin-bottom:8px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .estimate-inline-link{
+      background:none;
+      border:none;
+      padding:0;
+      color:#0b5cab;
+      font-weight:700;
+      text-decoration:underline;
+      text-underline-offset:2px;
+      cursor:pointer;
+      min-height:28px;
+    }
+    .estimate-inline-link:focus-visible{
+      outline:2px solid #1d4ed8;
+      outline-offset:2px;
     }
     .estimate-toggle{
       font-size:12px;
@@ -143,7 +301,62 @@
     .toggle-caret{ display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:10px; }
     .chev{ transition: transform .18s ease; }
     .toggle-head[aria-expanded="true"] .chev{ transform: rotate(180deg); }
-    @media (min-width:900px){ .sticky-total-bar{ display:none !important; } }
+    @media (min-width:900px){
+      .sticky-total-bar{ display:none !important; }
+      .hero-cta-wrap{
+        max-width:860px;
+        margin:0 auto;
+      }
+      .hero-cta{
+        margin-top:8px !important;
+      }
+      .hero-cta-wrap .hero-cta-main{
+        width:100%;
+        padding:14px 24px;
+        border-radius:999px;
+        box-shadow:0 8px 20px rgba(0,0,0,.08);
+      }
+      .hero-cta-wrap .hero-cta-chips{
+        width:auto;
+        display:inline-flex;
+        max-width:100%;
+        margin-top:8px;
+        gap:10px;
+        flex-wrap:nowrap;
+        margin-left:auto;
+        margin-right:auto;
+        padding:6px;
+        border:1px solid #dbe6f2;
+        border-radius:999px;
+        background:#f8fbff;
+      }
+      .hero-cta-wrap .hero-cta-chips .cta-secondary{
+        min-height:42px;
+        padding:10px 18px;
+        font-size:15px;
+      }
+      .hero-cta-wrap .hero-cta-links{
+        margin-top:8px;
+        gap:14px;
+      }
+      .hero-cta-wrap .hero-cta-links .hero-link{
+        font-size:14px;
+        color:#334155;
+      }
+      .packages-section{
+        padding-top:22px;
+      }
+      .card-secondary-cta{
+        gap:12px;
+        margin-top:12px;
+      }
+      .card-secondary-cta a,
+      .card-secondary-cta button{
+        min-height:46px;
+        padding:10px 16px;
+        font-size:15px;
+      }
+    }
     @media (max-width: 899px){
       .sticky-total-inner{ padding:4px 8px; gap:6px; }
       .sticky-total-bar .btn{ padding:4px 8px; font-size:13px; }
@@ -165,6 +378,11 @@
       .section.hero .sub{ margin-top:6px; }
       .section.hero .actions{ display:grid; gap:12px; }
       .section.hero .actions .btn{ padding:14px 16px; }
+      .contact-row.is-hero .cta-mini,
+      .cta-pills.is-hero .cta-secondary{
+        flex:1 1 calc(50% - 8px);
+        min-width:112px;
+      }
       .actions .btn{ width:100%; }
       .offers-grid{ grid-template-columns:1fr; gap:12px; }
       .offer-card{ padding:14px; }
@@ -184,8 +402,97 @@
       .estimate-section .card-stack{ gap:10px; }
       .qty-select{ width:100%; }
       .stepper{ width:44px; height:44px; }
-      .actions:not(.hero-cta):not(.reviews-cta):not(.packages-cta){ display:none; }
+      .actions:not(.hero-cta):not(.reviews-cta){ display:none; }
       .sub, .u-muted, .list li{ line-height:1.6; }
+    }
+    @media (max-width: 480px){
+      .package-cta .contact-row{
+        gap:12px;
+      }
+      .package-cta .cta-mini{
+        min-height:44px;
+        padding:12px 18px;
+        font-size:15px;
+        flex:1 1 120px;
+      }
+    }
+
+    /* Card secondary CTA row (package cards only) */
+    .package-card .card-secondary-cta,
+    .pricing-card .card-secondary-cta,
+    .package .card-secondary-cta{
+      display:flex;
+      gap:10px;
+      margin-top:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    /* Target exact JS-wired anchors inside package cards */
+    .package-card .card-secondary-cta .sms-quote,
+    .package-card .card-secondary-cta .email-quote,
+    .pricing-card .card-secondary-cta .sms-quote,
+    .pricing-card .card-secondary-cta .email-quote,
+    .package .card-secondary-cta .sms-quote,
+    .package .card-secondary-cta .email-quote{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:42px;
+      padding:11px 18px;
+      font-size:14px;
+      font-weight:700;
+      border-radius:999px;
+      border:1.5px solid rgba(15, 23, 42, 0.18);
+      background:#fff;
+      color:rgba(15, 23, 42, 0.92);
+      text-decoration:none;
+      line-height:1;
+      transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    }
+
+    .package-card .card-secondary-cta .sms-quote:hover,
+    .package-card .card-secondary-cta .email-quote:hover,
+    .pricing-card .card-secondary-cta .sms-quote:hover,
+    .pricing-card .card-secondary-cta .email-quote:hover,
+    .package .card-secondary-cta .sms-quote:hover,
+    .package .card-secondary-cta .email-quote:hover{
+      border-color:rgba(37, 99, 235, 0.40);
+      box-shadow:0 8px 18px rgba(2, 6, 23, 0.08);
+      transform:translateY(-1px);
+    }
+
+    @media (min-width: 900px){
+      .package-card .card-secondary-cta,
+      .pricing-card .card-secondary-cta,
+      .package .card-secondary-cta{
+        gap:12px;
+        margin-top:12px;
+      }
+
+      .package-card .card-secondary-cta .sms-quote,
+      .package-card .card-secondary-cta .email-quote,
+      .pricing-card .card-secondary-cta .sms-quote,
+      .pricing-card .card-secondary-cta .email-quote,
+      .package .card-secondary-cta .sms-quote,
+      .package .card-secondary-cta .email-quote{
+        min-height:48px;
+        padding:12px 20px;
+        font-size:15px;
+        border-width:2px;
+      }
+    }
+    @media (max-width: 480px){
+      .package-card .card-secondary-cta .sms-quote,
+      .package-card .card-secondary-cta .email-quote,
+      .pricing-card .card-secondary-cta .sms-quote,
+      .pricing-card .card-secondary-cta .email-quote,
+      .package .card-secondary-cta .sms-quote,
+      .package .card-secondary-cta .email-quote{
+        min-height:44px;
+        padding:12px 18px;
+        font-size:15px;
+      }
     }
   </style>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FDNZL20M0R"></script>
@@ -251,24 +558,154 @@
         <span class="pill">Deep clean (HWE)</span>
         <span class="pill">Light deodorising included</span>
       </div>
-      <div class="actions hero-cta" style="margin-top:10px">
-        <a class="btn primary" href="#estimate">Get instant estimate (30s)</a>
+      <div class="hero-cta-wrap">
+        <div class="actions hero-cta" style="margin-top:10px">
+          <button class="btn primary package-primary-cta cta-primary hero-cta-main" id="cta-quote" type="button">REQUEST A QUOTE</button>
+        </div>
+        <div class="cta-pills is-hero hero-cta-chips" aria-label="Contact options">
+          <a class="cta-secondary whatsapp wa-quote is-default" id="cta-wa"
+             data-package="General"
+             data-base=""
+             data-extra=""
+             target="_blank" rel="noopener"
+             href="https://wa.me/61451664247"
+             aria-label="Quote via WhatsApp">WhatsApp</a>
+          <a class="cta-secondary sms sms-quote" id="cta-sms"
+             data-package="General"
+             data-base=""
+             data-extra=""
+             href="sms:+61451664247?&body=Hi%20QuickFresh%20%F0%9F%91%8B%20Id%20like%20a%20quote."
+             aria-label="Quote via SMS">SMS</a>
+          <a class="cta-secondary email email-quote" id="cta-email"
+              href="#custom-quote"
+             data-package="General"
+             data-base=""
+             data-extra=""
+             aria-label="Quote via Email">Email</a>
+        </div>
+        <div class="hero-links hero-cta-links">
+          <a class="hero-link" href="#packages">Choose a package</a>
+          <a class="hero-link" href="#estimate">Prefer itemised estimate?</a>
+        </div>
       </div>
-      <a class="hero-wa-link" style="margin-top:6px; display:inline-block" href="https://wa.me/61451664247">Prefer WhatsApp? Fast reply.</a>
     </div>
   </section>
 
-  <section class="section package-section">
+  <section class="section packages-section package-section" id="packages">
     <div class="container">
-      <div class="card offer-card" style="padding:16px 18px">
-        <h2>Pick your path</h2>
-        <div class="actions" style="margin-top:10px; display:grid; gap:10px">
-          <a class="btn secondary" href="#estimate" data-set-rooms="2" data-open-section="carpets">Start with $149 (small job)</a>
-        </div>
-        <div class="sub" style="margin-top:6px">Minimum service fee (travel + setup). Covers a small job. Final price confirmed on-site.</div>
-        <a class="sub" href="#description" data-quote-link="true" data-quote-prefix="Complex job: " style="margin-top:6px; display:inline-block; font-size:12px; color:var(--muted)">Complex job (stains/urine/odour)? Add a note for an on-site quote.</a>
-        <a class="sub" href="#description" data-quote-link="true" data-quote-prefix="End of lease (receipt): " style="margin-top:4px; display:inline-block; font-size:12px; color:var(--muted)">End of lease? Add receipt in Notes.</a>
+      <h2>Choose your package</h2>
+      <p class="sub">Simple pricing. Final price confirmed on-site after a quick inspection.</p>
+      <div class="offers-grid package-grid" style="margin-top:12px">
+        <article class="card offer-card package-card">
+          <div class="option-head">
+            <h3>Refresh Steam</h3>
+            <span class="pill">Budget/Maintenance</span>
+          </div>
+          <div class="package-price" aria-label="Refresh Steam pricing">
+            <strong>From $129</strong>
+            <span>Up to 3 rooms</span>
+            <span>+ $35 per extra room</span>
+          </div>
+          <ul class="list">
+            <li>Hot water extraction (steam clean)</li>
+            <li>Light soil / maintenance refresh</li>
+            <li>Quick pre-inspection before starting</li>
+          </ul>
+          <p class="u-muted package-note">Best for carpets in good condition (maintenance refresh).</p>
+          <p class="u-muted package-note">Steam cleaning receipt provided.</p>
+          <div class="package-cta">
+            <a class="btn primary pkg-wa wa-quote"
+               role="button"
+               aria-label="Quote Refresh Steam via WhatsApp"
+               data-package="Refresh Steam"
+               data-base="129"
+               data-extra="35"
+               target="_blank" rel="noopener"
+               href="https://wa.me/61451664247">QUOTE VIA WHATSAPP</a>
+            <div class="contact-row card-secondary-cta" aria-label="Refresh Steam alternate contacts">
+              <a class="cta-mini pkg-sms sms-quote"
+                 aria-label="Quote Refresh Steam via SMS"
+                 data-package="Refresh Steam"
+                 data-base="129"
+                 data-extra="35"
+                 href="sms:+61451664247?&body=Hi%20QuickFresh%20%F0%9F%91%8B%20Id%20like%20a%20quote%20for%20Refresh%20Steam.">SMS</a>
+              <a class="cta-mini pkg-email email-quote"
+                 aria-label="Quote Refresh Steam via Email"
+                 data-package="Refresh Steam"
+                 data-base="129"
+                 data-extra="35"
+                 href="#custom-quote">Email</a>
+            </div>
+          </div>
+        </article>
+        <article class="card offer-card package-card">
+          <div class="option-head">
+            <h3>Deep Clean Steam</h3>
+            <span class="pill">Most popular</span>
+          </div>
+          <div class="package-price" aria-label="Deep Clean Steam pricing">
+            <strong>From $169</strong>
+            <span>Up to 3 rooms</span>
+            <span>+ $50 per extra room</span>
+          </div>
+          <ul class="list">
+            <li>Enzymatic pre-treatment + steam extraction</li>
+            <li>Good for built-up soil, traffic lanes &amp; everyday pet smell</li>
+            <li>Rinse for a cleaner finish</li>
+          </ul>
+          <p class="u-muted package-note">Best for carpets that need extra attention (traffic lanes, built-up soil, everyday pet smell).</p>
+          <p class="u-muted package-note">Steam cleaning receipt provided.</p>
+          <div class="package-cta">
+            <a class="btn primary pkg-wa wa-quote"
+               role="button"
+               aria-label="Quote Deep Clean Steam via WhatsApp"
+               data-package="Deep Clean Steam"
+               data-base="169"
+               data-extra="50"
+               target="_blank" rel="noopener"
+               href="https://wa.me/61451664247">QUOTE VIA WHATSAPP</a>
+            <div class="contact-row card-secondary-cta" aria-label="Deep Clean Steam alternate contacts">
+              <a class="cta-mini pkg-sms sms-quote"
+                 aria-label="Quote Deep Clean Steam via SMS"
+                 data-package="Deep Clean Steam"
+                 data-base="169"
+                 data-extra="50"
+                 href="sms:+61451664247?&body=Hi%20QuickFresh%20%F0%9F%91%8B%20Id%20like%20a%20quote%20for%20Deep%20Clean%20Steam.">SMS</a>
+              <a class="cta-mini pkg-email email-quote"
+                 aria-label="Quote Deep Clean Steam via Email"
+                 data-package="Deep Clean Steam"
+                 data-base="169"
+                 data-extra="50"
+                 href="#custom-quote">Email</a>
+            </div>
+          </div>
+        </article>
       </div>
+    </div>
+  </section>
+
+  <section class="section addons-section" id="addons">
+    <div class="container">
+      <h2>Add-ons</h2>
+      <div class="addons-grid" style="margin-top:12px">
+        <article class="card addon-card">
+          <h3>Pet hair / CRB</h3>
+          <p class="sub">From $49</p>
+        </article>
+        <article class="card addon-card">
+          <h3>Odour treatment</h3>
+          <p class="sub">Available (assessment required)<br>(results vary; depends on contamination depth)</p>
+        </article>
+        <article class="card addon-card">
+          <h3>Stairs</h3>
+          <p class="sub">From $50</p>
+        </article>
+        <article class="card addon-card">
+          <h3>Hallway</h3>
+          <p class="sub">From $25</p>
+        </article>
+      </div>
+      <p class="u-muted addon-disclaimer">Urine/odour results vary if contamination reached underlay/subfloor.</p>
     </div>
   </section>
 
@@ -277,23 +714,30 @@
       <div class="pill">Trusted local cleaner (5.0 rating)</div>
       <h2>Real clients. Real results.</h2>
       <p class="sub">Real feedback. Careful workmanship. Clear communication.</p>
-      <div class="testimonials" style="margin-top:12px">
-        <article class="card">
-          <span class="pill">Google review QuickFresh</span>
-          <div class="sub" style="margin-top:8px" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <blockquote>Professional, careful, and truly knowledgeable Great communication and a fair price. Thank you for the prompt and outstanding service!</blockquote>
-          <div class="u-muted">J&eacute;ssica R.</div>
-        </article>
-        <details class="review-more">
-          <summary>See more</summary>
+      <div class="reviews-grid" style="margin-top:12px">
+        <div class="review-featured">
           <article class="card">
-            <span class="pill">Past client feedback</span>
+            <span class="pill">Google review QuickFresh</span>
+            <div class="featured-label">Featured Google review</div>
             <div class="sub" style="margin-top:8px" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <blockquote>Victor just came and did our carpets today, he was very polite and informative. He communicated well and was early to the job. I would recommend Victor again.</blockquote>
-            <div class="u-muted">Noelle O.</div>
-            <div class="u-muted">Written before QuickFresh launch as a technician.</div>
+            <blockquote>Professional, careful, and truly knowledgeable Great communication and a fair price. Thank you for the prompt and outstanding service!</blockquote>
+            <div class="u-muted"><strong>J&eacute;ssica R.</strong></div>
           </article>
-        </details>
+        </div>
+        <div class="review-more">
+          <details class="reviews-accordion">
+            <summary>See more reviews</summary>
+            <div class="reviews-list">
+              <article class="card review-compact">
+                <div class="sub" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class="review-text">Victor just came and did our carpets today, he was very polite and informative. He communicated well and was early to the job. I would recommend Victor again.</p>
+                <div class="review-name"><strong>Noelle O.</strong></div>
+                <div class="u-muted review-note">Past client feedback.</div>
+                <div class="u-muted review-note">Written before QuickFresh launch as a technician.</div>
+              </article>
+            </div>
+          </details>
+        </div>
       </div>
     </div>
   </section>
@@ -314,11 +758,32 @@
   </section>
 
   <section class="section estimate-section" id="estimate">
-    <div class="container">
-      <h2>Get your instant estimate</h2>
-      <p class="sub">Start with Rooms. Add stairs/hallway only if needed.</p>
+    <div class="container" id="custom-quote">
+      <h2 class="quote-section-title">Request a quote</h2>
+      <p class="sub">Tell us what you need and we will confirm the best quote for your job.</p>
+      <section class="card card-notes">
+        <div class="card-head"><h3 class="card-title">Custom quote details</h3></div>
+        <div class="card-body">
+          <input type="hidden" id="contactPref" name="contact_pref" value="">
+          <input type="hidden" id="package" name="package" value="">
+          <label for="customQuoteEmail">Your email</label>
+          <input type="email" id="customQuoteEmail" name="quoteEmail" placeholder="you@example.com" required>
+          <label for="quoteSuburb">Suburb</label>
+          <input type="text" id="quoteSuburb" name="quoteSuburb" placeholder="Subiaco" required>
+          <p class="help">We reply from enquiries@quickfresh.com.au.</p>
+          <label for="quotePreferred">Preferred day/time (optional)</label>
+          <input type="text" id="quotePreferred" name="quotePreferred" placeholder="Saturday morning">
+          <label for="customQuoteMessage">Description</label>
+          <textarea id="customQuoteMessage" name="quoteDetails" rows="4" placeholder="2 carpet rooms + hallway, pet odour in lounge, prefer Saturday morning" required></textarea>
+          <button class="btn primary" id="sendQuoteBtn" type="button" style="margin-top:10px">SEND QUOTE REQUEST</button>
+          <div id="quoteStatus" class="help" role="status" aria-live="polite" style="margin-top:8px"></div>
+        </div>
+      </section>
 
-      <div class="card-stack">
+      <details class="optional-estimate" id="optional-estimate">
+        <summary>Prefer an itemised estimate? (Optional)</summary>
+        <p class="optional-estimate-help">Start with Rooms. Add stairs/hallway only if needed.</p>
+        <div class="card-stack">
         <section id="card-carpet" class="toggle-card" aria-expanded="false">
           <button class="toggle-head" type="button" data-accordion-toggle="true" aria-expanded="false" aria-controls="carpets-content">
             <h3 class="card-title">Carpets</h3>
@@ -736,13 +1201,6 @@
           </div>
         </section>
 
-          <section class="card card-notes">
-            <div class="card-head"><h3 class="card-title">Notes</h3></div>
-            <div class="card-body">
-              <textarea id="description" rows="4" placeholder="e.g., pet odour on lounge carpet, red wine on carpet, prefer Saturday morning"></textarea>
-            </div>
-          </section>
-
           <section class="card wide card-estimate" id="estimateCard">
           <div class="card-head">
               <div>
@@ -771,12 +1229,13 @@
             <div id="estimate-min-msg" class="help" style="margin-top:6px"></div>
           </div>
           <div class="card-footer">
-            <button class="btn primary js-book" type="button">BOOK WITH ESTIMATE</button>
-            <button class="btn secondary js-quote" type="button">REQUEST CUSTOM QUOTE</button>
+            <button class="estimate-inline-link js-book" type="button">Book with estimate</button>
+            <button class="estimate-inline-link js-quote" type="button">Use custom quote instead</button>
           </div>
         </section>
 
       </div>
+      </details>
 
       <div id="bookingForm" class="card" style="margin-top:14px; display:none">
         <h2>Booking details</h2>
@@ -793,6 +1252,7 @@
           By proceeding you acknowledge our <a href="/terms#service-conditions">Service Conditions</a> and <a href="/terms#privacy-policy">Privacy Policy</a>.
         </div>
         <button class="btn primary js-book-confirm" style="margin-top:10px" type="button">Confirm Booking</button>
+        <div id="bookingStatus" class="help" role="status" aria-live="polite" style="margin-top:8px"></div>
       </div>
     </div>
   </section>
@@ -836,6 +1296,7 @@
     </div>
   </section>
 
+
   <footer>
     <div class="container footer-inner">
       <div class="brand">
@@ -845,7 +1306,7 @@
           <div class="tag">ABN 34 299 171 377 Perth, WA</div>
         </div>
       </div>
-      <div class="sub">c <span id="year"></span> QuickFresh. Minimum call-out $149. Final price confirmed on site.</div>
+      <div class="sub">c <span id="year"></span> QuickFresh. Minimum call-out $129. Final price confirmed on site.</div>
     </div>
   </footer>
 
@@ -872,79 +1333,267 @@
   <script src="js/booking-submit.js" defer></script>
   <script src="js/script.js" defer></script>
   <script>
-    document.addEventListener('keydown', (e) => {
-      const card = e.target.closest('.card-select');
-      if (!card) return;
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        card.click();
-      }
-    }, false);
+    (() => {
+      const QF_PHONE_E164 = "61451664247";
+      const QF_EMAIL = "enquiries@quickfresh.com.au";
+      const DEFAULT_QUOTE_DATA = { packageName: "General", basePrice: "", extraRoomPrice: "" };
+      let selectedQuoteData = { ...DEFAULT_QUOTE_DATA };
+      const quoteEmailInput = document.getElementById("customQuoteEmail") || document.getElementById("quoteEmail");
+      const quoteSuburbInput = document.getElementById("quoteSuburb");
+      const quotePreferredInput = document.getElementById("quotePreferred");
+      const quoteDetailsInput = document.getElementById("customQuoteMessage") || document.getElementById("quoteDetails");
+      const quoteStatus = document.getElementById("quoteStatus");
+      const quoteSubmitBtn = document.getElementById("sendQuoteBtn");
+      const contactPrefInput = document.getElementById("contactPref");
+      const packageInput = document.getElementById("package");
 
-    document.addEventListener('click', (e) => {
-      const quoteLink = e.target.closest('[data-quote-link="true"]');
-      if (!quoteLink) return;
-      e.preventDefault();
-      const notes = document.getElementById('description');
-      if (notes) {
-        notes.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        requestAnimationFrame(() => notes.focus({ preventScroll: true }));
-        const prefix = quoteLink.getAttribute('data-quote-prefix') || '';
-        if (prefix) {
-          const current = notes.value || '';
-          if (!current.includes(prefix.trim())) {
-            notes.value = current ? `${current}\n${prefix}` : prefix;
-            notes.dispatchEvent(new Event('input', { bubbles: true }));
+      function buildQuoteMessage({ packageName, basePrice, extraRoomPrice }) {
+        const pkg = packageName || "General";
+        const priceText = basePrice ? ` (from $${basePrice}${extraRoomPrice ? `, +$${extraRoomPrice} per extra room` : ""})` : "";
+        return `Hi QuickFresh - Id like a quote for: ${pkg}${priceText}.\nRooms: __  Suburb: __  Preferred day/time: __\nNotes (pets/odour/stains): __`;
+      }
+
+      function buildQuotePrefill({ packageName, basePrice, extraRoomPrice }) {
+        const pkg = packageName || "General";
+        const priceText = basePrice ? ` (from $${basePrice}${extraRoomPrice ? `, +$${extraRoomPrice} per extra room` : ""})` : "";
+        return `Package: ${pkg}${priceText}.\n\nSuburb: __\nPreferred day/time: __\nDetails: __`;
+      }
+
+      function buildWhatsAppHref(message) {
+        return `https://wa.me/${QF_PHONE_E164}?text=${encodeURIComponent(message)}`;
+      }
+
+      function getSmsHref(message) {
+        return `sms:+${QF_PHONE_E164}?&body=${encodeURIComponent(message)}`;
+      }
+
+      function readCtaData(el) {
+        return {
+          packageName: (el.getAttribute("data-package") || "").trim(),
+          basePrice: (el.getAttribute("data-base") || "").trim(),
+          extraRoomPrice: (el.getAttribute("data-extra") || "").trim(),
+        };
+      }
+
+      function ensureHiddenField(id, name) {
+        let field = document.getElementById(id);
+        if (field) return field;
+        const parent = document.getElementById("custom-quote") || document.body;
+        field = document.createElement("input");
+        field.type = "hidden";
+        field.id = id;
+        field.name = name;
+        parent.appendChild(field);
+        return field;
+      }
+
+      function getQuoteDataFromSource(el) {
+        const data = el ? readCtaData(el) : {};
+        return {
+          packageName: data.packageName || selectedQuoteData.packageName || "General",
+          basePrice: data.basePrice || selectedQuoteData.basePrice || "",
+          extraRoomPrice: data.extraRoomPrice || selectedQuoteData.extraRoomPrice || "",
+        };
+      }
+
+      function setQuoteContext({ pref, packageName, message, prefillMode = "append" }) {
+        const prefField = contactPrefInput || ensureHiddenField("contactPref", "contact_pref");
+        prefField.value = pref || "";
+        const packageField = packageInput || ensureHiddenField("package", "package");
+        packageField.value = packageName || "General";
+
+        const quoteScope = document.getElementById("custom-quote") || document;
+        const details = quoteScope.querySelector("#customQuoteMessage, #quoteDetails, [name='quoteDetails']");
+        if (!details) return;
+        if (prefillMode === "replace") {
+          details.value = message || "";
+          return;
+        }
+        const contextBlock = message || "";
+        if (contextBlock && !details.value.includes(contextBlock)) {
+          details.value = details.value.trim() ? `${details.value.trim()}\n\n${contextBlock}` : contextBlock;
+        }
+      }
+
+      function openCustomQuote({ pref = "email", quoteData, focus = "email" }) {
+        const active = quoteData || selectedQuoteData || DEFAULT_QUOTE_DATA;
+        const message = pref === "email" ? buildQuotePrefill(active) : buildQuoteMessage(active);
+        const target = document.getElementById("custom-quote") || document.getElementById("estimate");
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        setQuoteContext({ pref, packageName: active.packageName, message, prefillMode: "replace" });
+        const quoteScope = target || document;
+        const emailInput = quoteScope.querySelector("#customQuoteEmail, #quoteEmail, [name='quoteEmail']");
+        const suburbInput = quoteScope.querySelector("#quoteSuburb, [name='quoteSuburb']");
+        const details = quoteScope.querySelector("#customQuoteMessage, #quoteDetails, [name='quoteDetails']");
+        let focusTarget = details || emailInput;
+        if (focus === "email") {
+          focusTarget = emailInput || details;
+        } else if (focus === "suburb") {
+          const hasSuburb = !!(suburbInput && suburbInput.value.trim());
+          focusTarget = hasSuburb ? (details || suburbInput || emailInput) : (suburbInput || details || emailInput);
+        }
+        if (focusTarget) {
+          window.setTimeout(() => focusTarget.focus({ preventScroll: true }), 260);
+        }
+      }
+
+      function setStatus(el, message, isError) {
+        if (!el) return;
+        el.textContent = message || "";
+        el.style.color = isError ? "#b91c1c" : "#166534";
+      }
+
+      async function submitContact(payload, opts = {}) {
+        const button = opts.button || null;
+        const statusEl = opts.statusEl || null;
+        const loadingText = opts.loadingText || "Sending...";
+        const successText = opts.successText || "Sent successfully.";
+        const errorPrefix = opts.errorPrefix || "Couldn't send request.";
+        const originalText = button ? button.textContent : "";
+
+        if (button) {
+          button.disabled = true;
+          button.textContent = loadingText;
+        }
+        setStatus(statusEl, "", false);
+
+        try {
+          const response = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          const data = await response.json().catch(() => ({ ok: false, error: "Server error" }));
+          if (!response.ok || !data.ok) {
+            const msg = `${errorPrefix} ${data.error || "Server error"}`;
+            setStatus(statusEl, msg, true);
+            return { ok: false, error: data.error || "Server error" };
+          }
+
+          setStatus(statusEl, successText, false);
+          return { ok: true };
+        } catch (_error) {
+          setStatus(statusEl, `${errorPrefix} Network error.`, true);
+          return { ok: false, error: "Network error" };
+        } finally {
+          if (button) {
+            button.disabled = false;
+            button.textContent = originalText || "Send";
           }
         }
       }
-      const quoteBtn = document.querySelector('.js-quote');
-      if (quoteBtn) {
-        quoteBtn.classList.add('flash-quote');
-        setTimeout(() => quoteBtn.classList.remove('flash-quote'), 1000);
-      }
-    }, false);
 
+      window.submitContact = submitContact;
 
-document.addEventListener('click', (e) => {
-      const trigger = e.target.closest('[data-set-rooms], [data-note]');
-      if (!trigger) return;
-      e.preventDefault();
-
-      const estimate = document.getElementById('estimate');
-      if (estimate) {
-        estimate.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      function refreshHeroContactHrefs() {
+        const wa = document.getElementById("cta-wa");
+        const sms = document.getElementById("cta-sms");
+        const message = buildQuoteMessage(selectedQuoteData);
+        if (wa) wa.setAttribute("href", buildWhatsAppHref(message));
+        if (sms) sms.setAttribute("href", getSmsHref(message));
       }
 
-      const openCarpets = () => {
-        const wrap = document.getElementById('carpets-content');
-        const card = wrap?.closest('.toggle-card');
-        const btn = document.querySelector('[data-accordion-toggle="true"][aria-controls="carpets-content"]');
-        if (wrap) wrap.hidden = false;
-        if (card) card.setAttribute('aria-expanded', 'true');
-        if (btn) btn.setAttribute('aria-expanded', 'true');
-      };
+      function wireQuoteActions() {
+        refreshHeroContactHrefs();
 
-      const count = trigger.getAttribute('data-set-rooms');
-      const select = document.getElementById('carpet-rooms') || document.getElementById('carpetRooms');
-      if (select && count) {
-        openCarpets();
-        select.value = String(count);
-        select.dispatchEvent(new Event('change', { bubbles: true }));
+        const quoteBtn = document.getElementById("cta-quote");
+        if (quoteBtn) {
+          quoteBtn.addEventListener("click", () => {
+            openCustomQuote({ pref: "email", quoteData: selectedQuoteData, focus: "email" });
+          });
+        }
+
+        document.querySelectorAll(".wa-quote").forEach((el) => {
+          const data = getQuoteDataFromSource(el);
+          const message = buildQuoteMessage(data);
+          el.setAttribute("href", buildWhatsAppHref(message));
+          el.addEventListener("click", () => {
+            selectedQuoteData = { ...data };
+            refreshHeroContactHrefs();
+            setQuoteContext({ pref: "whatsapp", packageName: data.packageName, message: buildQuoteMessage(data) });
+          });
+        });
+
+        document.querySelectorAll(".sms-quote").forEach((el) => {
+          const data = getQuoteDataFromSource(el);
+          const message = buildQuoteMessage(data);
+          el.setAttribute("href", getSmsHref(message));
+          el.addEventListener("click", () => {
+            selectedQuoteData = { ...data };
+            refreshHeroContactHrefs();
+            setQuoteContext({ pref: "sms", packageName: data.packageName, message: buildQuoteMessage(data) });
+          });
+        });
+
+        document.querySelectorAll(".email-quote").forEach((el) => {
+          el.addEventListener("click", (event) => {
+            event.preventDefault();
+            const data = getQuoteDataFromSource(el);
+            selectedQuoteData = { ...data };
+            refreshHeroContactHrefs();
+            openCustomQuote({ pref: "email", quoteData: data, focus: "email" });
+          });
+        });
+
+        if (quoteSubmitBtn) {
+          quoteSubmitBtn.addEventListener("click", async () => {
+            const email = quoteEmailInput ? quoteEmailInput.value.trim() : "";
+            const suburb = quoteSuburbInput ? quoteSuburbInput.value.trim() : "";
+            const preferredDayTime = quotePreferredInput ? quotePreferredInput.value.trim() : "";
+            const message = quoteDetailsInput ? quoteDetailsInput.value.trim() : "";
+            const packageName = (packageInput && packageInput.value.trim()) || selectedQuoteData.packageName || "General";
+            if (contactPrefInput) contactPrefInput.value = "email";
+            if (packageInput) packageInput.value = packageName;
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+              setStatus(quoteStatus, "Please enter a valid email.", true);
+              return;
+            }
+            if (suburb.length < 2) {
+              setStatus(quoteStatus, "Please enter your suburb.", true);
+              return;
+            }
+            if (message.length < 10) {
+              setStatus(quoteStatus, "Description must be at least 10 characters.", true);
+              return;
+            }
+
+            const finalMessage = preferredDayTime ? `${message}\nPreferred day/time: ${preferredDayTime}` : message;
+
+            const result = await submitContact(
+              {
+                type: "quote",
+                pageUrl: location.href,
+                contactPref: "email",
+                packageName,
+                email,
+                suburb,
+                message: finalMessage,
+              },
+              {
+                button: quoteSubmitBtn,
+                statusEl: quoteStatus,
+                loadingText: "Sending...",
+                successText: "Thanks! Well reply soon.",
+                errorPrefix: "Could not send quote request.",
+              }
+            );
+
+            if (result.ok && quoteDetailsInput) {
+              quoteDetailsInput.value = "";
+            }
+          });
+        }
       }
 
-      const note = trigger.getAttribute('data-note');
-      if (note) {
-        setTimeout(() => {
-          const notes = document.getElementById('description');
-          if (notes) {
-            notes.value = note;
-            notes.focus({ preventScroll: true });
-            notes.dispatchEvent(new Event('input', { bubbles: true }));
-          }
-        }, 400);
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", wireQuoteActions, { once: true });
+      } else {
+        wireQuoteActions();
       }
-    });
+    })();
   </script>
   <script>
     (() => {
@@ -1239,3 +1888,4 @@ document.addEventListener('click', (e) => {
   </script>
 </body>
 </html>
+
