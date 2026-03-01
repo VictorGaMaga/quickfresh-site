@@ -74,12 +74,24 @@ export default async function handler(req, res) {
       }
     }
 
-    const RESEND_API_KEY = process.env.RESEND_API_KEY;
-    const FROM_EMAIL = process.env.FROM_EMAIL;
+    const RESEND_API_KEY = clean(process.env.RESEND_API_KEY);
+    const FROM_EMAIL = clean(process.env.FROM_EMAIL);
     const TO_EMAIL = clean(process.env.TO_EMAIL);
-    if (!RESEND_API_KEY || !FROM_EMAIL || !TO_EMAIL) {
-      console.error("Missing required env vars for contact API");
-      return res.status(500).json({ ok: false, error: "Server error" });
+    const missingEnvVars = [];
+    if (!RESEND_API_KEY) missingEnvVars.push("RESEND_API_KEY");
+    if (!FROM_EMAIL) missingEnvVars.push("FROM_EMAIL");
+    if (!TO_EMAIL) missingEnvVars.push("TO_EMAIL");
+    if (missingEnvVars.length) {
+      console.error("Contact API missing required env vars", {
+        missingEnvVars,
+        handler: "api/contact.js",
+      });
+      return res.status(500).json({
+        ok: false,
+        error: "Missing required server configuration",
+        code: "MISSING_ENV_VARS",
+        missingEnvVars,
+      });
     }
 
     const recipientEmail = type === "quote" ? quoteEmail : bookingEmail;
@@ -156,13 +168,33 @@ export default async function handler(req, res) {
 
     if (!resendResponse.ok) {
       const detailText = await resendResponse.text().catch(() => "");
-      console.error("Resend API error", resendResponse.status, detailText);
-      return res.status(500).json({ ok: false, error: "Server error" });
+      console.error("Resend send failed", {
+        status: resendResponse.status,
+        detail: detailText,
+        subject,
+        to: TO_EMAIL,
+        replyTo: recipientEmail || null,
+      });
+      return res.status(500).json({
+        ok: false,
+        error: "Failed to send email via Resend",
+        code: "RESEND_SEND_FAILED",
+        status: resendResponse.status,
+        detail: detailText || null,
+      });
     }
 
     return res.status(200).json({ ok: true });
   } catch (error) {
-    console.error("Contact API handler error", error);
-    return res.status(500).json({ ok: false, error: "Server error" });
+    console.error("Contact API handler error", {
+      message: error?.message || String(error),
+      stack: error?.stack || null,
+    });
+    return res.status(500).json({
+      ok: false,
+      error: "Unexpected server error",
+      code: "CONTACT_HANDLER_ERROR",
+      detail: error?.message || null,
+    });
   }
 }

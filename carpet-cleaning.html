@@ -3071,6 +3071,10 @@ body #hero-section .hero-proof .btn{
     if(!validateEmailForm(true))return;
     var submitBtn=document.getElementById("emailQuoteSubmit");
     var payload={
+      type:"quote",
+      pageUrl:location.href,
+      contactPref:"email",
+      packageName:selectedPackage||"",
       name:txt("emailQuoteName"),
       email:txt("emailQuoteEmail"),
       mobile:txt("emailQuoteMobile"),
