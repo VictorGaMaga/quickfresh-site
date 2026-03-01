@@ -94,6 +94,48 @@ main{overflow-x:hidden}
   border-radius:4px;
 }
 .brand-sub{font-size:.8rem;color:var(--text-muted)}
+.brand-lockup{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  color:inherit;
+}
+.brand-lockup-mark{
+  display:block;
+  height:46px;
+  width:46px;
+  object-fit:contain;
+  flex:0 0 auto;
+}
+.brand-lockup-copy{
+  display:grid;
+  gap:2px;
+  line-height:1.1;
+}
+.brand-lockup-name{
+  font-size:1.2rem;
+  font-weight:820;
+  letter-spacing:-.015em;
+  color:var(--text);
+}
+.brand-lockup-tag{
+  font-size:.8rem;
+  font-weight:600;
+  color:var(--text-muted);
+}
+.brand-logo-link{
+  display:inline-flex;
+  align-items:center;
+  text-decoration:none;
+  line-height:1;
+}
+.brand-logo-img{
+  display:block;
+  height:48px;
+  width:auto;
+  max-width:220px;
+}
 .topbar-actions{display:flex;align-items:center;gap:8px}
 .topbar-link{
   display:inline-flex;
@@ -455,6 +497,13 @@ th,td{padding:8px;border-bottom:1px solid #e7edf5;text-align:left;vertical-align
 }
 #faq .grid{gap:10px}
 #areas .wrap{padding-top:4px;padding-bottom:6px}
+.areas-footer{
+  margin-top:16px;
+  padding-top:14px;
+  border-top:1px solid #e0e8f2;
+  line-height:1.75;
+}
+.areas-footer a{color:var(--brand)}
 footer{
   border-top:1px solid #e0e8f2;
   background:linear-gradient(180deg,#f8fbff 0%,#f2f6fb 100%);
@@ -462,6 +511,50 @@ footer{
 footer .wrap{line-height:1.75}
 footer strong{font-size:1.02rem}
 footer a{color:var(--brand)}
+.footer-logo-link{
+  display:inline-flex;
+  align-items:center;
+  line-height:1;
+  text-decoration:none;
+  margin-bottom:8px;
+}
+.footer-logo-img{
+  display:block;
+  height:42px;
+  width:auto;
+  max-width:200px;
+}
+.footer-brand{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  color:inherit;
+  margin-bottom:8px;
+}
+.footer-brand-mark{
+  display:block;
+  height:40px;
+  width:40px;
+  object-fit:contain;
+  flex:0 0 auto;
+}
+.footer-brand-copy{
+  display:grid;
+  gap:1px;
+  line-height:1.15;
+}
+.footer-brand-name{
+  font-size:1.04rem;
+  font-weight:800;
+  color:var(--text);
+  letter-spacing:-.01em;
+}
+.footer-brand-tag{
+  font-size:.78rem;
+  font-weight:600;
+  color:var(--text-muted);
+}
 @media(min-width:760px){
   body{padding-bottom:0}
   .topbar{position:sticky;top:0;z-index:30}
@@ -489,6 +582,15 @@ footer a{color:var(--brand)}
   #hero-section{padding-top:40px;padding-bottom:34px}
   .c,.estimate-controls,.estimate-summary{padding:20px}
   .topbar-actions .topbar-link{padding:5px 8px;font-size:.78rem}
+  .brand-lockup{gap:8px}
+  .brand-lockup-mark{height:40px;width:40px}
+  .brand-lockup-name{font-size:1.06rem}
+  .brand-lockup-tag{font-size:.75rem}
+  .footer-brand-mark{height:34px;width:34px}
+  .footer-brand-name{font-size:.96rem}
+  .footer-brand-tag{font-size:.74rem}
+  .brand-logo-img{height:42px;max-width:190px}
+  .footer-logo-img{height:36px;max-width:170px}
   .hero-main h1{font-size:clamp(31px,8.1vw,38px)}
   .hero-tertiary{gap:10px}
   .badge-row{gap:8px}
@@ -2313,8 +2415,13 @@ body #hero-section .hero-proof .btn{
 <header class="topbar">
   <div class="wrap">
     <div>
-      <a class="brand-mark" href="/">QuickFresh</a>
-      <div class="brand-sub">Perth | Owner-operator</div>
+      <a class="brand-lockup" href="/" aria-label="QuickFresh home">
+        <img class="brand-lockup-mark" src="/assets/logo.png" alt="QuickFresh logo" loading="eager" decoding="async">
+        <span class="brand-lockup-copy">
+          <span class="brand-lockup-name">QuickFresh</span>
+          <span class="brand-lockup-tag">Perth | Owner-operator</span>
+        </span>
+      </a>
     </div>
     <div class="topbar-actions">
       <a class="topbar-link" href="sms:+61451664247?&body=Hi%20QuickFresh%20-%20I%20need%20a%20quote.">Text</a>
@@ -2680,7 +2787,7 @@ body #hero-section .hero-proof .btn{
             <summary aria-expanded="false">Add other services (optional)</summary>
             <div class="accordion-content">
               <div class="g2">
-                <div class="c"><h3>Rugs</h3><label for="rugTinyQty">Tiny</label><select id="rugTinyQty"><option>0</option><option>1</option><option>2</option></select><label for="rugSmallQty">Small</label><select id="rugSmallQty"><option>0</option><option>1</option><option>2</option></select><label for="rugMediumQty">Medium</label><select id="rugMediumQty"><option>0</option><option>1</option><option>2</option></select><label for="rugLargeQty">Large</label><select id="rugLargeQty"><option>0</option><option>1</option><option>2</option></select></div>
+                <div class="c"><h3>Rugs</h3><label for="rugSmallQty">Small</label><select id="rugSmallQty"><option>0</option><option>1</option><option>2</option></select><label for="rugMediumQty">Medium</label><select id="rugMediumQty"><option>0</option><option>1</option><option>2</option></select><label for="rugLargeQty">Large</label><select id="rugLargeQty"><option>0</option><option>1</option><option>2</option></select></div>
                 <div class="c"><h3>Upholstery</h3><label for="seats">Sofa seats</label><select id="seats"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select><label class="form-check" style="margin-top:8px"><input id="doubleSided" type="checkbox"><span>Both sides</span></label><label class="form-check" style="margin-top:2px"><input id="scotchOpt" type="checkbox"><span>Fabric protector</span></label><label for="diningQty">Dining chairs</label><select id="diningQty"><option>0</option><option>1</option><option>2</option><option>4</option><option>6</option></select><label class="form-check" style="margin-top:8px"><input id="diningFull" type="checkbox"><span>Fully upholstered</span></label></div>
                 <div class="c"><h3>Tile & Grout</h3><label for="tileSqm">Approx sqm</label><input id="tileSqm" type="number" min="0" step="1" value="0"><label class="form-check" style="margin-top:8px"><input id="tileSqmUnknown" type="checkbox"><span>Not sure about sqm</span></label><label for="tileAreaNotes">Area notes</label><textarea id="tileAreaNotes"></textarea></div>
                 <div class="c"><h3>Mattress</h3><label for="mSingle">Single</label><select id="mSingle"><option>0</option><option>1</option><option>2</option></select><label for="mDouble">Double</label><select id="mDouble"><option>0</option><option>1</option><option>2</option></select><label for="mQueen">Queen</label><select id="mQueen"><option>0</option><option>1</option><option>2</option></select><label for="mKing">King</label><select id="mKing"><option>0</option><option>1</option><option>2</option></select><label class="form-check" style="margin-top:8px"><input id="mBoth" type="checkbox"><span>Both sides</span></label><label class="form-check" style="margin-top:2px"><input id="mattressProtector" type="checkbox"><span>Mattress protector</span></label></div>
@@ -2760,18 +2867,21 @@ body #hero-section .hero-proof .btn{
     <div class="wrap">
       <h2>Service Areas</h2>
       <p class="sub">Perth metro service. Message us with your suburb and we&apos;ll confirm availability fast.</p>
+      <div class="areas-footer">
+        <a class="footer-brand" href="/" aria-label="QuickFresh home">
+          <img class="footer-brand-mark" src="/assets/logo.png" alt="QuickFresh logo" loading="lazy" decoding="async">
+          <span class="footer-brand-copy">
+            <span class="footer-brand-name">QuickFresh Cleaning &amp; Care</span>
+            <span class="footer-brand-tag">Perth | Owner-operator</span>
+          </span>
+        </a><br>
+        ABN 34 299 171 377 | Perth, WA<br>
+        <a href="tel:0451664247">0451 664 247</a> | <a href="mailto:info@quickfresh.com.au">info@quickfresh.com.au</a><br>
+        Minimum call-out $129. Final price confirmed before work starts. No upfront payment. <a href="/terms.html">See terms &amp; conditions</a>.
+      </div>
     </div>
   </section>
 </main>
-
-<footer class="s section-soft">
-  <div class="wrap">
-    <strong>QuickFresh Cleaning & Care</strong><br>
-    ABN 34 299 171 377 | Perth, WA<br>
-    <a href="tel:0451664247">0451 664 247</a> | <a href="mailto:info@quickfresh.com.au">info@quickfresh.com.au</a><br>
-    Minimum call-out $129. Final price confirmed before work starts. No upfront payment. <a href="/terms.html">See terms &amp; conditions</a>.
-  </div>
-</footer>
 
 <div class="sticky">
   <div class="wrap row">
@@ -2789,7 +2899,7 @@ body #hero-section .hero-proof .btn{
   function money(n){return"$"+Math.round(Number(n||0))}
   function sms(m){return"sms:+61451664247?&body="+encodeURIComponent(m)} function wa(m){return"https://wa.me/61451664247?text="+encodeURIComponent(m)}
   var latest={finalTotal:0,lineItems:[]},estOpen=false,selectedPackage="";
-  function state(){return{rooms:int("carpet-rooms"),hallway:int("carpet-hallway"),stairs:int("carpet-stairs"),rugs:{tiny:int("rugTinyQty"),small:int("rugSmallQty"),medium:int("rugMediumQty"),large:int("rugLargeQty")},seats:int("seats"),doubleSided:chk("doubleSided"),scotchOpt:chk("scotchOpt"),diningQty:int("diningQty"),diningFull:chk("diningFull"),mSingle:int("mSingle"),mDouble:int("mDouble"),mQueen:int("mQueen"),mKing:int("mKing"),mBoth:chk("mBoth"),mProtect:chk("mattressProtector"),tiles:{sqm:chk("tileSqmUnknown")?0:int("tileSqm"),sqmUnknown:chk("tileSqmUnknown"),areaNotes:txt("tileAreaNotes")},addOns:{heavyHairRooms:chk("crbDeepScrub")?int("carpet-rooms"):0}}}
+  function state(){return{rooms:int("carpet-rooms"),hallway:int("carpet-hallway"),stairs:int("carpet-stairs"),rugs:{small:int("rugSmallQty"),medium:int("rugMediumQty"),large:int("rugLargeQty")},seats:int("seats"),doubleSided:chk("doubleSided"),scotchOpt:chk("scotchOpt"),diningQty:int("diningQty"),diningFull:chk("diningFull"),mSingle:int("mSingle"),mDouble:int("mDouble"),mQueen:int("mQueen"),mKing:int("mKing"),mBoth:chk("mBoth"),mProtect:chk("mattressProtector"),tiles:{sqm:chk("tileSqmUnknown")?0:int("tileSqm"),sqmUnknown:chk("tileSqmUnknown"),areaNotes:txt("tileAreaNotes")},addOns:{heavyHairRooms:chk("crbDeepScrub")?int("carpet-rooms"):0}}}
   function hasEstimate(){return Number(latest.finalTotal||0)>0&&Array.isArray(latest.lineItems)&&latest.lineItems.length>0}
   function estimateSummaryText(){
     if(!hasEstimate())return"";

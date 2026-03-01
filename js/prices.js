@@ -16,8 +16,7 @@ const QUICKFRESH_PRICES = {
   CARPET_HEAVY_HAIR: 20,
 
   // Rugs & mats
-  RUG_PRICES: { tiny: 10, small: 19, medium: 29, large: 39 },
-  RUG_TINY: 10,
+  RUG_PRICES: { small: 19, medium: 29, large: 39 },
   RUG_SMALL: 19,
   RUG_MEDIUM: 29,
   RUG_LARGE: 39,
@@ -51,7 +50,12 @@ const QUICKFRESH_PRICES = {
     queen: 110,
     king: 130,
     bothSidesMultiplier: 1.5,
-    protection: 20
+    protectionBySize: {
+      single: 20,
+      double: 25,
+      queen: 35,
+      king: 40
+    }
   },
 
   // Tile & grout
@@ -130,7 +134,7 @@ function calculateQuote(state){
     carpetAddOns.push({ label: 'Advanced stain removal', amount: 0, isQuote: true });
   }
 
-  const rugSizes = ['tiny', 'small', 'medium', 'large'];
+  const rugSizes = ['small', 'medium', 'large'];
   rugSizes.forEach((size) => {
     const qty = safeInt(rugs[size]);
     if (!qty) return;
@@ -185,7 +189,11 @@ function calculateQuote(state){
       mTotal += extra;
     }
     if (mProtect){
-      const p = mQty * prices.mattress.protection;
+      const p =
+        (mSingle * prices.mattress.protectionBySize.single) +
+        (mDouble * prices.mattress.protectionBySize.double) +
+        (mQueen * prices.mattress.protectionBySize.queen) +
+        (mKing * prices.mattress.protectionBySize.king);
       lineItems.push({ key: 'mattress-protect', label: 'Fabric protector', qty: mQty, subtotal: p, kind: 'priced' });
       mTotal += p;
     }

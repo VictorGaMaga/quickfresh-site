@@ -58,7 +58,6 @@
     const stairs = readInt(['carpetStairs', 'carpet-stairs']);
 
     const rugs = {
-      tiny: readInt(['rugTinyQty', 'rug-tiny'], false),
       small: readInt(['rugSmallQty', 'rug-small'], false),
       medium: readInt(['rugMediumQty', 'rug-medium'], false),
       large: readInt(['rugLargeQty', 'rug-large'], false)
@@ -361,7 +360,6 @@
           carpetRooms: state.rooms,
           carpetHallway: state.hallway,
           carpetStairs: state.stairs,
-          rugTinyQty: state.rugs.tiny,
           rugSmallQty: state.rugs.small,
           rugMediumQty: state.rugs.medium,
           rugLargeQty: state.rugs.large,
