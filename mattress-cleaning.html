@@ -2861,7 +2861,7 @@ body #hero-section .hero-proof .btn{
         </details>
         <details class="c accordion">
           <summary aria-expanded="false">Do you have a minimum call-out?</summary>
-          <div class="accordion-content"><p class="sub">Yes. A minimum call-out applies, and some services may have different minimums. See terms &amp; conditions.</p></div>
+          <div class="accordion-content"><p class="sub">Yes. A $129 minimum call-out applies. Tile &amp; grout cleaning has a $200 minimum. See terms &amp; conditions.</p></div>
         </details>
         <details class="c accordion">
           <summary aria-expanded="false">How long does mattress cleaning take to dry?</summary>
@@ -2901,7 +2901,7 @@ body #hero-section .hero-proof .btn{
         </a><br>
         ABN 34 299 171 377 | Perth, WA<br>
         <a href="tel:0451664247">0451 664 247</a> | <a href="mailto:info@quickfresh.com.au">info@quickfresh.com.au</a><br>
-        Minimum call-out $129. Final price confirmed before work starts. No upfront payment. <a href="/terms.html">See terms &amp; conditions</a>.
+        Minimum call-out $129. Final price confirmed on site. No upfront payment. <a href="/terms.html">See terms &amp; conditions</a>.
       </div>
     </div>
   </section>
@@ -3018,7 +3018,7 @@ body #hero-section .hero-proof .btn{
     });
     return q;
   }
-  function render(){var st=state();latest=calculatePackageAwareQuote(st,selectedPackage);var t=document.getElementById("estimate-items"),tot=document.getElementById("estimate-total"),tot2=document.getElementById("estimate-total-footer"),min=document.getElementById("estimate-min-msg"),notes=[];t.innerHTML="";if(!latest.lineItems.length){t.innerHTML='<tr><td colspan="3" class="sub">Select mattresses to see estimate.</td></tr>';}else{latest.lineItems.forEach(function(i){var tr=document.createElement("tr");tr.innerHTML="<td>"+i.label+"</td><td>"+(i.kind==="quote"?"":(i.qty||""))+"</td><td>"+(i.kind==="quote"?"On-site quote":money(i.subtotal))+"</td>";t.appendChild(tr);});}tot.textContent=money(latest.finalTotal);tot2.textContent=money(latest.finalTotal);if(latest.minimumApplied){notes.push("Minimum $129 applied. "+money(latest.awayFromMinimum)+" away from minimum.");}if(latest.heavyMinimumApplied){notes.push("Heavy Duty minimum applied.");}min.textContent=notes.join(" ");syncEstimatePackageControlFromState();setEmailEstimateFields();refreshLinks();}
+  function render(){var st=state();latest=calculatePackageAwareQuote(st,selectedPackage);var t=document.getElementById("estimate-items"),tot=document.getElementById("estimate-total"),tot2=document.getElementById("estimate-total-footer"),min=document.getElementById("estimate-min-msg"),notes=[];t.innerHTML="";if(!latest.lineItems.length){t.innerHTML='<tr><td colspan="3" class="sub">Select mattresses to see estimate.</td></tr>';}else{latest.lineItems.forEach(function(i){var tr=document.createElement("tr");tr.innerHTML="<td>"+i.label+"</td><td>"+(i.kind==="quote"?"":(i.qty||""))+"</td><td>"+(i.kind==="quote"?"On-site quote":money(i.subtotal))+"</td>";t.appendChild(tr);});}tot.textContent=money(latest.finalTotal);tot2.textContent=money(latest.finalTotal);if(latest.minimumApplied){notes.push("Minimum call-out $129 applied. "+money(latest.awayFromMinimum)+" away from minimum.");}if(latest.heavyMinimumApplied){notes.push("Heavy Duty minimum applied.");}min.textContent=notes.join(" ");syncEstimatePackageControlFromState();setEmailEstimateFields();refreshLinks();}
   function step(id,d){var e=document.getElementById(id);if(!e||!e.options)return;var vals=[].slice.call(e.options).map(function(o){return parseInt(o.value,10)}).filter(Number.isFinite);var cur=parseInt(e.value,10)||0,ix=vals.indexOf(cur);if(ix<0)ix=0;ix=d==="+"?Math.min(vals.length-1,ix+1):Math.max(0,ix-1);e.value=String(vals[ix]);e.dispatchEvent(new Event("change",{bubbles:true}))}
   function show2(){var s=document.getElementById("lead-step2");if(s.classList.contains("open")){s.scrollIntoView({behavior:"smooth",block:"start"});return;}s.classList.add("open");s.setAttribute("aria-hidden","false");setTimeout(function(){s.scrollIntoView({behavior:"smooth",block:"start"});},120)}
   async function send(payload){try{var r=await fetch("/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});var d=await r.json().catch(function(){return null});if(!r.ok)return{ok:false,status:r.status,data:d};if(d&&d.ok===false)return{ok:false,status:r.status,data:d};return{ok:true,status:r.status,data:d};}catch(_){return{ok:false,status:"network"}}}
@@ -3268,3 +3268,4 @@ body #hero-section .hero-proof .btn{
   <script src="/js/conversion-tracking.js"></script>
 </body>
 </html>
+

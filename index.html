@@ -460,8 +460,8 @@
     <section class="home-section" id="contact">
       <div class="container">
         <div class="home-contact">
-          <h2>Contact QuickFresh</h2>
-          <p class="sub">For bookings and service questions, call, message, or email us directly.</p>
+          <h2 id="contactHeading">Contact QuickFresh</h2>
+          <p class="sub" id="contactSubheading">For bookings and service questions, call, message, or email us directly.</p>
           <div class="home-contact-grid">
             <div class="home-contact-copy">
               <p><strong>Phone:</strong> <a href="tel:0451664247">0451 664 247</a></p>
@@ -473,6 +473,7 @@
               </p>
             </div>
             <form class="contact-form" id="contactForm">
+              <input type="hidden" id="contactService" name="service" value="">
               <div>
                 <label for="contactName" class="field-label">Name (optional)</label>
                 <input type="text" id="contactName" name="name" autocomplete="name">
@@ -514,6 +515,38 @@
     (function(){
       var contactForm = document.getElementById('contactForm');
       if (contactForm) {
+        var serviceParam = new URLSearchParams(window.location.search).get('service');
+        var serviceMap = {
+          'commercial': {
+            heading: 'Ask About Commercial Cleaning',
+            subheading: 'Tell us about the site, access, flooring type and preferred cleaning schedule.',
+            messageStarter: 'Hi QuickFresh, I need help with commercial cleaning. Site type: , access details: , flooring type: , preferred schedule: .'
+          },
+          'odour-treatment': {
+            heading: 'Ask About Stain & Odour Treatment',
+            subheading: 'Share the cause if known, affected areas, and whether pets or spills are involved.',
+            messageStarter: 'Hi QuickFresh, I need stain and odour treatment. Cause (if known): , affected areas: , pets/spills involved: .'
+          },
+          'water-extraction': {
+            heading: 'Request Water Extraction Help',
+            subheading: 'Tell us what happened, the affected area, and whether the issue is still active.',
+            messageStarter: 'Hi QuickFresh, I need water extraction help. What happened: , affected area: , issue still active: yes/no.'
+          }
+        };
+        var serviceConfig = serviceParam ? serviceMap[serviceParam] : null;
+        if (serviceConfig) {
+          var headingEl = document.getElementById('contactHeading');
+          var subheadingEl = document.getElementById('contactSubheading');
+          var serviceField = document.getElementById('contactService');
+          var messageEl = document.getElementById('contactMessage');
+          if (headingEl) headingEl.textContent = serviceConfig.heading;
+          if (subheadingEl) subheadingEl.textContent = serviceConfig.subheading;
+          if (serviceField) serviceField.value = serviceParam;
+          if (messageEl && !messageEl.value.trim()) {
+            messageEl.value = serviceConfig.messageStarter;
+          }
+        }
+
         console.log('[home-contact] init ok');
         contactForm.addEventListener('submit', async function(e){
           e.preventDefault();
@@ -521,6 +554,7 @@
           var name = document.getElementById('contactName')?.value?.trim() || '';
           var email = document.getElementById('contactEmail')?.value?.trim() || '';
           var message = document.getElementById('contactMessage')?.value?.trim() || '';
+          var service = document.getElementById('contactService')?.value?.trim() || '';
           if (!email) {
             alert('Please enter your email.');
             return;
@@ -534,7 +568,7 @@
             customer: { name: name, email: email, notes: message },
             selections: { description: message },
             estimate: { total: 0, items: [] },
-            meta: { page: location.href, timestamp: new Date().toISOString() }
+            meta: { page: location.href, timestamp: new Date().toISOString(), serviceContext: service || undefined }
           };
           console.log('[home-contact] submit fired', payload);
           try {

@@ -1,169 +1,309 @@
-/* ──────────────────────────────────────────────
-   QuickFresh — Services Styles (refactor total)
-   - Badge no fluxo (sem sobrepor título)
-   - Book / Pre-Quote à direita (UX polegar)
-   - Diferenciação de cores para badges
-────────────────────────────────────────────── */
+/* QuickFresh services hub styles - scoped to /services */
+[data-page="services"] .qf-services-main {
+  background: linear-gradient(180deg, #f7fbff 0%, #f8fafc 38%, #ffffff 100%);
+}
 
-/* ===== GRID ===== */
-.services-grid {
+[data-page="services"] .qf-soft {
+  background: linear-gradient(180deg, #f2f7ff 0%, #f8fbff 100%);
+  border-top: 1px solid #dbe7f5;
+  border-bottom: 1px solid #dbe7f5;
+}
+
+[data-page="services"] .qf-section-head {
+  margin-bottom: 18px;
+}
+
+[data-page="services"] .qf-section-head h2 {
+  margin: 0 0 10px;
+  color: var(--navy);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+}
+
+[data-page="services"] .qf-eyebrow {
+  margin: 0 0 8px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1e4b90;
+}
+
+[data-page="services"] .qf-hero {
+  padding-top: 42px;
+}
+
+[data-page="services"] .qf-hero-grid {
   display: grid;
   gap: 16px;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
-/* ===== CARD ===== */
-.service-card {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 18px 16px 14px;
-  box-shadow: var(--shadow-sm);
-  transition: transform .15s ease, box-shadow .2s ease, border-color .2s;
-}
-.service-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-  border-color: #B6C3D6;
+[data-page="services"] .qf-hero h1 {
+  margin: 0;
+  color: #0e2d46;
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  line-height: 1.14;
+  max-width: 16ch;
 }
 
-/* ===== BADGES REFINADAS ===== */
-.badge {
-  display: inline-block;
-  align-self: flex-start;
-  font-weight: 800;
-  font-size: 12px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  margin-bottom: 10px;
-  color: #0d5035;               /* texto escuro legível */
-  background: #d7f5e6;          /* verde suave (fallback) */
-  box-shadow: 0 3px 6px rgba(47,170,94,.1);
-}
-
-/* Popular — verde suave */
-.badge--popular {
-  background: #d7f5e6;
-  color: #147a4d;
-  box-shadow: 0 3px 6px rgba(47,170,94,.1);
-}
-
-/* Premium — azul */
-.badge--premium {
-  background: linear-gradient(90deg, #2563EB, #3B82F6);
-  color: #fff;
-  box-shadow: 0 6px 14px rgba(37,99,235,.18);
-}
-
-/* ===== CABEÇALHO ===== */
-.service-title { font-weight: 800; color: var(--navy); font-size: 18px; margin: 4px 0 2px; }
-.service-price { margin-top: 2px; font-weight: 800; color: var(--ink); }
-.service-note { color: var(--muted); margin: 4px 0 0; font-size: 14px; }
-
-/* ===== AÇÕES ===== */
-.card-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+[data-page="services"] .qf-hero-copy {
+  max-width: 58ch;
   margin-top: 12px;
+}
+
+[data-page="services"] .qf-cta-row {
+  margin-top: 16px;
+}
+
+[data-page="services"] .qf-hero-panel {
+  background: linear-gradient(145deg, #0f3a5e 0%, #174f73 55%, #1f6a8f 100%);
+  color: #fff;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 18px 40px rgba(15, 58, 94, 0.22);
+  padding: 18px;
+}
+
+[data-page="services"] .qf-hero-panel h2 {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+}
+
+[data-page="services"] .qf-hero-panel .list {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+[data-page="services"] .qf-trust {
+  padding-top: 6px;
+}
+
+[data-page="services"] .qf-trust-grid {
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 10px;
 }
 
-/* Selo inferior (Best value, Premium, etc.) */
-.card-actions .pill {
-  order: 1;
-  display: inline-block;
-  padding: 4px 8px;
+[data-page="services"] .qf-trust-item {
+  margin: 0;
+  border: 1px solid #cddff4;
   border-radius: 999px;
-  background: #F1F5F9;
-  color: var(--ink);
-  font-size: 12px;
-  font-weight: 800;
-  white-space: nowrap;
+  background: #ffffff;
+  color: #123a62;
+  font-weight: 700;
+  text-align: center;
+  padding: 10px 14px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
 }
 
-/* ===== BADGES REFINADAS ===== */
-.badge {
-  display: inline-block;
-  align-self: flex-start;
-  font-weight: 800;
-  font-size: 12px;
-  padding: 6px 10px;
+[data-page="services"] .qf-card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+[data-page="services"] .qf-service-card {
+  border-radius: 16px;
+  border-color: #d8e4f2;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+[data-page="services"] .qf-service-card h3 {
+  margin: 0;
+  color: #103758;
+  font-size: 1.22rem;
+}
+
+[data-page="services"] .qf-service-card .list {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+[data-page="services"] .qf-service-card .btn {
+  margin-top: 2px;
+}
+
+[data-page="services"] .qf-price-anchor {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #eef5ff;
+  border: 1px solid #cfe0f5;
+  color: #113f66;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+[data-page="services"] .qf-tile-card .qf-price-anchor {
+  background: #e7f8ef;
+  border-color: #b9e7cc;
+  color: #155535;
+}
+
+[data-page="services"] .qf-steps-grid,
+[data-page="services"] .qf-notes-grid,
+[data-page="services"] .qf-proof-grid,
+[data-page="services"] .qf-review-grid,
+[data-page="services"] .qf-faq-grid {
+  display: grid;
+  gap: 14px;
+}
+
+[data-page="services"] .qf-step-card {
+  position: relative;
+  border-color: #dbe5ef;
+}
+
+[data-page="services"] .qf-step-num {
+  width: 34px;
+  height: 34px;
+  margin: 0 0 10px;
   border-radius: 999px;
-  margin-bottom: 10px;
-  color: #0d5035;               /* texto escuro legível */
-  background: #d7f5e6;          /* verde suave (fallback) */
-  box-shadow: 0 3px 6px rgba(47,170,94,.1);
-}
-
-/* Popular — verde suave */
-.badge--popular {
-  background: #d7f5e6;
-  color: #147a4d;
-  box-shadow: 0 3px 6px rgba(47,170,94,.1);
-}
-
-/* Premium — azul */
-.badge--premium {
-  background: linear-gradient(90deg, #2563EB, #3B82F6);
-  color: #fff;
-  box-shadow: 0 6px 14px rgba(37,99,235,.18);
-}
-
-/* ===== BOTÃO AJUSTADO ===== */
-.service-card .link {
-  order: 2;
-  margin-left: auto;
-  display: inline-block;
-  background: linear-gradient(135deg, #39b46c, #2faa5e); /* verde menos saturado */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #1f6feb;
   color: #fff;
   font-weight: 800;
-  text-decoration: none;
-  border: none;
-  border-radius: 9999px;
-  padding: 10px 18px;
-  font-size: 15px;
-  letter-spacing: .2px;
-  box-shadow: 0 6px 12px rgba(47,170,94,.25);
-  transition: all .25s ease;
-  white-space: nowrap;
-}
-.service-card .link:hover {
-  background: linear-gradient(135deg, #2faa5e, #248a54);
-  transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(47,170,94,.25);
 }
 
+[data-page="services"] .qf-step-card h3,
+[data-page="services"] .qf-note-card h3 {
+  margin: 0 0 8px;
+  color: #103758;
+  font-size: 1.12rem;
+}
 
-/* ===== MOBILE ===== */
-@media (max-width: 640px) {
-  .badge {
-    font-size: 11px;
-    padding: 5px 8px;
-    margin-bottom: 8px;
+[data-page="services"] .qf-note-card {
+  border-color: #d8e6f4;
+}
+
+[data-page="services"] .qf-proof-card {
+  border-color: #d8e2ef;
+  overflow: hidden;
+  padding: 0;
+}
+
+[data-page="services"] .qf-proof-card img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+[data-page="services"] .qf-proof-card figcaption {
+  padding: 12px 14px 14px;
+  color: #334155;
+  font-size: 0.94rem;
+}
+
+[data-page="services"] .qf-review-card {
+  border-color: #d3e1f3;
+  background: #ffffff;
+}
+
+[data-page="services"] .qf-review-card p {
+  margin: 0 0 10px;
+  color: #1f2937;
+}
+
+[data-page="services"] .qf-review-card cite {
+  font-style: normal;
+  color: #475569;
+  font-weight: 700;
+}
+
+[data-page="services"] .qf-faq-card {
+  border-color: #d7e4f3;
+  padding: 14px 14px 10px;
+}
+
+[data-page="services"] .qf-faq-card summary {
+  cursor: pointer;
+  font-weight: 800;
+  color: #123a5d;
+}
+
+[data-page="services"] .qf-faq-card p {
+  margin: 10px 0 4px;
+}
+
+[data-page="services"] .qf-final-cta {
+  padding-top: 18px;
+}
+
+[data-page="services"] .qf-final-cta-card {
+  border-radius: 18px;
+  border: 1px solid #cee0f5;
+  background: linear-gradient(140deg, #f7fbff 0%, #eef5ff 100%);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+[data-page="services"] .qf-final-cta-card h2 {
+  margin: 0 0 10px;
+  color: #0f3656;
+}
+
+[data-page="services"] .qf-final-cta-card .sub {
+  max-width: 58ch;
+}
+
+[data-page="services"] .footer-inner .sub {
+  line-height: 1.5;
+}
+
+@media (min-width: 700px) {
+  [data-page="services"] .qf-trust-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .card-actions {
-    justify-content: flex-end;
-    gap: 8px;
+
+  [data-page="services"] .qf-card-grid,
+  [data-page="services"] .qf-steps-grid,
+  [data-page="services"] .qf-notes-grid,
+  [data-page="services"] .qf-proof-grid,
+  [data-page="services"] .qf-review-grid,
+  [data-page="services"] .qf-faq-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .card-actions .pill {
-    margin-right: auto;
-    font-size: 11px;
-  }
-  .service-card .link {
-    font-size: 14px;
-    padding: 9px 16px;
-    box-shadow: 0 4px 10px rgba(47,170,94,.25);
+
+  [data-page="services"] .qf-faq-grid details:last-child {
+    grid-column: 1 / -1;
   }
 }
 
-/* ===== VARIÁVEIS ===== */
-:root {
-  --navy: #0d3550;
-  --ink: #1e293b;
-  --muted: #64748b;
-  --leaf: #2faa5e;
-  --border: #d6dee8;
-  --shadow-sm: 0 1px 4px rgba(15,23,42,0.05);
-  --shadow-md: 0 4px 10px rgba(15,23,42,0.08);
+@media (min-width: 1024px) {
+  [data-page="services"] .qf-hero-grid {
+    grid-template-columns: minmax(0, 1.35fr) minmax(290px, 0.65fr);
+    align-items: stretch;
+  }
+
+  [data-page="services"] .qf-trust-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  [data-page="services"] .qf-card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  [data-page="services"] .qf-card-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  [data-page="services"] .qf-steps-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  [data-page="services"] .qf-notes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  [data-page="services"] .qf-proof-grid,
+  [data-page="services"] .qf-review-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  [data-page="services"] .qf-faq-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

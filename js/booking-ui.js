@@ -133,7 +133,7 @@
     const minEl = getEl('estimate-min-msg');
     if (minEl){
       if (b.minimumApplied){
-        minEl.textContent = `Minimum $${MINIMUM_CALLOUT} - $${Number(b.awayFromMinimum || 0).toFixed(0)} away`;
+        minEl.textContent = `Minimum call-out $${MINIMUM_CALLOUT} applied. $${Number(b.awayFromMinimum || 0).toFixed(0)} away from minimum.`;
       } else {
         minEl.textContent = '';
       }
@@ -406,3 +406,4 @@
     exposeQF();
   }
 })();
+
