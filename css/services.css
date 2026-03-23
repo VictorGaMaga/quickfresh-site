@@ -3,8 +3,28 @@
   background: linear-gradient(180deg, #f7fbff 0%, #f8fafc 38%, #ffffff 100%);
 }
 
+body[data-page="services"] {
+  background: #f7faff;
+  color: #0f172a;
+}
+
 [data-page="services"] .header {
   backdrop-filter: none;
+}
+
+[data-page="services"] .btn.primary {
+  background: #1f6feb;
+  border-color: #1f6feb;
+}
+
+[data-page="services"] .btn.secondary {
+  background: #eaf2ff;
+  color: #1f6feb;
+  border-color: rgba(31, 111, 235, 0.35);
+}
+
+[data-page="services"] .sub {
+  color: #475569;
 }
 
 [data-page="services"] .qf-soft {
@@ -325,54 +345,58 @@
 @media (max-width: 768px) {
   [data-page="services"] .header .inner {
     gap: 8px;
-    padding: 8px 0;
+    padding: 6px 0;
   }
 
   [data-page="services"] .qf-hero {
-    padding-top: 16px;
+    padding: 10px 0 12px;
   }
 
   [data-page="services"] .qf-hero-grid {
-    gap: 12px;
+    gap: 10px;
   }
 
   [data-page="services"] .qf-hero h1 {
-    font-size: clamp(1.7rem, 7vw, 2.15rem);
-    max-width: 15ch;
+    font-size: clamp(1.55rem, 6.5vw, 1.95rem);
+    line-height: 1.08;
+    max-width: 14ch;
   }
 
   [data-page="services"] .qf-hero-copy {
-    margin-top: 8px;
+    margin-top: 6px;
   }
 
   [data-page="services"] .qf-hero-copy .sub {
-    font-size: 0.98rem;
+    font-size: 0.94rem;
+    line-height: 1.45;
   }
 
   [data-page="services"] .qf-cta-row {
-    margin-top: 12px;
+    margin-top: 10px;
   }
 
   [data-page="services"] .qf-hero-panel {
-    padding: 14px 16px;
-    border-radius: 14px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border-color: rgba(255, 255, 255, 0.18);
     background: #174f73;
-    box-shadow: 0 8px 20px rgba(15, 58, 94, 0.14);
+    box-shadow: none;
   }
 
   [data-page="services"] .qf-trust {
-    padding: 2px 0 0;
+    padding: 0;
   }
 
   [data-page="services"] .qf-trust-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
+    gap: 6px;
   }
 
   [data-page="services"] .qf-trust-item {
-    padding: 8px 10px;
-    border-radius: 12px;
+    padding: 6px 8px;
+    border-radius: 10px;
     box-shadow: none;
-    font-size: 0.9rem;
+    font-size: 0.82rem;
+    line-height: 1.25;
   }
 }
