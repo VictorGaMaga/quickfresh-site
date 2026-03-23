@@ -2,6 +2,13 @@
 document.addEventListener('DOMContentLoaded', () => {
   const $  = id  => document.getElementById(id);
   const $$ = sel => Array.from(document.querySelectorAll(sel));
+  const runWhenIdle = (fn) => {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(fn, { timeout: 1200 });
+    } else {
+      setTimeout(fn, 0);
+    }
+  };
 
   // ───────────────────────────────────────────────
   // 1. Atualiza o ano no rodapé
@@ -15,13 +22,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ───────────────────────────────────────────────
-  // 2. Ativa carrossel (se existir)
+  // 2. Ativa carrossel (se existir) sem competir com render inicial
   // ───────────────────────────────────────────────
-  const carouselRoot = document.querySelector('[id^="carousel"]');
-  if (carouselRoot && typeof initQuickFreshCarousel === 'function') {
-    // Se o carousel.js estiver carregado, inicializa manualmente
-    try { initQuickFreshCarousel(); } catch (err) { console.warn('Carousel init failed:', err); }
-  }
+  runWhenIdle(() => {
+    const carouselRoot = document.querySelector('[id^="carousel"]');
+    if (carouselRoot && typeof initQuickFreshCarousel === 'function') {
+      try { initQuickFreshCarousel(); } catch (err) { console.warn('Carousel init failed:', err); }
+    }
+  });
 
   // ───────────────────────────────────────────────
   // 3. Acessibilidade e preferências do usuário
@@ -31,20 +39,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ───────────────────────────────────────────────
-  // 4. Links externos: abrem em nova aba com segurança
+  // 4. Links externos: abrem em nova aba com segurança (idle)
   // ───────────────────────────────────────────────
-  $$('a[href^="http"]').forEach(link => {
-    if (!link.href.includes(window.location.origin)) {
-      link.setAttribute('target', '_blank');
-      link.setAttribute('rel', 'noopener noreferrer');
-    }
+  runWhenIdle(() => {
+    $$('a[href^="http"]').forEach(link => {
+      if (!link.href.includes(window.location.origin)) {
+        link.setAttribute('target', '_blank');
+        link.setAttribute('rel', 'noopener noreferrer');
+      }
+    });
   });
 
   // ───────────────────────────────────────────────
   // 5. Header fixo em rolagem (opcional)
   // ───────────────────────────────────────────────
-  const header = document.querySelector('.header');
-  if (header) {
+  runWhenIdle(() => {
+    const header = document.querySelector('.header');
+    if (!header) return;
     let lastY = 0;
     window.addEventListener('scroll', () => {
       const y = window.scrollY;
@@ -52,18 +63,20 @@ document.addEventListener('DOMContentLoaded', () => {
       else header.classList.remove('header-hidden');
       lastY = y;
     });
-  }
+  });
 
   // ───────────────────────────────────────────────
-  // 6. Suporte a animações suaves para âncoras internas
+  // 6. Suporte a animações suaves para âncoras internas (idle)
   // ───────────────────────────────────────────────
-  $$('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', e => {
-      const target = document.querySelector(link.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+  runWhenIdle(() => {
+    $$('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', e => {
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
     });
   });
 

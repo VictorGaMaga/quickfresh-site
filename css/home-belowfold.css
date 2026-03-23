@@ -1,0 +1,121 @@
+.home-section{
+  padding:58px 0;
+  content-visibility:auto;
+  contain-intrinsic-size:900px;
+}
+
+.home-section h2{
+  margin:0;
+  font-size:clamp(28px,3vw,40px);
+  line-height:1.1;
+  letter-spacing:-.018em;
+}
+
+.home-section .sub{margin:8px 0 0;color:var(--home-sub)}
+
+.home-services{
+  margin-top:16px;
+  display:grid;
+  gap:14px;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+
+.home-service-card{
+  border:1px solid var(--home-border);
+  border-radius:var(--home-r-md);
+  background:#fff;
+  box-shadow:var(--home-shadow-soft);
+  padding:18px;
+  display:grid;
+  gap:10px;
+}
+
+.home-service-card h3{margin:0;font-size:1.1rem}
+.home-service-card p{margin:0;color:var(--home-sub)}
+
+.home-service-card a{
+  width:fit-content;
+  color:var(--home-brand);
+  text-decoration:underline;
+  text-underline-offset:2px;
+  font-weight:700;
+}
+
+.home-gallery-wrap{
+  margin-top:16px;
+  max-width:980px;
+}
+
+.home-reviews{
+  margin-top:16px;
+  display:grid;
+  gap:12px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.home-review{
+  border:1px solid var(--home-border);
+  border-radius:var(--home-r-md);
+  background:#fff;
+  padding:14px;
+}
+
+.home-review .stars{letter-spacing:.11em;color:#d89900;font-size:.9rem}
+
+.home-areas{
+  border:1px solid var(--home-border);
+  border-radius:var(--home-r-md);
+  background:#fff;
+  box-shadow:var(--home-shadow-soft);
+  padding:20px;
+  margin-top:14px;
+}
+
+.home-contact{
+  border:1px solid var(--home-border);
+  border-radius:var(--home-r-lg);
+  background:#fff;
+  box-shadow:var(--home-shadow-soft);
+  padding:22px;
+}
+
+.home-contact-grid{
+  margin-top:12px;
+  display:grid;
+  gap:16px;
+  grid-template-columns:1fr 1fr;
+}
+
+.home-contact-copy p{margin:0 0 8px;color:var(--home-sub)}
+
+.home-footer{
+  border-top:1px solid var(--home-border);
+  background:#f8fbff;
+  margin-top:14px;
+}
+
+.home-footer .footer-inner{
+  min-height:82px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.home-footer .sub a{
+  color:var(--home-brand);
+  text-decoration:underline;
+  text-underline-offset:2px;
+}
+
+@media (max-width:980px){
+  .home-services{grid-template-columns:1fr 1fr}
+  .home-contact-grid{grid-template-columns:1fr}
+}
+
+@media (max-width:700px){
+  .home-services{grid-template-columns:1fr}
+  .home-reviews{grid-template-columns:1fr}
+  .home-section{padding:48px 0}
+}

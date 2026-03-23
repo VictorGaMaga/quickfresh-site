@@ -4,6 +4,17 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "quickfresh.com.au"
+        }
+      ],
+      "destination": "https://www.quickfresh.com.au/:path*",
+      "permanent": true
+    },
+    {
       "source": "/uphostery",
       "destination": "/upholstery",
       "permanent": true
