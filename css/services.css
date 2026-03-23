@@ -3,6 +3,10 @@
   background: linear-gradient(180deg, #f7fbff 0%, #f8fafc 38%, #ffffff 100%);
 }
 
+[data-page="services"] .header {
+  backdrop-filter: none;
+}
+
 [data-page="services"] .qf-soft {
   background: linear-gradient(180deg, #f2f7ff 0%, #f8fbff 100%);
   border-top: 1px solid #dbe7f5;
@@ -99,6 +103,8 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 14px;
+  content-visibility: auto;
+  contain-intrinsic-size: 1200px;
 }
 
 [data-page="services"] .qf-service-card {
@@ -313,5 +319,60 @@
 
   [data-page="services"] .qf-faq-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  [data-page="services"] .header .inner {
+    gap: 8px;
+    padding: 8px 0;
+  }
+
+  [data-page="services"] .qf-hero {
+    padding-top: 16px;
+  }
+
+  [data-page="services"] .qf-hero-grid {
+    gap: 12px;
+  }
+
+  [data-page="services"] .qf-hero h1 {
+    font-size: clamp(1.7rem, 7vw, 2.15rem);
+    max-width: 15ch;
+  }
+
+  [data-page="services"] .qf-hero-copy {
+    margin-top: 8px;
+  }
+
+  [data-page="services"] .qf-hero-copy .sub {
+    font-size: 0.98rem;
+  }
+
+  [data-page="services"] .qf-cta-row {
+    margin-top: 12px;
+  }
+
+  [data-page="services"] .qf-hero-panel {
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: #174f73;
+    box-shadow: 0 8px 20px rgba(15, 58, 94, 0.14);
+  }
+
+  [data-page="services"] .qf-trust {
+    padding: 2px 0 0;
+  }
+
+  [data-page="services"] .qf-trust-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  [data-page="services"] .qf-trust-item {
+    padding: 8px 10px;
+    border-radius: 12px;
+    box-shadow: none;
+    font-size: 0.9rem;
   }
 }
