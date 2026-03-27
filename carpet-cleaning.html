@@ -304,7 +304,7 @@ table{width:100%;border-collapse:collapse}
 th,td{padding:8px;border-bottom:1px solid #e7edf5;text-align:left;vertical-align:top}
 .hidden{display:none!important}
 .lead-step2-shell{max-height:0;overflow:hidden;opacity:0;transform:translateY(-6px);transition:max-height .55s ease,opacity .35s ease,transform .35s ease}
-.lead-step2-shell.open{max-height:1400px;opacity:1;transform:translateY(0)}
+.lead-step2-shell.open{max-height:1400px;opacity:1;transform:translateY(0);margin-top:16px}
 .sticky{position:fixed;left:0;right:0;bottom:0;background:#0d2339;border-top:1px solid #183753;padding:6px 8px;z-index:20}
 .sticky[data-visible="false"]{display:none}
 .sticky .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -386,6 +386,41 @@ th,td{padding:8px;border-bottom:1px solid #e7edf5;text-align:left;vertical-align
   text-align:center;
   color:#4f647a;
   font-size:.9rem;
+}
+.video-section .sub{
+  max-width:56ch;
+}
+.video-embed{
+  margin-top:14px;
+  border-radius:18px;
+  overflow:hidden;
+  background:#0f1720;
+  box-shadow:var(--shadow);
+}
+.video-embed iframe{
+  display:block;
+  width:100%;
+  aspect-ratio:16 / 9;
+  border:0;
+}
+.prequote-intro{
+  margin-bottom:0;
+}
+.prequote-flow{
+  margin-top:14px;
+}
+.prequote-flow .c{
+  height:100%;
+}
+.prequote-flow + .estimate-grid{
+  margin-top:16px;
+}
+.lead-step2-shell .c{
+  background:linear-gradient(180deg,#ffffff 0%,#f8fbff 100%);
+  border-color:#dce7f2;
+}
+.footer-service-note{
+  margin:0 0 12px;
 }
 .real-review{
   position:relative;
@@ -469,8 +504,8 @@ th,td{padding:8px;border-bottom:1px solid #e7edf5;text-align:left;vertical-align
   background:linear-gradient(180deg,#ffffff 0%,#f8fbff 100%);
   box-shadow:0 17px 38px rgba(14,37,62,.1);
 }
-#lead-step1-wrap h2{letter-spacing:-.015em}
-#lead-step1-wrap,#lead-step2{display:none!important}
+#lead-step1-wrap h2,
+#lead-step1-wrap h3{letter-spacing:-.015em}
 #selectedPackageHint{font-weight:650;color:#3f5770}
 #step1Error{color:var(--danger);min-height:20px;font-weight:600}
 #step2Status{min-height:20px}
@@ -817,8 +852,12 @@ section,
 .wrap > section,
 #packages,
 #how-it-works,
+#video,
 #reviews,
+#photo-proof,
+#email-quote,
 #estimate,
+#lead-step2,
 #faq,
 #service-areas,
 #areas{
@@ -2427,8 +2466,8 @@ body #hero-section .hero-proof .btn{
       </a>
     </div>
     <div class="topbar-actions">
-      <a class="topbar-link" href="sms:+61451664247?&body=Hi%20QuickFresh%20-%20I%20need%20a%20quote.">Text</a>
-      <a class="topbar-link" target="_blank" rel="noopener" href="https://wa.me/61451664247?text=Hi%20QuickFresh%20-%20I%20need%20a%20fast%20quote.">WhatsApp</a>
+      <a class="topbar-link" href="sms:+61451664247?&body=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.">Text</a>
+      <a class="topbar-link" target="_blank" rel="noopener" href="https://wa.me/61451664247?text=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.">WhatsApp</a>
     </div>
   </div>
 </header>
@@ -2448,10 +2487,10 @@ body #hero-section .hero-proof .btn{
             </div>
             <div class="hero-cta-row" style="margin-top:18px">
               <div>
-                <a id="heroWhatsAppBtn" class="btn pri" target="_blank" rel="noopener" href="https://wa.me/61451664247?text=Hi%20QuickFresh%20-%20I%20need%20a%20fast%20quote.">WhatsApp fast quote</a>
+                <a id="heroWhatsAppBtn" class="btn pri" target="_blank" rel="noopener" href="https://wa.me/61451664247?text=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.">WhatsApp fast quote</a>
                 <p class="hero-cta-note">Fastest replies Friday to Monday.</p>
               </div>
-              <a id="heroSmsBtn" class="btn sec sec-soft" href="sms:+61451664247?&body=Hi%20QuickFresh%20-%20I%20need%20a%20quote.">SMS quote (fast)</a>
+              <a id="heroSmsBtn" class="btn sec sec-soft" href="sms:+61451664247?&body=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.">SMS quote (fast)</a>
             </div>
             <div class="hero-tertiary-wrap">
               <div class="hero-tertiary">
@@ -2484,55 +2523,6 @@ body #hero-section .hero-proof .btn{
             <a id="heroReviewsLink" href="#reviews" class="btn sec">See customer reviews</a>
           </aside>
 
-          <div class="c" id="lead-step1-wrap">
-            <p class="kicker">Step 1</p>
-            <h2 style="font-size:clamp(24px,2.7vw,32px)">Check Perth metro availability (Friday to Monday)</h2>
-            <p class="small">Quick check so we can confirm available times and ETA.</p>
-            <p class="small">Takes around 15 seconds.</p>
-            <form id="leadStep1" novalidate>
-              <div class="g2" style="margin-top:10px">
-                <div>
-                  <label for="step1Suburb">Suburb</label>
-                  <input id="step1Suburb" type="text" required>
-                </div>
-                <div>
-                  <label for="step1Mobile">Mobile</label>
-                  <input id="step1Mobile" type="tel" required>
-                  <p class="field-hint">Used only to confirm availability and ETA.</p>
-                </div>
-              </div>
-              <div class="g2" style="margin-top:10px">
-                <div>
-                  <label for="step1Day">Preferred day (Friday to Monday)</label>
-                  <select id="step1Day" required>
-                    <option value="">Select</option>
-                    <option>Friday</option>
-                    <option>Saturday</option>
-                    <option>Sunday</option>
-                    <option>Monday</option>
-                  </select>
-                </div>
-                <div>
-                  <label for="step1Need">What needs cleaning?</label>
-                  <select id="step1Need" required>
-                    <option value="">Select</option>
-                    <option>Carpets</option>
-                    <option>End of lease</option>
-                    <option>Pet smell</option>
-                    <option>Stairs</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-              </div>
-              <div id="step1Error" class="small" role="alert" aria-live="polite" style="margin-top:8px"></div>
-              <div id="selectedPackageHint" class="small" style="margin-top:4px" hidden></div>
-              <button class="btn pri" type="submit" style="margin-top:8px">Continue to booking details</button>
-              <div class="hero-reassure" aria-hidden="true">
-                <span class="mini-pill">No upfront payment</span>
-                <span class="mini-pill">Pay after the job</span>
-              </div>
-            </form>
-          </div>
         </div>
       </div>
     </div>
@@ -2552,8 +2542,8 @@ body #hero-section .hero-proof .btn{
           <p class="small">Severe odour/urine jobs are assessed on-site before we confirm final pricing.</p>
           <div class="package-actions">
             <div class="package-actions-main">
-              <a class="btn pri package-pick package-channel" data-channel="whatsapp" data-package="Refresh Steam" target="_blank" rel="noopener" href="https://wa.me/61451664247?text=Hi%20QuickFresh%20-%20I%20need%20a%20fast%20quote.">WhatsApp this package</a>
-              <a class="btn sec package-pick package-channel" data-channel="sms" data-package="Refresh Steam" href="sms:+61451664247?&body=Hi%20QuickFresh%20-%20I%20need%20a%20quote.">SMS this package</a>
+              <a class="btn pri package-pick package-channel" data-channel="whatsapp" data-package="Refresh Steam" target="_blank" rel="noopener" href="https://wa.me/61451664247?text=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.%20Package%20interest%3A%20Refresh%20Steam.">WhatsApp this package</a>
+              <a class="btn sec package-pick package-channel" data-channel="sms" data-package="Refresh Steam" href="sms:+61451664247?&body=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.%20Package%20interest%3A%20Refresh%20Steam.">SMS this package</a>
             </div>
             <a href="#email-quote" class="package-email-link package-pick package-channel" data-channel="email" data-package="Refresh Steam">Email me a quote for this package</a>
           </div>
@@ -2566,8 +2556,8 @@ body #hero-section .hero-proof .btn{
           <p class="small">Severe odour/urine jobs are assessed on-site before we confirm final pricing.</p>
           <div class="package-actions">
             <div class="package-actions-main">
-              <a class="btn pri package-pick package-channel" data-channel="whatsapp" data-package="Deep Clean Steam" target="_blank" rel="noopener" href="https://wa.me/61451664247?text=Hi%20QuickFresh%20-%20I%20need%20a%20fast%20quote.">WhatsApp this package</a>
-              <a class="btn sec package-pick package-channel" data-channel="sms" data-package="Deep Clean Steam" href="sms:+61451664247?&body=Hi%20QuickFresh%20-%20I%20need%20a%20quote.">SMS this package</a>
+              <a class="btn pri package-pick package-channel" data-channel="whatsapp" data-package="Deep Clean Steam" target="_blank" rel="noopener" href="https://wa.me/61451664247?text=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.%20Package%20interest%3A%20Deep%20Clean%20Steam.">WhatsApp this package</a>
+              <a class="btn sec package-pick package-channel" data-channel="sms" data-package="Deep Clean Steam" href="sms:+61451664247?&body=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.%20Package%20interest%3A%20Deep%20Clean%20Steam.">SMS this package</a>
             </div>
             <a href="#email-quote" class="package-email-link package-pick package-channel" data-channel="email" data-package="Deep Clean Steam">Email me a quote for this package</a>
           </div>
@@ -2576,31 +2566,82 @@ body #hero-section .hero-proof .btn{
     </div>
   </section>
 
-  <section class="s lead-step2-shell" id="lead-step2" aria-hidden="true">
+  <section class="s" id="how-it-works">
     <div class="wrap">
-      <div class="c">
-        <p class="kicker">Step 2</p>
-        <h2 style="font-size:clamp(24px,2.7vw,32px)">Optional booking details</h2>
-        <div class="g2">
-          <div>
-            <label for="custAddress">Address (optional)</label>
-            <input id="custAddress" type="text">
-          </div>
-          <div>
-            <label for="custEmail">Email (optional)</label>
-            <input id="custEmail" type="email">
-          </div>
-        </div>
-        <div style="margin-top:10px">
-          <label for="custNotes">Notes (optional)</label>
-          <textarea id="custNotes"></textarea>
-        </div>
-        <div class="g2" style="margin-top:10px">
-          <button id="step2ConfirmBtn" type="button" class="btn pri">Confirm booking request (no payment now)</button>
-          <a id="emailQuoteLink" href="#email-quote" class="btn sec">Prefer a written quote by email?</a>
-        </div>
-        <div id="step2Status" class="small" style="margin-top:8px" aria-live="polite"></div>
+      <h2>How it works</h2>
+      <div class="steps-grid" style="margin-top:12px">
+        <article class="step-card">
+          <span class="step-num">1</span>
+          <h3>Message us (WhatsApp/SMS/email)</h3>
+          <p class="small">Tell us your suburb and what needs cleaning.</p>
+        </article>
+        <article class="step-card">
+          <span class="step-num">2</span>
+          <h3>We confirm your quote</h3>
+          <p class="small">Clear final price before we start.</p>
+        </article>
+        <article class="step-card">
+          <span class="step-num">3</span>
+          <h3>Deep clean and dry</h3>
+          <p class="small">Pay after the job.</p>
+        </article>
       </div>
+    </div>
+  </section>
+
+  <section class="s video-section" id="video">
+    <div class="wrap">
+      <h2>Watch a real carpet clean</h2>
+      <p class="sub">See a real before-and-after carpet cleaning result.</p>
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/3aUdxOnMj78" title="QuickFresh real carpet cleaning video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="s section-soft" id="reviews">
+    <div class="wrap">
+      <h2>Customer reviews</h2>
+      <p class="reviews-helper">Real customer reviews from Google and Setmore, with source labels shown clearly.</p>
+      <div class="reviews-head">
+        <div class="reviews-metrics">
+          <span class="pill subtle">Google rating: 5.0</span>
+          <span class="pill subtle">4 Google reviews</span>
+          <a class="pill subtle" href="#reviews">View Google review highlights</a>
+        </div>
+      </div>
+      <div class="review-cards">
+        <article class="review-placeholder real-review">
+          <p class="small" style="margin-top:0"><strong>Brendon pelser</strong></p>
+          <p class="small review-stars" style="margin-top:4px">★★★★★</p>
+          <p class="small review-excerpt" style="margin-top:6px">Absolutely blown away, carpets looking brand new. Victor the owner/operator really knows his stuff.</p>
+          <span class="pill subtle source-pill source-setmore" style="margin-top:6px">Source: Setmore</span>
+        </article>
+        <article class="review-placeholder real-review">
+          <p class="small" style="margin-top:0"><strong>Jéssica Rezendes</strong></p>
+          <p class="small review-stars" style="margin-top:4px">★★★★★</p>
+          <p class="small review-excerpt" style="margin-top:6px">Professional, careful, and truly knowledgeable. Great communication and a fair price.</p>
+          <span class="pill subtle source-pill source-google" style="margin-top:6px">Source: Google</span>
+        </article>
+        <article class="review-placeholder real-review">
+          <p class="small" style="margin-top:0"><strong>Laura Martinez</strong></p>
+          <p class="small review-stars" style="margin-top:4px">★★★★★</p>
+          <p class="small review-excerpt" style="margin-top:6px">Good job and fair price, recommend.</p>
+          <span class="pill subtle source-pill source-google" style="margin-top:6px">Source: Google</span>
+        </article>
+      </div>
+      <p class="small" style="margin-top:10px">We keep every review source labeled so you can verify feedback easily.</p>
+    </div>
+  </section>
+
+  <section class="s" id="photo-proof">
+    <div class="wrap">
+      <h3 class="visual-proof-head">See a real customer result</h3>
+      <figure class="visual-proof-figure">
+        <img src="/assets/carpets/Carpet%204%20Before%26After.jpg" loading="lazy" alt="Before and after carpet cleaning result in Perth living room by QuickFresh">
+        <figcaption>Real Perth before-and-after from a customer carpet cleaning job.</figcaption>
+      </figure>
+      <p class="visual-proof-cta">If your carpet needs this kind of clean, get a quick quote below.</p>
     </div>
   </section>
 
@@ -2683,74 +2724,61 @@ body #hero-section .hero-proof .btn{
     </div>
   </section>
 
-  <section class="s" id="how-it-works">
-    <div class="wrap">
-      <h2>How it works</h2>
-      <div class="steps-grid" style="margin-top:12px">
-        <article class="step-card">
-          <span class="step-num">1</span>
-          <h3>Message us (WhatsApp/SMS/email)</h3>
-          <p class="small">Tell us your suburb and what needs cleaning.</p>
-        </article>
-        <article class="step-card">
-          <span class="step-num">2</span>
-          <h3>We confirm your quote</h3>
-          <p class="small">Clear final price before we start.</p>
-        </article>
-        <article class="step-card">
-          <span class="step-num">3</span>
-          <h3>Deep clean and dry</h3>
-          <p class="small">Pay after the job.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="s section-soft" id="reviews">
-    <div class="wrap">
-      <h2>Customer reviews</h2>
-      <p class="reviews-helper">Real customer reviews from Google and Setmore, with source labels shown clearly.</p>
-      <div class="reviews-head">
-        <div class="reviews-metrics">
-          <span class="pill subtle">Google rating: 5.0</span>
-          <span class="pill subtle">4 Google reviews</span>
-          <a class="pill subtle" href="#reviews">View Google review highlights</a>
-        </div>
-      </div>
-      <div class="review-cards">
-        <article class="review-placeholder real-review">
-          <p class="small" style="margin-top:0"><strong>Brendon pelser</strong></p>
-          <p class="small review-stars" style="margin-top:4px">★★★★★</p>
-          <p class="small review-excerpt" style="margin-top:6px">Absolutely blown away, carpets looking brand new. Victor the owner/operator really knows his stuff.</p>
-          <span class="pill subtle source-pill source-setmore" style="margin-top:6px">Source: Setmore</span>
-        </article>
-        <article class="review-placeholder real-review">
-          <p class="small" style="margin-top:0"><strong>Jéssica Rezendes</strong></p>
-          <p class="small review-stars" style="margin-top:4px">★★★★★</p>
-          <p class="small review-excerpt" style="margin-top:6px">Professional, careful, and truly knowledgeable. Great communication and a fair price.</p>
-          <span class="pill subtle source-pill source-google" style="margin-top:6px">Source: Google</span>
-        </article>
-        <article class="review-placeholder real-review">
-          <p class="small" style="margin-top:0"><strong>Laura Martinez</strong></p>
-          <p class="small review-stars" style="margin-top:4px">★★★★★</p>
-          <p class="small review-excerpt" style="margin-top:6px">Good job and fair price, recommend.</p>
-          <span class="pill subtle source-pill source-google" style="margin-top:6px">Source: Google</span>
-        </article>
-      </div>
-      <p class="small" style="margin-top:10px">We keep every review source labeled so you can verify feedback easily.</p>
-      <h3 class="visual-proof-head">See a real customer result</h3>
-      <figure class="visual-proof-figure">
-        <img src="/assets/carpets/Carpet%204%20Before%26After.jpg" loading="lazy" alt="Before and after carpet cleaning result in Perth living room by QuickFresh">
-        <figcaption>Real Perth before-and-after from a customer carpet cleaning job.</figcaption>
-      </figure>
-      <p class="visual-proof-cta">If your carpet needs this kind of clean, get a quick quote below.</p>
-    </div>
-  </section>
-
   <section class="s" id="estimate">
     <div class="wrap">
       <h2>Instant estimate (carpet-first)</h2>
       <p class="small">Build a quick estimate in under 30 seconds. Final price confirmed before we start.</p>
+      <div class="prequote-flow g2">
+        <div class="c" id="lead-step1-wrap">
+          <p class="kicker">Step 1</p>
+          <h2 style="font-size:clamp(24px,2.7vw,32px)">Check Perth metro availability (Friday to Monday)</h2>
+          <p class="small">Quick check so we can confirm available times and ETA.</p>
+          <p class="small">Takes around 15 seconds.</p>
+          <form id="leadStep1" novalidate>
+            <div class="g2" style="margin-top:10px">
+              <div>
+                <label for="step1Suburb">Suburb</label>
+                <input id="step1Suburb" type="text" required>
+              </div>
+              <div>
+                <label for="step1Mobile">Mobile</label>
+                <input id="step1Mobile" type="tel" required>
+                <p class="field-hint">Used only to confirm availability and ETA.</p>
+              </div>
+            </div>
+            <div class="g2" style="margin-top:10px">
+              <div>
+                <label for="step1Day">Preferred day (Friday to Monday)</label>
+                <select id="step1Day" required>
+                  <option value="">Select</option>
+                  <option>Friday</option>
+                  <option>Saturday</option>
+                  <option>Sunday</option>
+                  <option>Monday</option>
+                </select>
+              </div>
+              <div>
+                <label for="step1Need">What needs cleaning?</label>
+                <select id="step1Need" required>
+                  <option value="">Select</option>
+                  <option>Carpets</option>
+                  <option>End of lease</option>
+                  <option>Pet smell</option>
+                  <option>Stairs</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+            <div id="step1Error" class="small" role="alert" aria-live="polite" style="margin-top:8px"></div>
+            <div id="selectedPackageHint" class="small" style="margin-top:4px" hidden></div>
+            <button class="btn pri" type="submit" style="margin-top:8px">Continue to booking details</button>
+            <div class="hero-reassure" aria-hidden="true">
+              <span class="mini-pill">No upfront payment</span>
+              <span class="mini-pill">Pay after the job</span>
+            </div>
+          </form>
+        </div>
+      </div>
       <div class="estimate-grid" style="margin-top:14px">
         <div class="estimate-controls" id="estimate-controls">
           <p class="kicker">Build your estimate</p>
@@ -2825,6 +2853,34 @@ body #hero-section .hero-proof .btn{
     </div>
   </section>
 
+  <section class="lead-step2-shell" id="lead-step2" aria-hidden="true">
+    <div class="wrap">
+      <div class="c">
+        <p class="kicker">Step 2</p>
+        <h2 style="font-size:clamp(24px,2.7vw,32px)">Optional booking details</h2>
+        <div class="g2">
+          <div>
+            <label for="custAddress">Address (optional)</label>
+            <input id="custAddress" type="text">
+          </div>
+          <div>
+            <label for="custEmail">Email (optional)</label>
+            <input id="custEmail" type="email">
+          </div>
+        </div>
+        <div style="margin-top:10px">
+          <label for="custNotes">Notes (optional)</label>
+          <textarea id="custNotes"></textarea>
+        </div>
+        <div class="g2" style="margin-top:10px">
+          <button id="step2ConfirmBtn" type="button" class="btn pri">Confirm booking request (no payment now)</button>
+          <a id="emailQuoteLink" href="#email-quote" class="btn sec">Prefer a written quote by email?</a>
+        </div>
+        <div id="step2Status" class="small" style="margin-top:8px" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
   <section class="s section-soft" id="faq">
     <div class="wrap">
       <h2>Frequently asked questions</h2>
@@ -2866,10 +2922,9 @@ body #hero-section .hero-proof .btn{
     </div>
   </section>
 
-  <section class="s" id="areas">
+  <footer class="s" id="areas">
     <div class="wrap">
-      <h2>Service Areas</h2>
-      <p class="sub">Perth metro service. Message us with your suburb and we&apos;ll confirm availability fast.</p>
+      <p class="sub footer-service-note">Perth metro service. Message us with your suburb and we&apos;ll confirm availability fast.</p>
       <div class="areas-footer">
         <a class="footer-brand" href="/" aria-label="QuickFresh home">
           <img class="footer-brand-mark" src="/assets/logo.webp" alt="QuickFresh logo" loading="lazy" decoding="async">
@@ -2883,13 +2938,13 @@ body #hero-section .hero-proof .btn{
         Minimum call-out $129. Final price confirmed on site. No upfront payment. <a href="/terms.html">See terms &amp; conditions</a>.
       </div>
     </div>
-  </section>
+  </footer>
 </main>
 
 <div class="sticky">
   <div class="wrap row">
-    <a id="stickyWhatsApp" class="btn pri" data-base-label="WhatsApp fast quote" target="_blank" rel="noopener" href="https://wa.me/61451664247?text=Hi%20QuickFresh%20-%20fast%20quote%20please.">WhatsApp fast quote</a>
-    <a id="stickySms" class="btn sec" data-base-label="SMS quote" href="sms:+61451664247?&body=Hi%20QuickFresh%20-%20fast%20quote%20please.">SMS quote</a>
+    <a id="stickyWhatsApp" class="btn pri" data-base-label="WhatsApp fast quote" target="_blank" rel="noopener" href="https://wa.me/61451664247?text=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.">WhatsApp fast quote</a>
+    <a id="stickySms" class="btn sec" data-base-label="SMS quote" href="sms:+61451664247?&body=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.">SMS quote</a>
   </div>
 </div>
 
@@ -2897,6 +2952,7 @@ body #hero-section .hero-proof .btn{
 <script>
 (function(){
   function track(ev,p){var d=Object.assign({event:ev,page:"carpet-cleaning.html"},p||{});if(window.dataLayer&&Array.isArray(window.dataLayer)){window.dataLayer.push(d);}else{console.log("[track]",d);}}
+  var SERVICE_CONTEXT={label:"carpet cleaning",shortLabel:"carpet cleaning"};
   function int(id){var e=document.getElementById(id);var n=parseInt((e&&e.value)||"0",10);return Number.isFinite(n)?Math.max(0,n):0}
   function chk(id){var e=document.getElementById(id);return !!(e&&e.checked)} function txt(id){var e=document.getElementById(id);return((e&&e.value)||"").trim()}
   function money(n){return"$"+Math.round(Number(n||0))}
@@ -2912,7 +2968,7 @@ body #hero-section .hero-proof .btn{
     }).slice(0,8).join("; ");
   }
   function leadContext(){
-    var needs=txt("emailQuoteNeed")||txt("step1Need");
+    var needs=txt("emailQuoteNeed")||txt("step1Need")||SERVICE_CONTEXT.label;
     var suburb=txt("emailQuoteSuburb")||txt("step1Suburb");
     var preferredDay=txt("emailQuoteDay")||txt("step1Day");
     var details=txt("emailQuoteDetails")||txt("custNotes");
@@ -2920,7 +2976,7 @@ body #hero-section .hero-proof .btn{
     return{needs:needs,suburb:suburb,preferredDay:preferredDay,details:details,total:total,packageInterest:selectedPackage};
   }
   function buildLeadMessage(ctx){
-    var c=ctx||leadContext(),parts=["Quote request"+(c.needs?" ("+c.needs+")":"")+"."]; 
+    var c=ctx||leadContext(),parts=["Hi QuickFresh, I'd like a quote for "+(c.needs||SERVICE_CONTEXT.label)+"."]; 
     if(c.packageInterest){parts.push("Package interest: "+c.packageInterest+".")}
     if(c.suburb){parts.push("Suburb: "+c.suburb+".")}
     if(c.preferredDay){parts.push("Preferred day: "+c.preferredDay+".")}
