@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -2498,7 +2498,6 @@ body #hero-section .hero-proof .btn{
             </div>
             <div class="hero-tertiary-wrap">
               <div class="hero-tertiary">
-                <a id="heroEstimateBtn" href="#estimate">Get instant estimate (30s)</a>
                 <a id="heroEmailLink" href="#email-quote">Get a written quote by email</a>
               </div>
             </div>
@@ -2511,71 +2510,6 @@ body #hero-section .hero-proof .btn{
             </div>
           </div>
 
-          <aside class="hero-proof c" aria-label="Customer proof panel">
-            <p class="kicker">Trusted by local customers</p>
-            <h2>Real customer reviews</h2>
-            <div class="hero-proof-metrics">
-              <span class="pill subtle">Google rating: 5.0</span>
-              <span class="pill subtle">Owner-operator</span>
-            </div>
-            <article class="hero-proof-review">
-              <p class="small review-stars" style="margin-top:0">★★★★★</p>
-              <p class="small" style="margin:8px 0 0">"Professional, careful, and truly knowledgeable. Great communication and a fair price."</p>
-              <p class="small" style="margin:8px 0 0"><strong>Jéssica Rezendes</strong> • Google</p>
-            </article>
-            <p class="small hero-disclaimer">Stain and grout outcomes depend on build-up level and surface condition. <a href="/terms.html">See terms &amp; conditions</a>.</p>
-            <a id="heroReviewsLink" href="#reviews" class="btn sec">See customer reviews</a>
-          </aside>
-
-          <div class="c" id="lead-step1-wrap">
-            <p class="kicker">Step 1</p>
-            <h2 style="font-size:clamp(24px,2.7vw,32px)">Check Perth metro availability (Friday to Monday)</h2>
-            <p class="small">Quick check so we can confirm available times and ETA.</p>
-            <p class="small">Takes around 15 seconds.</p>
-            <form id="leadStep1" novalidate>
-              <div class="g2" style="margin-top:10px">
-                <div>
-                  <label for="step1Suburb">Suburb</label>
-                  <input id="step1Suburb" type="text" required>
-                </div>
-                <div>
-                  <label for="step1Mobile">Mobile</label>
-                  <input id="step1Mobile" type="tel" required>
-                  <p class="field-hint">Used only to confirm availability and ETA.</p>
-                </div>
-              </div>
-              <div class="g2" style="margin-top:10px">
-                <div>
-                  <label for="step1Day">Preferred day (Friday to Monday)</label>
-                  <select id="step1Day" required>
-                    <option value="">Select</option>
-                    <option>Friday</option>
-                    <option>Saturday</option>
-                    <option>Sunday</option>
-                    <option>Monday</option>
-                  </select>
-                </div>
-                <div>
-                  <label for="step1Need">What needs cleaning?</label>
-                  <select id="step1Need" required>
-                    <option value="">Select</option>
-                    <option>Tile & Grout</option>
-                    <option>Tile refresh</option>
-                    <option>Pet odour</option>
-                    <option>Bathrooms / kitchens</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-              </div>
-              <div id="step1Error" class="small" role="alert" aria-live="polite" style="margin-top:8px"></div>
-              <div id="selectedPackageHint" class="small" style="margin-top:4px" hidden></div>
-              <button class="btn pri" type="submit" style="margin-top:8px">Continue to booking details</button>
-              <div class="hero-reassure" aria-hidden="true">
-                <span class="mini-pill">No upfront payment</span>
-                <span class="mini-pill">Pay after the job</span>
-              </div>
-            </form>
-          </div>
         </div>
       </div>
     </div>
@@ -2605,31 +2539,72 @@ body #hero-section .hero-proof .btn{
     </div>
   </section>
 
-  <section class="s lead-step2-shell" id="lead-step2" aria-hidden="true">
+  <section class="s" id="how-it-works">
     <div class="wrap">
-      <div class="c">
-        <p class="kicker">Step 2</p>
-        <h2 style="font-size:clamp(24px,2.7vw,32px)">Optional booking details</h2>
-        <div class="g2">
-          <div>
-            <label for="custAddress">Address (optional)</label>
-            <input id="custAddress" type="text">
-          </div>
-          <div>
-            <label for="custEmail">Email (optional)</label>
-            <input id="custEmail" type="email">
-          </div>
-        </div>
-        <div style="margin-top:10px">
-          <label for="custNotes">Notes (optional)</label>
-          <textarea id="custNotes"></textarea>
-        </div>
-        <div class="g2" style="margin-top:10px">
-          <button id="step2ConfirmBtn" type="button" class="btn pri">Confirm booking request (no payment now)</button>
-          <a id="emailQuoteLink" href="#email-quote" class="btn sec">Prefer a written quote by email?</a>
-        </div>
-        <div id="step2Status" class="small" style="margin-top:8px" aria-live="polite"></div>
+      <h2>How it works</h2>
+      <div class="steps-grid" style="margin-top:12px">
+        <article class="step-card">
+          <span class="step-num">1</span>
+          <h3>Message us (WhatsApp/SMS/email)</h3>
+          <p class="small">Tell us your suburb and what needs cleaning.</p>
+        </article>
+        <article class="step-card">
+          <span class="step-num">2</span>
+          <h3>We confirm your quote</h3>
+          <p class="small">Clear final price before we start.</p>
+        </article>
+        <article class="step-card">
+          <span class="step-num">3</span>
+          <h3>Deep clean and dry</h3>
+          <p class="small">Pay after the job.</p>
+        </article>
       </div>
+    </div>
+  </section>
+
+  <section class="s section-soft" id="reviews">
+    <div class="wrap">
+      <h2>Customer reviews</h2>
+      <p class="reviews-helper">Real customer reviews from Google and Setmore, with source labels shown clearly.</p>
+      <div class="reviews-head">
+        <div class="reviews-metrics">
+          <span class="pill subtle">Google rating: 5.0</span>
+          <span class="pill subtle">4 Google reviews</span>
+          <a class="pill subtle" href="#reviews">View Google review highlights</a>
+        </div>
+      </div>
+      <div class="review-cards">
+        <article class="review-placeholder real-review">
+          <p class="small" style="margin-top:0"><strong>Brendon pelser</strong></p>
+          <p class="small review-stars" style="margin-top:4px">★★★★★</p>
+          <p class="small review-excerpt" style="margin-top:6px">Absolutely blown away, carpets looking brand new. Victor the owner/operator really knows his stuff.</p>
+          <span class="pill subtle source-pill source-setmore" style="margin-top:6px">Source: Setmore</span>
+        </article>
+        <article class="review-placeholder real-review">
+          <p class="small" style="margin-top:0"><strong>Jéssica Rezendes</strong></p>
+          <p class="small review-stars" style="margin-top:4px">★★★★★</p>
+          <p class="small review-excerpt" style="margin-top:6px">Professional, careful, and truly knowledgeable. Great communication and a fair price.</p>
+          <span class="pill subtle source-pill source-google" style="margin-top:6px">Source: Google</span>
+        </article>
+        <article class="review-placeholder real-review">
+          <p class="small" style="margin-top:0"><strong>Laura Martinez</strong></p>
+          <p class="small review-stars" style="margin-top:4px">★★★★★</p>
+          <p class="small review-excerpt" style="margin-top:6px">Good job and fair price, recommend.</p>
+          <span class="pill subtle source-pill source-google" style="margin-top:6px">Source: Google</span>
+        </article>
+      </div>
+      <p class="small" style="margin-top:10px">We keep every review source labeled so you can verify feedback easily.</p>
+    </div>
+  </section>
+
+  <section class="s" id="photo-proof">
+    <div class="wrap">
+      <h3 class="visual-proof-head">See a real customer result</h3>
+      <figure class="visual-proof-figure">
+        <img src="/assets/tiles/Tiles%201%20Before%26After.png" loading="lazy" alt="Before and after tile and grout cleaning result in Perth by QuickFresh">
+        <figcaption>Real Perth before-and-after from a customer tile & grout cleaning job.</figcaption>
+      </figure>
+      <p class="visual-proof-cta">If your tile & grout needs this kind of reset, get a quick quote below.</p>
     </div>
   </section>
 
@@ -2712,138 +2687,6 @@ body #hero-section .hero-proof .btn{
     </div>
   </section>
 
-  <section class="s" id="how-it-works">
-    <div class="wrap">
-      <h2>How it works</h2>
-      <div class="steps-grid" style="margin-top:12px">
-        <article class="step-card">
-          <span class="step-num">1</span>
-          <h3>Message us (WhatsApp/SMS/email)</h3>
-          <p class="small">Tell us your suburb and what needs cleaning.</p>
-        </article>
-        <article class="step-card">
-          <span class="step-num">2</span>
-          <h3>We confirm your quote</h3>
-          <p class="small">Clear final price before we start.</p>
-        </article>
-        <article class="step-card">
-          <span class="step-num">3</span>
-          <h3>Deep clean and dry</h3>
-          <p class="small">Pay after the job.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="s section-soft" id="reviews">
-    <div class="wrap">
-      <h2>Customer reviews</h2>
-      <p class="reviews-helper">Real customer reviews from Google and Setmore, with source labels shown clearly.</p>
-      <div class="reviews-head">
-        <div class="reviews-metrics">
-          <span class="pill subtle">Google rating: 5.0</span>
-          <span class="pill subtle">4 Google reviews</span>
-          <a class="pill subtle" href="#reviews">View Google review highlights</a>
-        </div>
-      </div>
-      <div class="review-cards">
-        <article class="review-placeholder real-review">
-          <p class="small" style="margin-top:0"><strong>Brendon pelser</strong></p>
-          <p class="small review-stars" style="margin-top:4px">★★★★★</p>
-          <p class="small review-excerpt" style="margin-top:6px">Absolutely blown away, carpets looking brand new. Victor the owner/operator really knows his stuff.</p>
-          <span class="pill subtle source-pill source-setmore" style="margin-top:6px">Source: Setmore</span>
-        </article>
-        <article class="review-placeholder real-review">
-          <p class="small" style="margin-top:0"><strong>Jéssica Rezendes</strong></p>
-          <p class="small review-stars" style="margin-top:4px">★★★★★</p>
-          <p class="small review-excerpt" style="margin-top:6px">Professional, careful, and truly knowledgeable. Great communication and a fair price.</p>
-          <span class="pill subtle source-pill source-google" style="margin-top:6px">Source: Google</span>
-        </article>
-        <article class="review-placeholder real-review">
-          <p class="small" style="margin-top:0"><strong>Laura Martinez</strong></p>
-          <p class="small review-stars" style="margin-top:4px">★★★★★</p>
-          <p class="small review-excerpt" style="margin-top:6px">Good job and fair price, recommend.</p>
-          <span class="pill subtle source-pill source-google" style="margin-top:6px">Source: Google</span>
-        </article>
-      </div>
-      <p class="small" style="margin-top:10px">We keep every review source labeled so you can verify feedback easily.</p>
-      <h3 class="visual-proof-head">See a real customer result</h3>
-      <figure class="visual-proof-figure">
-        <img src="/assets/tiles/Tiles%201%20Before%26After.png" loading="lazy" alt="Before and after tile and grout cleaning result in Perth by QuickFresh">
-        <figcaption>Real Perth before-and-after from a customer tile & grout cleaning job.</figcaption>
-      </figure>
-      <p class="visual-proof-cta">If your tile & grout needs this kind of reset, get a quick quote below.</p>
-    </div>
-  </section>
-
-  <section class="s" id="estimate">
-    <div class="wrap">
-      <h2>Instant estimate (tile-first)</h2>
-      <p class="small">Build a quick estimate in under 30 seconds. Final price confirmed before we start.</p>
-      <div class="estimate-grid" style="margin-top:14px">
-        <div class="estimate-controls" id="estimate-controls">
-          <p class="kicker">Build your estimate</p>
-          <p class="small estimate-package-help" style="margin-bottom:10px">Estimate based on selected tile & grout details.</p>
-          <div class="c upholstery-compact">
-            <h3>Tile & Grout</h3>
-            <label for="tileSqm">Approx sqm</label>
-            <input id="tileSqm" type="number" min="0" step="1" value="0">
-            <label class="form-check"><input id="tileSqmUnknown" type="checkbox"><span>Not sure about sqm</span></label>
-            <label for="tileAreaNotes">Area notes</label>
-            <textarea id="tileAreaNotes"></textarea>
-            <label class="form-check"><input id="tileSealOpt" type="checkbox"><span>Include grout sealing (optional)</span></label>
-            <label class="form-check"><input id="tileHeavyOpt" type="checkbox"><span>Heavier build-up area</span></label>
-          </div>
-          <div class="estimate-hidden-controls" aria-hidden="true">
-            <select id="upholsterySectional"><option selected>0</option><option>1</option><option>2</option><option>3</option></select>
-            <select id="access"><option value="ground" selected>Ground level</option><option value="lift">Lift access</option><option value="stairs">Stairs only</option></select>
-            <input id="crbDeepScrub" type="checkbox">
-            <select id="seats"><option selected>0</option><option>1</option></select>
-            <input id="doubleSided" type="checkbox">
-            <input id="scotchOpt" type="checkbox">
-            <select id="diningQty"><option selected>0</option><option>1</option></select>
-            <input id="diningFull" type="checkbox">
-          </div>
-
-          <details class="c accordion" id="otherServices" style="margin-top:14px">
-            <summary aria-expanded="false">Add other services (optional)</summary>
-            <div class="accordion-content">
-              <div class="g2">
-                <div class="c"><h3>Carpet</h3><label for="carpet-rooms">Rooms</label><select id="carpet-rooms"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select><label for="carpet-hallway">Hallway</label><select id="carpet-hallway"><option>0</option><option>1</option><option>2</option><option>3</option></select><label for="carpet-stairs">Stairs</label><select id="carpet-stairs"><option>0</option><option>1</option><option>2</option><option>3</option></select></div>
-                <div class="c"><h3>Rugs</h3><label for="rugSmallQty">Small</label><select id="rugSmallQty"><option>0</option><option>1</option><option>2</option></select><label for="rugMediumQty">Medium</label><select id="rugMediumQty"><option>0</option><option>1</option><option>2</option></select><label for="rugLargeQty">Large</label><select id="rugLargeQty"><option>0</option><option>1</option><option>2</option></select></div>
-                <div class="c"><h3>Mattress</h3><label for="mSingle">Single</label><select id="mSingle"><option>0</option><option>1</option><option>2</option></select><label for="mDouble">Double</label><select id="mDouble"><option>0</option><option>1</option><option>2</option></select><label for="mQueen">Queen</label><select id="mQueen"><option>0</option><option>1</option><option>2</option></select><label for="mKing">King</label><select id="mKing"><option>0</option><option>1</option><option>2</option></select><label class="form-check" style="margin-top:8px"><input id="mBoth" type="checkbox"><span>Both sides</span></label><label class="form-check" style="margin-top:2px"><input id="mattressProtector" type="checkbox"><span>Mattress protector</span></label></div>
-                <div class="c"><h3>Upholstery</h3><label for="seatsOpt">Sofa seats</label><select id="seatsOpt"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select><label class="form-check" style="margin-top:8px"><input id="doubleSidedOpt" type="checkbox"><span>Both sides</span></label><label class="form-check" style="margin-top:2px"><input id="scotchOptOpt" type="checkbox"><span>Fabric protector</span></label><label for="diningQtyOpt">Dining chairs</label><select id="diningQtyOpt"><option>0</option><option>1</option><option>2</option><option>4</option><option>6</option></select><label class="form-check" style="margin-top:8px"><input id="diningFullOpt" type="checkbox"><span>Fully upholstered</span></label></div>
-              </div>
-            </div>
-          </details>
-        </div>
-
-        <section class="estimate-summary">
-          <p class="kicker">Your estimate</p>
-          <p id="estimatePackageSummary" class="small estimate-package-summary">Based on selected tile & grout services</p>
-          <h3 style="font-size:1.6rem;margin-bottom:12px">Total: <span id="estimate-total">$0</span></h3>
-          <p class="small">No upfront payment. Final price confirmed before we start, then you pay after the job.</p>
-          <button id="estimateBreakdownToggle" class="btn sec ghost-btn" type="button" aria-expanded="false" aria-controls="estimateBreakdownWrap">Show breakdown</button>
-          <div id="estimateBreakdownWrap" class="hidden">
-            <table aria-label="Estimate breakdown" style="margin-top:10px">
-              <thead><tr><th>Item</th><th>Qty</th><th>Subtotal</th></tr></thead>
-              <tbody id="estimate-items"><tr><td colspan="3" class="sub">Enter area details to see estimate.</td></tr></tbody>
-              <tfoot class="sr-only"><tr><td><strong>Total</strong></td><td></td><td><strong id="estimate-total-footer">$0</strong></td></tr></tfoot>
-            </table>
-          </div>
-          <p class="small" id="estimate-min-msg" style="margin-top:10px"></p>
-          <div class="grid" style="margin-top:12px">
-            <button id="estimateBookBtn" class="btn pri" type="button">Confirm booking (no payment now)</button>
-          </div>
-          <div class="estimate-links">
-            <a id="adjustEstimateLink" href="#estimate-controls">Adjust estimate</a>
-            <a id="customQuoteLink" href="#email-quote">Get a written quote by email</a>
-          </div>
-        </section>
-      </div>
-    </div>
-  </section>
-
   <section class="s section-soft" id="faq">
     <div class="wrap">
       <h2>Frequently asked questions</h2>
@@ -2851,7 +2694,7 @@ body #hero-section .hero-proof .btn{
       <div class="grid" style="margin-top:12px">
         <details class="c accordion faq-priority">
           <summary aria-expanded="false">How fast can I get a quote?</summary>
-          <div class="accordion-content"><p class="sub">Use the instant estimate on this page or message us on WhatsApp/SMS. Most customers get a fast quote range, then we confirm the final price before we start.</p></div>
+          <div class="accordion-content"><p class="sub">Message us on WhatsApp or SMS, or use the email form on this page. Most customers get a fast quote range, then we confirm the final price before we start.</p></div>
         </details>
         <details class="c accordion faq-priority">
           <summary aria-expanded="false">Why is the final price confirmed on-site?</summary>
@@ -3042,11 +2885,11 @@ body #hero-section .hero-proof .btn{
     }
     return q;
   }
-  function render(){var st=state();latest=calculatePackageAwareQuote(st,selectedPackage);var t=document.getElementById("estimate-items"),tot=document.getElementById("estimate-total"),tot2=document.getElementById("estimate-total-footer"),min=document.getElementById("estimate-min-msg"),notes=[];t.innerHTML="";if(!latest.lineItems.length){t.innerHTML='<tr><td colspan="3" class="sub">Enter area details to see estimate.</td></tr>';}else{latest.lineItems.forEach(function(i){var tr=document.createElement("tr");tr.innerHTML="<td>"+i.label+"</td><td>"+(i.kind==="quote"?"":(i.qty||""))+"</td><td>"+(i.kind==="quote"?"On-site quote":money(i.subtotal))+"</td>";t.appendChild(tr);});}tot.textContent=money(latest.finalTotal);tot2.textContent=money(latest.finalTotal);if(latest.minimumApplied){notes.push("Site-wide minimum call-out $129 applied. "+money(latest.awayFromMinimum)+" away from minimum.");}if(latest.heavyMinimumApplied){notes.push("Heavy Duty minimum applied.");}min.textContent=notes.join(" ");syncEstimatePackageControlFromState();setEmailEstimateFields();refreshLinks();}
+  function render(){if(!document.getElementById("estimate-items")){latest={finalTotal:0,lineItems:[]};setEmailEstimateFields();refreshLinks();return;}var st=state();latest=calculatePackageAwareQuote(st,selectedPackage);var t=document.getElementById("estimate-items"),tot=document.getElementById("estimate-total"),tot2=document.getElementById("estimate-total-footer"),min=document.getElementById("estimate-min-msg"),notes=[];t.innerHTML="";if(!latest.lineItems.length){t.innerHTML='<tr><td colspan="3" class="sub">Enter area details to see estimate.</td></tr>';}else{latest.lineItems.forEach(function(i){var tr=document.createElement("tr");tr.innerHTML="<td>"+i.label+"</td><td>"+(i.kind==="quote"?"":(i.qty||""))+"</td><td>"+(i.kind==="quote"?"On-site quote":money(i.subtotal))+"</td>";t.appendChild(tr);});}tot.textContent=money(latest.finalTotal);tot2.textContent=money(latest.finalTotal);if(latest.minimumApplied){notes.push("Site-wide minimum call-out $129 applied. "+money(latest.awayFromMinimum)+" away from minimum.");}if(latest.heavyMinimumApplied){notes.push("Heavy Duty minimum applied.");}min.textContent=notes.join(" ");syncEstimatePackageControlFromState();setEmailEstimateFields();refreshLinks();}
   function step(id,d){var e=document.getElementById(id);if(!e||!e.options)return;var vals=[].slice.call(e.options).map(function(o){return parseInt(o.value,10)}).filter(Number.isFinite);var cur=parseInt(e.value,10)||0,ix=vals.indexOf(cur);if(ix<0)ix=0;ix=d==="+"?Math.min(vals.length-1,ix+1):Math.max(0,ix-1);e.value=String(vals[ix]);e.dispatchEvent(new Event("change",{bubbles:true}))}
-  function show2(){var s=document.getElementById("lead-step2");if(s.classList.contains("open")){s.scrollIntoView({behavior:"smooth",block:"start"});return;}s.classList.add("open");s.setAttribute("aria-hidden","false");setTimeout(function(){s.scrollIntoView({behavior:"smooth",block:"start"});},120)}
+  function show2(){var s=document.getElementById("lead-step2");if(!s)return;if(s.classList.contains("open")){s.scrollIntoView({behavior:"smooth",block:"start"});return;}s.classList.add("open");s.setAttribute("aria-hidden","false");setTimeout(function(){s.scrollIntoView({behavior:"smooth",block:"start"});},120)}
   async function send(payload){try{var r=await fetch("/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});var d=await r.json().catch(function(){return null});if(!r.ok)return{ok:false,status:r.status,data:d};if(d&&d.ok===false)return{ok:false,status:r.status,data:d};return{ok:true,status:r.status,data:d};}catch(_){return{ok:false,status:"network"}}}
-  var stickyEl=document.querySelector(".sticky"),heroEl=document.getElementById("hero-section"),estimateEl=document.getElementById("estimate"),stickyVisible=false,heroPassed=false,estimateOnscreen=false,stickyTimer=null,stickyReason="scroll";
+  var stickyEl=document.querySelector(".sticky"),heroEl=document.getElementById("hero-section"),stickyStopEl=document.getElementById("email-quote"),stickyVisible=false,heroPassed=false,stickyStopOnscreen=false,stickyTimer=null,stickyReason="scroll";
 
   function syncStickyHeight(){
     if(!stickyEl)return;
@@ -3073,12 +2916,12 @@ body #hero-section .hero-proof .btn{
       setStickyVisible(false,reason||"scroll");
       return;
     }
-    var shouldShow=heroPassed&&!estimateOnscreen;
+    var shouldShow=heroPassed&&!stickyStopOnscreen;
     setStickyVisible(shouldShow,reason||"scroll");
   }
 
   function initStickyVisibility(){
-    if(!stickyEl||!heroEl||!estimateEl)return;
+    if(!stickyEl||!heroEl)return;
     stickyEl.setAttribute("data-visible","false");
     if("IntersectionObserver" in window){
       var heroObs=new IntersectionObserver(function(entries){
@@ -3086,13 +2929,15 @@ body #hero-section .hero-proof .btn{
         heroPassed=!e.isIntersecting;
         reevaluateSticky("hero");
       },{threshold:[0,0.01]});
-      var estObs=new IntersectionObserver(function(entries){
-        var e=entries[0];
-        estimateOnscreen=(e.intersectionRatio||0)>=0.3;
-        reevaluateSticky("estimate");
-      },{threshold:[0,0.3,0.6,1]});
       heroObs.observe(heroEl);
-      estObs.observe(estimateEl);
+      if(stickyStopEl){
+        var stopObs=new IntersectionObserver(function(entries){
+          var e=entries[0];
+          stickyStopOnscreen=(e.intersectionRatio||0)>=0.3;
+          reevaluateSticky("email_quote");
+        },{threshold:[0,0.3,0.6,1]});
+        stopObs.observe(stickyStopEl);
+      }
     }else{
       var ticking=false;
       window.addEventListener("scroll",function(){
@@ -3100,11 +2945,16 @@ body #hero-section .hero-proof .btn{
         ticking=true;
         requestAnimationFrame(function(){
           ticking=false;
-          var heroRect=heroEl.getBoundingClientRect(),estRect=estimateEl.getBoundingClientRect();
+          var heroRect=heroEl.getBoundingClientRect();
           heroPassed=heroRect.bottom<=0;
-          var visiblePx=Math.min(estRect.bottom,window.innerHeight)-Math.max(estRect.top,0);
-          var ratio=Math.max(0,visiblePx)/Math.max(1,estRect.height);
-          estimateOnscreen=ratio>=0.3;
+          if(stickyStopEl){
+            var stopRect=stickyStopEl.getBoundingClientRect();
+            var visiblePx=Math.min(stopRect.bottom,window.innerHeight)-Math.max(stopRect.top,0);
+            var ratio=Math.max(0,visiblePx)/Math.max(1,stopRect.height);
+            stickyStopOnscreen=ratio>=0.3;
+          }else{
+            stickyStopOnscreen=false;
+          }
           reevaluateSticky("scroll");
         });
       },{passive:true});
@@ -3219,14 +3069,15 @@ body #hero-section .hero-proof .btn{
     emailUiState("fallback","Could not send right now. You can send the same request via WhatsApp or SMS.");
   }
 
-  document.getElementById("heroEstimateBtn").addEventListener("click",function(){track("hero_cta_click",{channel:"estimate"});track("estimate_open")});
+  var heroEstimateBtn=document.getElementById("heroEstimateBtn");if(heroEstimateBtn){heroEstimateBtn.addEventListener("click",function(){track("hero_cta_click",{channel:"estimate"});track("estimate_open")});}
   document.getElementById("heroWhatsAppBtn").addEventListener("click",function(){track("hero_cta_click",{channel:"whatsapp"});track("whatsapp_click")});
   document.getElementById("stickyWhatsApp").addEventListener("click",function(){track("sticky_cta_click",{channel:"whatsapp",hasEstimate:hasEstimate(),total:Number(latest.finalTotal||0)});track("whatsapp_click",{source:"sticky"})});
   document.getElementById("heroSmsBtn").addEventListener("click",function(){track("hero_cta_click",{channel:"sms"});track("sms_click")});
   document.getElementById("stickySms").addEventListener("click",function(){track("sticky_cta_click",{channel:"sms",hasEstimate:hasEstimate(),total:Number(latest.finalTotal||0)});track("sms_click",{source:"sticky"})});
   document.getElementById("heroEmailLink").addEventListener("click",function(){track("hero_cta_click",{channel:"email"});track("email_click",{source:"hero"})});
-  document.getElementById("emailQuoteLink").addEventListener("click",function(){track("email_click",{source:"step2"})});document.getElementById("customQuoteLink").addEventListener("click",function(){track("email_click",{source:"estimate"})});
-  document.getElementById("leadStep1").addEventListener("submit",function(e){e.preventDefault();var er=document.getElementById("step1Error");if(txt("step1Suburb").length<2||txt("step1Mobile").length<6||!txt("step1Day")||!txt("step1Need")){er.textContent="Complete all Step 1 fields.";return;}er.textContent="";track("step1_submit",{suburb:txt("step1Suburb"),day:txt("step1Day"),need:txt("step1Need")});show2();});
+  var emailQuoteLink=document.getElementById("emailQuoteLink");if(emailQuoteLink){emailQuoteLink.addEventListener("click",function(){track("email_click",{source:"step2"})});}
+  var customQuoteLink=document.getElementById("customQuoteLink");if(customQuoteLink){customQuoteLink.addEventListener("click",function(){track("email_click",{source:"estimate"})});}
+  var leadStep1=document.getElementById("leadStep1");if(leadStep1){leadStep1.addEventListener("submit",function(e){e.preventDefault();var er=document.getElementById("step1Error");if(txt("step1Suburb").length<2||txt("step1Mobile").length<6||!txt("step1Day")||!txt("step1Need")){er.textContent="Complete all Step 1 fields.";return;}er.textContent="";track("step1_submit",{suburb:txt("step1Suburb"),day:txt("step1Day"),need:txt("step1Need")});show2();});}
   document.querySelectorAll(".package-pick").forEach(function(btn){
     btn.addEventListener("click",function(){
       selectedPackage=btn.getAttribute("data-package")||"";
@@ -3252,15 +3103,15 @@ body #hero-section .hero-proof .btn{
     if(!sel)return;
     sel.addEventListener("change",function(){setSelectedPackageFromEstimateControl(sel.value);});
   })();
-  document.getElementById("estimateBookBtn").addEventListener("click",function(){
+  var estimateBookBtn=document.getElementById("estimateBookBtn");if(estimateBookBtn){estimateBookBtn.addEventListener("click",function(){
     if(!estOpen){track("estimate_open");estOpen=true;}
     track("estimate_book_click",{total:latest.finalTotal||0});
     var emailSection=document.getElementById("email-quote");
     if(emailSection){emailSection.scrollIntoView({behavior:"smooth",block:"start"});}
     track("email_click",{source:"estimate_book"});
-  });
-  document.getElementById("step2ConfirmBtn").addEventListener("click",async function(){var s=document.getElementById("step2Status");s.textContent="Sending...";var res=await send({type:"booking",pageUrl:location.href,phone:txt("step1Mobile"),email:txt("custEmail"),address:txt("custAddress"),preferredDateTime:txt("step1Day"),notes:("Need: "+txt("step1Need")+"\\nSuburb: "+txt("step1Suburb")+"\\n"+txt("custNotes")).trim(),estimateBreakdown:{total:Number(latest.finalTotal||0),items:latest.lineItems||[],minimumApplied:!!latest.minimumApplied}});if(res.ok){s.style.color="#166534";s.textContent="Request sent. Final price will be confirmed on-site.";track("step2_confirm_booking",{total:latest.finalTotal||0});}else{s.style.color="#b42318";s.textContent="Could not send. Please use WhatsApp or SMS for fastest response.";}})
-  document.getElementById("otherServices").addEventListener("toggle",function(e){if(e.target.open)track("estimate_open",{source:"other_services"})});
+  });}
+  var step2ConfirmBtn=document.getElementById("step2ConfirmBtn");if(step2ConfirmBtn){step2ConfirmBtn.addEventListener("click",async function(){var s=document.getElementById("step2Status");s.textContent="Sending...";var res=await send({type:"booking",pageUrl:location.href,phone:txt("step1Mobile"),email:txt("custEmail"),address:txt("custAddress"),preferredDateTime:txt("step1Day"),notes:("Need: "+txt("step1Need")+"\\nSuburb: "+txt("step1Suburb")+"\\n"+txt("custNotes")).trim(),estimateBreakdown:{total:Number(latest.finalTotal||0),items:latest.lineItems||[],minimumApplied:!!latest.minimumApplied}});if(res.ok){s.style.color="#166534";s.textContent="Request sent. Final price will be confirmed on-site.";track("step2_confirm_booking",{total:latest.finalTotal||0});}else{s.style.color="#b42318";s.textContent="Could not send. Please use WhatsApp or SMS for fastest response.";}})}
+  var otherServices=document.getElementById("otherServices");if(otherServices){otherServices.addEventListener("toggle",function(e){if(e.target.open)track("estimate_open",{source:"other_services"})});}
   document.getElementById("emailQuoteForm").addEventListener("submit",submitEmailQuote);
   document.getElementById("emailQuoteReset").addEventListener("click",function(e){e.preventDefault();resetEmailQuoteForm();});
   document.querySelectorAll(".stepper").forEach(function(b){b.addEventListener("click",function(){step(b.dataset.target,b.dataset.dir)})});
