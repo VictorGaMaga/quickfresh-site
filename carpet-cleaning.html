@@ -462,15 +462,18 @@ th,td{padding:8px;border-bottom:1px solid #e7edf5;text-align:left;vertical-align
 .package-email-link{
   display:inline-flex;
   align-items:center;
-  width:fit-content;
-  font-size:.9rem;
-  font-weight:760;
+  justify-content:center;
+  width:100%;
+  min-height:52px;
+  font-size:1rem;
+  line-height:1.2;
+  font-weight:720;
   color:var(--brand);
   text-decoration:none;
   border:1px solid #d7e4f2;
-  border-radius:10px;
+  border-radius:12px;
   background:#f8fbff;
-  padding:9px 12px;
+  padding:12px 14px;
 }
 .package-email-link:hover{
   background:#eff6ff;
@@ -1913,7 +1916,16 @@ body #hero-section .hero-disclaimer{
   }
 
   body #hero-section .hero-cta-row{
+    display:none;
     grid-template-columns:1fr;
+  }
+
+  body #hero-section .hero-tertiary-wrap{
+    display:none;
+  }
+
+  body #hero-section .trust-pack{
+    margin-top:8px;
   }
 }
 
@@ -2371,18 +2383,24 @@ body #hero-section .hero-tertiary-wrap{
   margin-top:2px !important;
 }
 body #hero-section .hero-tertiary{
+  display:grid !important;
   margin-top:0 !important;
-  gap:18px !important;
+  gap:10px !important;
 }
 body #hero-section #heroEmailLink{
   display:inline-flex !important;
   align-items:center !important;
+  justify-content:center !important;
+  width:100% !important;
+  min-height:52px !important;
   border:1px solid #d7e4f2 !important;
-  border-radius:10px !important;
+  border-radius:12px !important;
   background:#f8fbff !important;
-  padding:8px 12px !important;
+  padding:12px 14px !important;
   text-decoration:none !important;
-  font-weight:730 !important;
+  font-size:1rem !important;
+  line-height:1.2 !important;
+  font-weight:720 !important;
 }
 body #hero-section #heroEmailLink:hover{
   background:#eff6ff !important;
@@ -2478,11 +2496,12 @@ body #hero-section .hero-proof .btn{
         <div class="hero-layout">
           <div class="hero-main c">
             <div>
-              <h1 id="heroHeadline">Deep Carpet Cleaning With Fast Quotes</h1>
-              <p id="heroSubheadline" class="helper" style="margin-top:12px">Owner-operator carpet cleaning across Perth metro. Get a fast quote, clear communication, and professional results.</p>
+              <h1 id="heroHeadline">Professional Carpet Cleaning With Fast Quotes</h1>
+              <p id="heroSubheadline" class="helper" style="margin-top:12px">Owner-operator carpet cleaning across Perth metro. Get a fast quote, clear pricing before we start, and professional results you can see.</p>
               <ul style="margin-top:10px">
-                <li>Choose a refresh clean or a deeper clean, depending on what your carpet needs.</li>
-                <li>Clear pricing before we start, with payment after the job.</li>
+                <li>Deep carpet cleaning with strong extraction</li>
+                <li>Clear pricing before we start</li>
+                <li>Payment after the job</li>
               </ul>
             </div>
             <div class="hero-cta-row" style="margin-top:18px">
@@ -2490,11 +2509,11 @@ body #hero-section .hero-proof .btn{
                 <a id="heroWhatsAppBtn" class="btn pri" target="_blank" rel="noopener" href="https://wa.me/61451664247?text=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.">WhatsApp fast quote</a>
                 <p class="hero-cta-note">Fastest replies Friday to Monday.</p>
               </div>
-              <a id="heroSmsBtn" class="btn sec sec-soft" href="sms:+61451664247?&body=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.">SMS quote (fast)</a>
+              <a id="heroSmsBtn" class="btn sec sec-soft" href="sms:+61451664247?&body=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.">SMS fast quote</a>
             </div>
             <div class="hero-tertiary-wrap">
               <div class="hero-tertiary">
-                <a id="heroEmailLink" href="#email-quote">Get a written quote by email</a>
+                <a id="heroEmailLink" href="#email-quote">Email quote</a>
               </div>
             </div>
             <div class="trust-pack" id="trust-pack">
@@ -2529,60 +2548,34 @@ body #hero-section .hero-proof .btn{
 
   <section class="s section-soft" id="packages">
     <div class="wrap">
-      <h2>Packages</h2>
-      <p class="sub">Choose the package that fits your home. Final price is confirmed before we start after a quick on-site check.</p>
-      <p class="small package-priority-note">Fast quote via WhatsApp. SMS and email are also available.</p>
-      <div class="pk" style="margin-top:14px">
-        <article class="c">
-          <h3>Refresh Steam</h3>
-          <p><strong>From $129</strong><br>Up to 3 rooms<br>+ $35 per extra room</p>
-          <p class="small"><strong>Best for:</strong> regular upkeep and freshening up.</p>
-          <ul><li>Hot water extraction clean</li><li>Light soil refresh</li><li>Quick pre-check before we begin</li></ul>
-          <p class="small">Severe odour/urine jobs are assessed on-site before we confirm final pricing.</p>
-          <div class="package-actions">
-            <div class="package-actions-main">
-              <a class="btn pri package-pick package-channel" data-channel="whatsapp" data-package="Refresh Steam" target="_blank" rel="noopener" href="https://wa.me/61451664247?text=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.%20Package%20interest%3A%20Refresh%20Steam.">WhatsApp this package</a>
-              <a class="btn sec package-pick package-channel" data-channel="sms" data-package="Refresh Steam" href="sms:+61451664247?&body=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.%20Package%20interest%3A%20Refresh%20Steam.">SMS this package</a>
-            </div>
-            <a href="#email-quote" class="package-email-link package-pick package-channel" data-channel="email" data-package="Refresh Steam">Email me a quote for this package</a>
-          </div>
-        </article>
-        <article class="c">
-          <h3>Deep Clean Steam <span class="pill">Most Popular</span></h3>
-          <p><strong>From $169</strong><br>Up to 3 rooms<br>+ $50 per extra room</p>
-          <p class="small"><strong>Best for:</strong> heavy traffic areas and built-up soil.</p>
-          <ul><li>Targeted pre-treatment</li><li>Deep steam extraction</li><li>Extra rinse pass</li></ul>
-          <p class="small">Severe odour/urine jobs are assessed on-site before we confirm final pricing.</p>
-          <div class="package-actions">
-            <div class="package-actions-main">
-              <a class="btn pri package-pick package-channel" data-channel="whatsapp" data-package="Deep Clean Steam" target="_blank" rel="noopener" href="https://wa.me/61451664247?text=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.%20Package%20interest%3A%20Deep%20Clean%20Steam.">WhatsApp this package</a>
-              <a class="btn sec package-pick package-channel" data-channel="sms" data-package="Deep Clean Steam" href="sms:+61451664247?&body=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.%20Package%20interest%3A%20Deep%20Clean%20Steam.">SMS this package</a>
-            </div>
-            <a href="#email-quote" class="package-email-link package-pick package-channel" data-channel="email" data-package="Deep Clean Steam">Email me a quote for this package</a>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="s" id="how-it-works">
-    <div class="wrap">
       <h2>How it works</h2>
-      <div class="steps-grid" style="margin-top:12px">
+      <p class="sub">Simple process. Fast quote. Clear pricing. Professional results.</p>
+      <div class="steps-grid" style="margin-top:14px">
         <article class="step-card">
           <span class="step-num">1</span>
-          <h3>Message us (WhatsApp/SMS/email)</h3>
-          <p class="small">Tell us your suburb and what needs cleaning.</p>
+          <h3>1. Send us a few details</h3>
+          <p class="small">WhatsApp, SMS or email us for a fast quote.</p>
         </article>
         <article class="step-card">
           <span class="step-num">2</span>
-          <h3>We confirm your quote</h3>
-          <p class="small">Clear final price before we start.</p>
+          <h3>2. We confirm the quote clearly</h3>
+          <p class="small">We confirm pricing before we start.</p>
         </article>
         <article class="step-card">
           <span class="step-num">3</span>
-          <h3>Deep clean and dry</h3>
-          <p class="small">Pay after the job.</p>
+          <h3>3. We steam clean and extract</h3>
+          <p class="small">We deep steam clean, rinse and extract to leave your carpets fresher and ready to dry.</p>
+        </article>
+      </div>
+      <div class="pk" style="margin-top:14px">
+        <article class="c" style="grid-column:1/-1;padding:24px 24px 22px">
+          <div class="package-actions">
+            <div class="package-actions-main">
+              <a class="btn pri package-pick package-channel" data-channel="whatsapp" data-package="Carpet cleaning quote" target="_blank" rel="noopener" href="https://wa.me/61451664247?text=Hi%20QuickFresh%2C%20I%27d%20like%20a%20fast%20quote%20for%20carpet%20cleaning.">WhatsApp fast quote</a>
+              <a class="btn sec package-pick package-channel" data-channel="sms" data-package="Carpet cleaning quote" href="sms:+61451664247?&body=Hi%20QuickFresh%2C%20I%27d%20like%20a%20fast%20quote%20for%20carpet%20cleaning.">SMS fast quote</a>
+            </div>
+            <a href="#email-quote" class="package-email-link package-pick package-channel" data-channel="email" data-package="Carpet cleaning quote">Email quote</a>
+          </div>
         </article>
       </div>
     </div>
@@ -2602,13 +2595,6 @@ body #hero-section .hero-proof .btn{
     <div class="wrap">
       <h2>Customer reviews</h2>
       <p class="reviews-helper">Real customer reviews from Google and Setmore, with source labels shown clearly.</p>
-      <div class="reviews-head">
-        <div class="reviews-metrics">
-          <span class="pill subtle">Google rating: 5.0</span>
-          <span class="pill subtle">4 Google reviews</span>
-          <a class="pill subtle" href="#reviews">View Google review highlights</a>
-        </div>
-      </div>
       <div class="review-cards">
         <article class="review-placeholder real-review">
           <p class="small" style="margin-top:0"><strong>Brendon pelser</strong></p>
@@ -2786,7 +2772,7 @@ body #hero-section .hero-proof .btn{
 <div class="sticky">
   <div class="wrap row">
     <a id="stickyWhatsApp" class="btn pri" data-base-label="WhatsApp fast quote" target="_blank" rel="noopener" href="https://wa.me/61451664247?text=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.">WhatsApp fast quote</a>
-    <a id="stickySms" class="btn sec" data-base-label="SMS quote" href="sms:+61451664247?&body=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.">SMS quote</a>
+    <a id="stickySms" class="btn sec" data-base-label="SMS fast quote" href="sms:+61451664247?&body=Hi%20QuickFresh%2C%20I%27d%20like%20a%20quote%20for%20carpet%20cleaning.">SMS fast quote</a>
   </div>
 </div>
 
@@ -2819,7 +2805,7 @@ body #hero-section .hero-proof .btn{
   }
   function buildLeadMessage(ctx){
     var c=ctx||leadContext(),parts=["Hi QuickFresh, I'd like a quote for "+(c.needs||SERVICE_CONTEXT.label)+"."]; 
-    if(c.packageInterest){parts.push("Package interest: "+c.packageInterest+".")}
+    if(c.packageInterest){parts.push("Service: "+c.packageInterest+".")}
     if(c.suburb){parts.push("Suburb: "+c.suburb+".")}
     if(c.preferredDay){parts.push("Preferred day: "+c.preferredDay+".")}
     if(c.total){parts.push("Estimate: "+c.total+".")}
@@ -2837,7 +2823,7 @@ body #hero-section .hero-proof .btn{
     if(!el)return;
     if(selectedPackage){
       el.hidden=false;
-      el.textContent="Package interest: "+selectedPackage;
+      el.textContent="Service: "+selectedPackage;
       return;
     }
     el.hidden=true;
@@ -2864,29 +2850,39 @@ body #hero-section .hero-proof .btn{
   }
   function packageTypeFromSelection(name){
     var n=(name||"").toLowerCase();
+    if(n==="carpet cleaning quote")return"maintenance";
+    if(n==="carpet steam cleaning")return"maintenance";
     if(n==="refresh steam"||n==="maintenance steam")return"maintenance";
     if(n==="deep clean steam"||n==="heavy duty")return"heavy";
     return"";
   }
   function packageDisplayName(name){
-    return packageTypeFromSelection(name)==="heavy"?"Deep Clean Steam (Heavy)":"Maintenance Steam";
+    if((name||"").toLowerCase()==="carpet cleaning quote")return"Carpet cleaning quote";
+    if((name||"").toLowerCase()==="carpet steam cleaning")return"Carpet Steam Cleaning";
+    return "Carpet cleaning quote";
   }
   function packageHelpText(name){
-    if(packageTypeFromSelection(name)==="heavy"){
-      return "Heavy pricing starts at $119 (1-2 rooms), with $169 minimum call-out when Heavy is active.";
+    if((name||"").toLowerCase()==="carpet cleaning quote"){
+      return "Fast carpet quote based on room count, condition, access and any extra treatment required.";
     }
-    return "Maintenance minimum call-out $129";
+    if((name||"").toLowerCase()==="carpet steam cleaning"){
+      return "From $129 minimum. Normal-condition guide: 2 rooms $129, 3 rooms $149, additional rooms $40 each.";
+    }
+    if(packageTypeFromSelection(name)==="heavy"){
+      return "Fast carpet quote based on room count, condition, access and any extra treatment required.";
+    }
+    return "Fast carpet quote based on room count, condition, access and any extra treatment required.";
   }
   function syncEstimatePackageControlFromState(){
     var sel=document.getElementById("estimatePackageSelect"),help=document.getElementById("estimatePackageHelp"),summary=document.getElementById("estimatePackageSummary");
-    var active=selectedPackage||"Refresh Steam";
+    var active=selectedPackage||"Carpet cleaning quote";
     var type=packageTypeFromSelection(active)||"maintenance";
     if(sel)sel.value=type;
     if(help)help.textContent=packageHelpText(active);
-    if(summary)summary.textContent="Package: "+packageDisplayName(active);
+    if(summary)summary.textContent="Based on selected carpet cleaning services";
   }
   function setSelectedPackageFromEstimateControl(value){
-    selectedPackage=value==="heavy"?"Deep Clean Steam":"Refresh Steam";
+    selectedPackage="Carpet cleaning quote";
     syncPackageHint();
     setEmailEstimateFields();
     refreshLinks();
@@ -3188,7 +3184,7 @@ body #hero-section .hero-proof .btn{
   initStickyVisibility();
   trackViewOnce("trust-pack","trust_pack_view");
   trackViewOnce("how-it-works","how_it_works_view");
-  if(!selectedPackage){selectedPackage="Refresh Steam";}
+  if(!selectedPackage){selectedPackage="Carpet cleaning quote";}
   syncPackageHint();
   syncEstimatePackageControlFromState();
   render();refreshLinks();
