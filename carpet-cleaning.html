@@ -5,8 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>QuickFresh Perth Carpet Cleaning</title>
 <meta name="description" content="Professional carpet cleaning in Perth metro by QuickFresh. Fast quotes, owner-operator service, clear pricing before work starts, and no upfront payment.">
+<meta property="og:title" content="QuickFresh Perth Carpet Cleaning">
 <meta property="og:description" content="Professional carpet cleaning in Perth metro by QuickFresh. Fast quotes, owner-operator service, clear pricing before work starts, and no upfront payment.">
+<meta property="og:url" content="https://www.quickfresh.com.au/carpet-cleaning">
+<meta name="twitter:title" content="QuickFresh Perth Carpet Cleaning">
 <meta name="twitter:description" content="Professional carpet cleaning in Perth metro by QuickFresh. Fast quotes, owner-operator service, clear pricing before work starts, and no upfront payment.">
+<link rel="canonical" href="https://www.quickfresh.com.au/carpet-cleaning">
 <style>
 :root{
   --background:#f5f7fb;
@@ -538,6 +542,19 @@ th,td{padding:8px;border-bottom:1px solid #e7edf5;text-align:left;vertical-align
 }
 #faq .grid{gap:10px}
 #areas .wrap{padding-top:4px;padding-bottom:6px}
+.popular-areas-grid{display:grid;gap:12px;margin-top:14px}
+.popular-area-card{
+  display:grid;
+  gap:8px;
+  padding:18px;
+  text-decoration:none;
+  color:inherit;
+  background:#fff;
+  border:1px solid #dfe7f0;
+  border-radius:16px;
+  box-shadow:var(--shadow-crisp);
+}
+.popular-area-card span{color:var(--text-muted);font-size:.9rem;line-height:1.5}
 .areas-footer{
   margin-top:16px;
   padding-top:14px;
@@ -609,6 +626,7 @@ footer a{color:var(--brand)}
   .steps-grid{grid-template-columns:repeat(3,1fr)}
   .review-cards{grid-template-columns:repeat(3,1fr)}
   .estimate-grid{grid-template-columns:1.35fr .85fr;align-items:start;gap:22px}
+  .popular-areas-grid{grid-template-columns:repeat(3,1fr)}
   .sticky{display:none}
   .fallback-actions{grid-template-columns:1fr 1fr}
 }
@@ -2746,6 +2764,35 @@ body #hero-section .hero-proof .btn{
           <summary aria-expanded="false">Do you service my suburb?</summary>
           <div class="accordion-content"><p class="sub">We service Perth metro suburbs. Send your suburb and we&apos;ll quickly confirm availability.</p></div>
         </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="s" id="popular-areas">
+    <div class="wrap">
+      <h2>Popular areas we service</h2>
+      <p class="sub">If you are searching for carpet cleaning in one of these areas, use the suburb page below for local details while this page stays focused on broad Perth carpet cleaning.</p>
+      <div class="popular-areas-grid">
+        <a class="popular-area-card" href="/carpet-cleaning-joondalup">
+          <strong>Joondalup</strong>
+          <span>Apartments, family homes, rentals, and routine maintenance jobs.</span>
+        </a>
+        <a class="popular-area-card" href="/carpet-cleaning-morley">
+          <strong>Morley</strong>
+          <span>Family-home carpet cleaning, heavier traffic areas, stain work, and pet odour concerns.</span>
+        </a>
+        <a class="popular-area-card" href="/carpet-cleaning-wanneroo">
+          <strong>Wanneroo</strong>
+          <span>Larger-home jobs, full-house refreshes, and heavily used carpet.</span>
+        </a>
+        <a class="popular-area-card" href="/carpet-cleaning-clarkson">
+          <strong>Clarkson</strong>
+          <span>Rentals, move-out cleans, fast bookings, and tracked-in sand or soil.</span>
+        </a>
+        <a class="popular-area-card" href="/carpet-cleaning-kingsley">
+          <strong>Kingsley</strong>
+          <span>Refresh versus deep clean decisions, stain-focused work, and straightforward communication.</span>
+        </a>
       </div>
     </div>
   </section>
